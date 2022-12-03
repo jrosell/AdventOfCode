@@ -42,7 +42,7 @@ data %>%
     mutate(half = length(rucksack)/2) %>% 
     mutate(first = list(head(rucksack, half))) %>% 
     mutate(second = list(tail(rucksack, half))) %>% 
-    mutate(item_problem = intersect(first, second))
+    mutate(problem = intersect(first, second))
 ```
 
 Find the priority:
@@ -50,20 +50,42 @@ Find the priority:
 ```{r}
 item_types <- c(letters, LETTERS)
 
-result <- data %>% 
+data %>% 
     rowwise() %>% 
     mutate(rucksack = tokenize_characters(rucksack, lowercase = FALSE)) %>% 
     mutate(half = length(rucksack)/2) %>% 
     mutate(first = list(head(rucksack, half))) %>% 
     mutate(second = list(tail(rucksack, half))) %>% 
-    mutate(item_problem = intersect(first, second)) %>% 
-    mutate(priority = match(item_problem, item_types))
+    mutate(problem = intersect(first, second)) %>% 
+    ungroup() %>% 
+    mutate(priority = match(problem, item_types))
 
-result
 ```
 
+Full code:
+
 ```{r}
-sum(result$priority)
+library(tidyverse)
+library(tokenizers)
+
+item_types <- c(letters, LETTERS)
+
+read_csv(
+        here::here("2022/03_input"),
+        col_names = c("rucksack"),
+        show_col_types = FALSE
+    ) %>% 
+    mutate(
+        rucksack = tokenize_characters(rucksack, lowercase = FALSE)
+    ) %>% 
+    rowwise() %>% 
+    mutate(half = length(rucksack)/2) %>% 
+    mutate(first = list(head(rucksack, half))) %>% 
+    mutate(second = list(tail(rucksack, half))) %>% 
+    mutate(problem = intersect(first, second)) %>% 
+    ungroup() %>% 
+    mutate(priority = match(problem, item_types)) %>% 
+    summarise(result = sum(priority))
 ```
 
 ## Part 2:
