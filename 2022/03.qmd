@@ -68,6 +68,13 @@ library(tidyverse)
 
 item_types <- c(letters, LETTERS)
 
+common_half <- function(x) {
+  half <- length(x) / 2
+  intersect(
+    head(x, half), tail(x, half)
+  )
+}
+
 read_csv(
         here::here("2022/03_input"),
         col_names = c("rucksack"),
@@ -75,10 +82,7 @@ read_csv(
     ) %>% 
     mutate(rucksack = str_split(rucksack, "")) %>% 
     rowwise() %>% 
-    mutate(half = length(rucksack)/2) %>% 
-    mutate(first = list(head(rucksack, half))) %>% 
-    mutate(second = list(tail(rucksack, half))) %>% 
-    mutate(problem = intersect(first, second)) %>% 
+    mutate(problem = common_half(rucksack)) %>% 
     ungroup() %>% 
     mutate(priority = match(problem, item_types)) %>% 
     summarise(result = sum(priority))
@@ -133,4 +137,3 @@ read_csv(
     mutate(priority = match(problem, item_types)) %>% 
     summarise(result = sum(priority))
 ```
-
