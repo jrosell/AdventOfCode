@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.243">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Day 3</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="03_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="03_files/libs/quarto-html/quarto.js"></script>
+  <script src="03_files/libs/quarto-html/popper.min.js"></script>
+  <script src="03_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="03_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="03_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="03_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="03_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="03_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="03_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  
+</div>
+
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+<div class="quarto-title"><h1 class="title display-7">Day 3</h1></div></header>
+<p><a href="https://jrosell.github.io/AdventOfCode/">AdventOfCode</a> &gt; 2022</p>
+<section id="part-1-find-the-item-type-that-appears-in-both-compartments-of-each-rucksack-what-is-the-sum-of-the-priorities-of-those-item-types" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-find-the-item-type-that-appears-in-both-compartments-of-each-rucksack-what-is-the-sum-of-the-priorities-of-those-item-types">Part 1: Find the item type that appears in both compartments of each rucksack What is the sum of the priorities of those item types?</h2>
+<p>I manually downloaded my personal <a href="https://adventofcode.com/2022/day/3">day 3 input file</a> as a logged user, and here I get the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+✔ readr   2.1.3      ✔ forcats 0.5.2 
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tokenizers)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2022/03_input"</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"rucksack"</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 300 × 1
+   rucksack                                        
+   &lt;chr&gt;                                           
+ 1 jVTBgVbgJQVrTLRRsLvRzWcZvnDs                    
+ 2 dhtmhfdfNlNNldfqmPCflqGbNZDHsDWcRzvczWsczZNzHz  
+ 3 tmwwwCCfbJSMbwMb                                
+ 4 hsrZZhHlhrHmPPbMbDFDQdnQgLfMFDdDQQ              
+ 5 GpBtwtqrcCcjgnLgqfgDDgRn                        
+ 6 cJwVwpCpGJctJtBcCrSCGrVJhlsbvSvTvbmHmmsWmHslmsHm
+ 7 gCtWJvmfmGGwVVMhJw                              
+ 8 nzRSpZbSVFFRDFSDzcplddqplqMhQMclMp              
+ 9 zFLszzRTDnZnbTZTRZsVNgCjrvfvgtvNmtfvLW          
+10 glRQRpQQtQtGtQws                                
+11 TnmbLqvBFRFFLPBFnPbvRBhshTtHWhwzdwtHdsdzWhws    
+12 qmCLPNmCFnLBnmPPqVbFLRrJjVggDgJjlZVVDjDlDD      
+13 vRRgpWvPQFdTFDDNQs                              
+14 bqtCmltmlbwqLVLZqwtmLBBTMcGBddTTBgFNGcZGMD      
+15 bbtmJmjlVlwblwwbwzbbvrrznvzShgRhRvhfWrWn        
+16 ZMhThfNcpbbMNNjsHpmpsRqsPmRs                    
+17 wQjDgggQDPqqDlsD                                
+18 SCwSzvLVCSVtQVgLnrccfdGdTdZfcZMtjJhG            
+19 wNnNmNHnNPPwwPGCrLSZZvdVVZvBtMMvdm              
+20 WQzlhzjzbBtMMlBrMl                              
+21 szbgWhJjTTcsWTqgzsqcsGHfwNcwfwnHHrCGCPPGwr      
+22 CNsbpFCMSrmDhQHNNGmH                            
+23 fQPPPcqvljQzjVDDgRBhGGqDgqqD                    
+24 ZctlcVzcfltQtnrndbQMCM                          
+25 NQjQjQvZvZjcvrrrNjgTQgBQwTJsJswJlbGstqqtmGhmwhqw
+26 PWpHRzRnPHHSCnPFwlqhbtqGZClJqGqG                
+27 ZzVpMpWPHnVzzpWzDRzSZrcdDQdrQNrcQgQfjcNfjf      
+28 BSZMtdtZBzMFvhCbBJDbhDDC                        
+29 qcqVVmccrmVcjrlHqTrjDJRPQhWvPWWfPvblffDf        
+30 cHTrbGwpmGwVjdFMnzpLznMztd                      
+# … with 270 more rows</code></pre>
+</div>
+</div>
+<p>I tokenize rucksack characters and split them in half:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rucksack =</span> <span class="fu">tokenize_characters</span>(rucksack, <span class="at">lowercase =</span> <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">half =</span> <span class="fu">length</span>(rucksack)<span class="sc">/</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">first =</span> <span class="fu">list</span>(<span class="fu">head</span>(rucksack, half))) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">second =</span> <span class="fu">list</span>(<span class="fu">tail</span>(rucksack, half)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 300 × 4
+# Rowwise: 
+   rucksack    half first      second    
+   &lt;list&gt;     &lt;dbl&gt; &lt;list&gt;     &lt;list&gt;    
+ 1 &lt;chr [28]&gt;    14 &lt;chr [14]&gt; &lt;chr [14]&gt;
+ 2 &lt;chr [46]&gt;    23 &lt;chr [23]&gt; &lt;chr [23]&gt;
+ 3 &lt;chr [16]&gt;     8 &lt;chr [8]&gt;  &lt;chr [8]&gt; 
+ 4 &lt;chr [34]&gt;    17 &lt;chr [17]&gt; &lt;chr [17]&gt;
+ 5 &lt;chr [24]&gt;    12 &lt;chr [12]&gt; &lt;chr [12]&gt;
+ 6 &lt;chr [48]&gt;    24 &lt;chr [24]&gt; &lt;chr [24]&gt;
+ 7 &lt;chr [18]&gt;     9 &lt;chr [9]&gt;  &lt;chr [9]&gt; 
+ 8 &lt;chr [34]&gt;    17 &lt;chr [17]&gt; &lt;chr [17]&gt;
+ 9 &lt;chr [38]&gt;    19 &lt;chr [19]&gt; &lt;chr [19]&gt;
+10 &lt;chr [16]&gt;     8 &lt;chr [8]&gt;  &lt;chr [8]&gt; 
+# … with 290 more rows</code></pre>
+</div>
+</div>
+<p>Find the item type that appears in both compartments of each rucksack</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rucksack =</span> <span class="fu">tokenize_characters</span>(rucksack, <span class="at">lowercase =</span> <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">half =</span> <span class="fu">length</span>(rucksack)<span class="sc">/</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">first =</span> <span class="fu">list</span>(<span class="fu">head</span>(rucksack, half))) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">second =</span> <span class="fu">list</span>(<span class="fu">tail</span>(rucksack, half))) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">item_problem =</span> <span class="fu">intersect</span>(first, second))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 300 × 5
+# Rowwise: 
+   rucksack    half first      second     item_problem
+   &lt;list&gt;     &lt;dbl&gt; &lt;list&gt;     &lt;list&gt;     &lt;chr&gt;       
+ 1 &lt;chr [28]&gt;    14 &lt;chr [14]&gt; &lt;chr [14]&gt; L           
+ 2 &lt;chr [46]&gt;    23 &lt;chr [23]&gt; &lt;chr [23]&gt; N           
+ 3 &lt;chr [16]&gt;     8 &lt;chr [8]&gt;  &lt;chr [8]&gt;  w           
+ 4 &lt;chr [34]&gt;    17 &lt;chr [17]&gt; &lt;chr [17]&gt; M           
+ 5 &lt;chr [24]&gt;    12 &lt;chr [12]&gt; &lt;chr [12]&gt; q           
+ 6 &lt;chr [48]&gt;    24 &lt;chr [24]&gt; &lt;chr [24]&gt; S           
+ 7 &lt;chr [18]&gt;     9 &lt;chr [9]&gt;  &lt;chr [9]&gt;  J           
+ 8 &lt;chr [34]&gt;    17 &lt;chr [17]&gt; &lt;chr [17]&gt; p           
+ 9 &lt;chr [38]&gt;    19 &lt;chr [19]&gt; &lt;chr [19]&gt; L           
+10 &lt;chr [16]&gt;     8 &lt;chr [8]&gt;  &lt;chr [8]&gt;  Q           
+# … with 290 more rows</code></pre>
+</div>
+</div>
+<p>Find the priority:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>item_types <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rucksack =</span> <span class="fu">tokenize_characters</span>(rucksack, <span class="at">lowercase =</span> <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">half =</span> <span class="fu">length</span>(rucksack)<span class="sc">/</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">first =</span> <span class="fu">list</span>(<span class="fu">head</span>(rucksack, half))) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">second =</span> <span class="fu">list</span>(<span class="fu">tail</span>(rucksack, half))) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">item_problem =</span> <span class="fu">intersect</span>(first, second)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">priority =</span> <span class="fu">match</span>(item_problem, item_types))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 300 × 6
+# Rowwise: 
+   rucksack    half first      second     item_problem priority
+   &lt;list&gt;     &lt;dbl&gt; &lt;list&gt;     &lt;list&gt;     &lt;chr&gt;           &lt;int&gt;
+ 1 &lt;chr [28]&gt;    14 &lt;chr [14]&gt; &lt;chr [14]&gt; L                  38
+ 2 &lt;chr [46]&gt;    23 &lt;chr [23]&gt; &lt;chr [23]&gt; N                  40
+ 3 &lt;chr [16]&gt;     8 &lt;chr [8]&gt;  &lt;chr [8]&gt;  w                  23
+ 4 &lt;chr [34]&gt;    17 &lt;chr [17]&gt; &lt;chr [17]&gt; M                  39
+ 5 &lt;chr [24]&gt;    12 &lt;chr [12]&gt; &lt;chr [12]&gt; q                  17
+ 6 &lt;chr [48]&gt;    24 &lt;chr [24]&gt; &lt;chr [24]&gt; S                  45
+ 7 &lt;chr [18]&gt;     9 &lt;chr [9]&gt;  &lt;chr [9]&gt;  J                  36
+ 8 &lt;chr [34]&gt;    17 &lt;chr [17]&gt; &lt;chr [17]&gt; p                  16
+ 9 &lt;chr [38]&gt;    19 &lt;chr [19]&gt; &lt;chr [19]&gt; L                  38
+10 &lt;chr [16]&gt;     8 &lt;chr [8]&gt;  &lt;chr [8]&gt;  Q                  43
+# … with 290 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(result<span class="sc">$</span>priority)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8109</code></pre>
+</div>
+</div>
+</section>
+<section id="part-2" class="level2">
+<h2 class="anchored" data-anchor-id="part-2">Part 2:</h2>
+<p>…</p>
+
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>
