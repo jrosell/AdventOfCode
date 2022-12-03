@@ -1,0 +1,97 @@
+---
+title: "Day 2"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
+## Part 1: What would your total score be if everything goes exactly according to your strategy guide?
+
+I manually downloaded my personal [day 2 input file](https://adventofcode.com/2022/day/2) as a logged user, and here I get the data.
+
+```{r}
+library(tidyverse)
+data <- read_delim(
+        here::here("2022/02_input"),
+        col_names = c("opponent", "me"),
+        show_col_types = FALSE,
+        delim=" "
+    )
+data %>% print(n = 30)
+```
+
+I define the rules to play and I codify the data according to my entities representation:
+
+```{r}
+entities <- c(
+    A = "rock", B = "paper", C = "scissors",
+    X = "rock", Y = "paper", Z = "scissors"
+)
+data %>% 
+    mutate(opponent = entities[opponent]) %>% 
+    mutate(me = entities[me])
+```
+
+I add a column for each turn result according to the game rules:
+
+```{r}
+lost <- 0
+draw <- 3
+win <- 6
+rules <- tribble(
+    ~opponent,  ~me,         ~my_outcome,
+    "rock",     "scissors",  lost,                  
+    "scissors", "paper",     lost,
+    "paper",    "rock",      lost,
+    "rock",     "rock",      draw,
+    "scissors", "scissors",  draw,
+    "paper",    "paper",     draw,
+    "scissors", "rock",      win,
+    "paper",    "scissors",  win,
+    "rock",     "paper",     win,
+)
+data %>% 
+    mutate(opponent = entities[opponent]) %>% 
+    mutate(me = entities[me])
+```
+
+I get the score for each turn:
+
+```{r}
+lost <- 0
+draw <- 3
+win <- 6
+
+selected <- c(
+  "rock" = 1,
+  "paper" = 2, 
+  "scissors" = 3
+)
+rules <- tribble(
+    ~opponent,  ~me,         ~my_outcome,
+    "rock",     "scissors",  lost,                  
+    "scissors", "paper",     lost,
+    "paper",    "rock",      lost,
+    "rock",     "rock",      draw,
+    "scissors", "scissors",  draw,
+    "paper",    "paper",     draw,
+    "scissors", "rock",      win,
+    "paper",    "scissors",  win,
+    "rock",     "paper",     win,
+)
+turns <- data %>% 
+    mutate(opponent = entities[opponent]) %>% 
+    mutate(me = entities[me]) %>% 
+    mutate(selected = selected[me]) %>% 
+    left_join(rules, by = c("opponent", "me")) %>% 
+    mutate(score = selected + my_outcome) 
+
+turns
+```
+
+And my total score:
+
+```{r}
+sum(turns$score)
+```
