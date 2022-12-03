@@ -1,0 +1,71 @@
+---
+title: "Day 3"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
+## Part 1: Find the item type that appears in both compartments of each rucksack What is the sum of the priorities of those item types?
+
+I manually downloaded my personal [day 3 input file](https://adventofcode.com/2022/day/3) as a logged user, and here I get the data.
+
+```{r}
+library(tidyverse)
+library(tokenizers)
+data <- 
+    read_csv(
+        here::here("2022/03_input"),
+        col_names = c("rucksack"),
+        show_col_types = FALSE
+    )
+data %>% print(n = 30)
+```
+
+I tokenize rucksack characters and split them in half:
+
+```{r}
+data %>% 
+    rowwise() %>% 
+    mutate(rucksack = tokenize_characters(rucksack, lowercase = FALSE)) %>% 
+    mutate(half = length(rucksack)/2) %>% 
+    mutate(first = list(head(rucksack, half))) %>% 
+    mutate(second = list(tail(rucksack, half)))
+```
+
+Find the item type that appears in both compartments of each rucksack
+
+```{r}
+data %>% 
+    rowwise() %>% 
+    mutate(rucksack = tokenize_characters(rucksack, lowercase = FALSE)) %>% 
+    mutate(half = length(rucksack)/2) %>% 
+    mutate(first = list(head(rucksack, half))) %>% 
+    mutate(second = list(tail(rucksack, half))) %>% 
+    mutate(item_problem = intersect(first, second))
+```
+
+Find the priority:
+
+```{r}
+item_types <- c(letters, LETTERS)
+
+result <- data %>% 
+    rowwise() %>% 
+    mutate(rucksack = tokenize_characters(rucksack, lowercase = FALSE)) %>% 
+    mutate(half = length(rucksack)/2) %>% 
+    mutate(first = list(head(rucksack, half))) %>% 
+    mutate(second = list(tail(rucksack, half))) %>% 
+    mutate(item_problem = intersect(first, second)) %>% 
+    mutate(priority = match(item_problem, item_types))
+
+result
+```
+
+```{r}
+sum(result$priority)
+```
+
+## Part 2:
+
+...

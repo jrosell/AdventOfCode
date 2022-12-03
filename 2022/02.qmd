@@ -12,7 +12,8 @@ I manually downloaded my personal [day 2 input file](https://adventofcode.com/20
 
 ```{r}
 library(tidyverse)
-data <- read_delim(
+data <- 
+    read_delim(
         here::here("2022/02_input"),
         col_names = c("opponent", "me"),
         show_col_types = FALSE,
