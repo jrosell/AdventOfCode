@@ -6,13 +6,12 @@ editor: visual
 
 [AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
 
-## Part 1: Find the item type that appears in both compartments of each rucksack What is the sum of the priorities of those item types?
+## Part 1: Find the item type that appears in both compartments of each rucksack. What is the sum of the priorities of those item types?
 
 I manually downloaded my personal [day 3 input file](https://adventofcode.com/2022/day/3) as a logged user, and here I get the data.
 
 ```{r}
 library(tidyverse)
-library(tokenizers)
 data <- 
     read_csv(
         here::here("2022/03_input"),
@@ -27,7 +26,7 @@ I tokenize rucksack characters and split them in half:
 ```{r}
 data %>% 
     rowwise() %>% 
-    mutate(rucksack = tokenize_characters(rucksack, lowercase = FALSE)) %>% 
+    mutate(rucksack = str_split(rucksack, "")) %>% 
     mutate(half = length(rucksack)/2) %>% 
     mutate(first = list(head(rucksack, half))) %>% 
     mutate(second = list(tail(rucksack, half)))
@@ -38,21 +37,21 @@ Find the item type that appears in both compartments of each rucksack
 ```{r}
 data %>% 
     rowwise() %>% 
-    mutate(rucksack = tokenize_characters(rucksack, lowercase = FALSE)) %>% 
+    mutate(rucksack = str_split(rucksack, "")) %>% 
     mutate(half = length(rucksack)/2) %>% 
     mutate(first = list(head(rucksack, half))) %>% 
     mutate(second = list(tail(rucksack, half))) %>% 
     mutate(problem = intersect(first, second))
 ```
 
-Find the priority:
+I find the priority for each rucksack:
 
 ```{r}
 item_types <- c(letters, LETTERS)
 
 data %>% 
     rowwise() %>% 
-    mutate(rucksack = tokenize_characters(rucksack, lowercase = FALSE)) %>% 
+    mutate(rucksack = str_split(rucksack, "")) %>% 
     mutate(half = length(rucksack)/2) %>% 
     mutate(first = list(head(rucksack, half))) %>% 
     mutate(second = list(tail(rucksack, half))) %>% 
@@ -62,11 +61,10 @@ data %>%
 
 ```
 
-Full code:
+Here the full code:
 
 ```{r}
 library(tidyverse)
-library(tokenizers)
 
 item_types <- c(letters, LETTERS)
 
@@ -75,9 +73,7 @@ read_csv(
         col_names = c("rucksack"),
         show_col_types = FALSE
     ) %>% 
-    mutate(
-        rucksack = tokenize_characters(rucksack, lowercase = FALSE)
-    ) %>% 
+    mutate(rucksack = str_split(rucksack, "")) %>% 
     rowwise() %>% 
     mutate(half = length(rucksack)/2) %>% 
     mutate(first = list(head(rucksack, half))) %>% 
@@ -88,6 +84,50 @@ read_csv(
     summarise(result = sum(priority))
 ```
 
-## Part 2:
+## Part 2: Find the item type that corresponds to the badges of each three-Elf group. What is the sum of the priorities of those item types?
 
-...
+I make groups for each 3 lines:
+
+```{r}
+data %>% 
+  mutate(rucksack = str_split(rucksack, "")) %>% 
+  group_by(elf_group = (row_number() + 2) %/% 3)
+```
+
+I find the item type that corresponds to the badges of each three-Elf group:
+
+```{r}
+data %>% 
+  mutate(rucksack = str_split(rucksack, "")) %>% 
+  group_by(elf_group = (row_number() + 2) %/% 3)  %>% 
+  summarise(problem = reduce(rucksack, intersect))
+
+```
+
+Here the result:
+
+```{r}
+data %>% 
+  mutate(rucksack = str_split(rucksack, "")) %>% 
+  group_by(elf_group = (row_number() + 2) %/% 3)  %>% 
+  summarise(problem = reduce(rucksack, intersect)) %>% 
+    mutate(priority = match(problem, item_types)) %>% 
+    summarise(result = sum(priority))
+```
+
+Here the full code:
+
+```{r}
+library(tidyverse)
+read_csv(
+        here::here("2022/03_input"),
+        col_names = c("rucksack"),
+        show_col_types = FALSE
+    ) %>% 
+    mutate(rucksack = str_split(rucksack, "")) %>% 
+    group_by(elf_group = (row_number() + 2) %/% 3)  %>% 
+    summarise(problem = reduce(rucksack, intersect)) %>% 
+    mutate(priority = match(problem, item_types)) %>% 
+    summarise(result = sum(priority))
+```
+
