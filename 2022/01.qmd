@@ -1,0 +1,64 @@
+---
+title: "Day 1"
+format: html
+editor: visual
+---
+
+## Part 1
+
+I manually downloaded my personal [day 1 input file](https://adventofcode.com/2022/day/1) as a logged user, and here I get the data with blank lines as NA and "calories" as column name:
+
+```{r}
+library(tidyverse)
+data <- read_csv(
+        here::here("2022/01_input"),
+        col_names = c("calories"),
+        show_col_types = FALSE,
+        skip_empty_rows = FALSE
+    )
+data %>% print(n = 30)
+```
+
+I identify elfs for each row, starting by 1:
+
+```{r}
+data %>% 
+    mutate(elf_id = 1 + cumsum(is.na(calories)))
+
+```
+
+I sum the calories carried by each elf:
+
+```{r}
+data %>% 
+    mutate(elf_id = 1 + cumsum(is.na(calories))) %>% 
+    group_by(elf_id) %>%
+    summarise(calories = sum(calories, na.rm = TRUE))
+
+```
+
+I find the Elf carrying the most Calories. How many Calories are being carried by the Elf carrying the most Calories?
+
+```{r}
+data %>% 
+    mutate(elf_id = 1 + cumsum(is.na(calories))) %>% 
+    group_by(elf_id) %>%
+    summarise(calories = sum(calories, na.rm = TRUE)) %>% 
+    arrange(-calories) %>%
+    head(1)
+
+```
+
+## Part 2
+
+How many calories are carried by the top three Elves carrying the most Calories?
+
+```{r}
+data %>% 
+    mutate(elf_id = 1 + cumsum(is.na(calories))) %>% 
+    group_by(elf_id) %>%
+    summarise(calories = sum(calories, na.rm = TRUE)) %>% 
+    arrange(-calories) %>% 
+    head(3) %>% 
+    summarize(top3 = sum(calories))
+```
