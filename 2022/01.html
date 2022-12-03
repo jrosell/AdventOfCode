@@ -101,8 +101,8 @@
 
 <div class="quarto-title"><h1 class="title display-7">Day 1</h1></div></header>
 <p><a href="https://jrosell.github.io/AdventOfCode/">AdventOfCode</a> &gt; 2022</p>
-<section id="part-1" class="level2">
-<h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
+<section id="part-1-how-many-calories-are-being-carried-by-the-elf-carrying-the-most-calories" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-how-many-calories-are-being-carried-by-the-elf-carrying-the-most-calories">Part 1: How many Calories are being carried by the Elf carrying the most Calories?</h2>
 <p>I manually downloaded my personal <a href="https://adventofcode.com/2022/day/1">day 1 input file</a> as a logged user, and here I get the data with blank lines as NA and “calories” as column name:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -204,7 +204,7 @@
 # … with 258 more rows</code></pre>
 </div>
 </div>
-<p>I find the Elf carrying the most Calories. How many Calories are being carried by the Elf carrying the most Calories?</p>
+<p>I sort the data to find the Elf carrying the most Calories and select it.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">elf_id =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">cumsum</span>(<span class="fu">is.na</span>(calories))) <span class="sc">%&gt;%</span> </span>
@@ -220,9 +220,8 @@
 </div>
 </div>
 </section>
-<section id="part-2" class="level2">
-<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
-<p>How many calories are carried by the top three Elves carrying the most Calories?</p>
+<section id="part-2-how-many-calories-are-carried-by-the-top-three-elves-carrying-the-most-calories" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-how-many-calories-are-carried-by-the-top-three-elves-carrying-the-most-calories">Part 2: How many calories are carried by the top three Elves carrying the most Calories?</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">elf_id =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">cumsum</span>(<span class="fu">is.na</span>(calories))) <span class="sc">%&gt;%</span> </span>
