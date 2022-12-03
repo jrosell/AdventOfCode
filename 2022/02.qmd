@@ -59,20 +59,20 @@ data %>%
 I get the score for each turn:
 
 ```{r}
-lost <- 0
+lose <- 0
 draw <- 3
 win <- 6
 
-selected <- c(
+picked_score <- c(
   "rock" = 1,
   "paper" = 2, 
   "scissors" = 3
 )
 rules <- tribble(
     ~opponent,  ~me,         ~my_outcome,
-    "rock",     "scissors",  lost,                  
-    "scissors", "paper",     lost,
-    "paper",    "rock",      lost,
+    "rock",     "scissors",  lose,                  
+    "scissors", "paper",     lose,
+    "paper",    "rock",      lose,
     "rock",     "rock",      draw,
     "scissors", "scissors",  draw,
     "paper",    "paper",     draw,
@@ -83,14 +83,59 @@ rules <- tribble(
 turns <- data %>% 
     mutate(opponent = entities[opponent]) %>% 
     mutate(me = entities[me]) %>% 
-    mutate(selected = selected[me]) %>% 
+    mutate(picked_score = picked_score[me]) %>% 
     left_join(rules, by = c("opponent", "me")) %>% 
-    mutate(score = selected + my_outcome) 
+    mutate(score = picked_score + my_outcome) 
 
 turns
 ```
 
-And my total score:
+And the total score:
+
+```{r}
+sum(turns$score)
+```
+
+**Part 2: What would your total score be if everything goes exactly according to your strategy guide?**
+
+I codify entites to get my turn score.
+
+```{r}
+entities <- c(
+    A = "rock", B = "paper", C = "scissors",
+    X =  lose, Y = draw, Z = win
+)
+data %>% 
+    mutate(opponent = entities[opponent]) %>% 
+    mutate(me = entities[me])
+```
+
+I get my strategy table.
+
+```{r}
+picked_score <- c(
+  "rock" = 1,
+  "paper" = 2, 
+  "scissors" = 3
+)
+strategy <- rules %>% 
+    mutate(picked_score = picked_score[me]) %>% 
+    mutate(score = my_outcome + picked_score) %>% 
+    transmute(opponent, me = my_outcome, score)
+
+strategy
+```
+
+```{r}
+turns <- data %>% 
+    mutate(opponent = entities[opponent]) %>% 
+    mutate(me = as.integer(entities[me])) %>% 
+    left_join(strategy, by = c("opponent", "me"))
+
+turns
+```
+
+And the total score:
 
 ```{r}
 sum(turns$score)

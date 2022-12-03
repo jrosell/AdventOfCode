@@ -101,8 +101,8 @@
 
 <div class="quarto-title"><h1 class="title display-7">Day 2</h1></div></header>
 <p><a href="https://jrosell.github.io/AdventOfCode/">AdventOfCode</a> &gt; 2022</p>
-<section id="part-1" class="level2">
-<h2 class="anchored" data-anchor-id="part-1">Part 1: ?</h2>
+<section id="part-1-what-would-your-total-score-be-if-everything-goes-exactly-according-to-your-strategy-guide" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-what-would-your-total-score-be-if-everything-goes-exactly-according-to-your-strategy-guide">Part 1: What would your total score be if everything goes exactly according to your strategy guide?</h2>
 <p>I manually downloaded my personal <a href="https://adventofcode.com/2022/day/2">day 2 input file</a> as a logged user, and here I get the data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -116,47 +116,252 @@
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2022/02_input"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"p1"</span>, <span class="st">"p2"</span>),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"opponent"</span>, <span class="st">"me"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_col_types =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">delim=</span><span class="st">" "</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,500 × 1
-   p1   
-   &lt;chr&gt;
- 1 B Y  
- 2 A X  
- 3 B Y  
- 4 A Y  
- 5 A Z  
- 6 B Y  
- 7 B Z  
- 8 C Y  
- 9 A X  
-10 C X  
-11 A X  
-12 B Y  
-13 C Y  
-14 B Y  
-15 B Z  
-16 C X  
-17 C Z  
-18 A X  
-19 B Y  
-20 C Z  
-21 C Y  
-22 B X  
-23 B Y  
-24 A X  
-25 B Z  
-26 B Z  
-27 B Y  
-28 C Z  
-29 B X  
-30 B Z  
+<pre><code># A tibble: 2,500 × 2
+   opponent me   
+   &lt;chr&gt;    &lt;chr&gt;
+ 1 B        Y    
+ 2 A        X    
+ 3 B        Y    
+ 4 A        Y    
+ 5 A        Z    
+ 6 B        Y    
+ 7 B        Z    
+ 8 C        Y    
+ 9 A        X    
+10 C        X    
+11 A        X    
+12 B        Y    
+13 C        Y    
+14 B        Y    
+15 B        Z    
+16 C        X    
+17 C        Z    
+18 A        X    
+19 B        Y    
+20 C        Z    
+21 C        Y    
+22 B        X    
+23 B        Y    
+24 A        X    
+25 B        Z    
+26 B        Z    
+27 B        Y    
+28 C        Z    
+29 B        X    
+30 B        Z    
 # … with 2,470 more rows</code></pre>
+</div>
+</div>
+<p>I define the rules to play and I codify the data according to my entities representation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>entities <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="st">"rock"</span>, <span class="at">B =</span> <span class="st">"paper"</span>, <span class="at">C =</span> <span class="st">"scissors"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">X =</span> <span class="st">"rock"</span>, <span class="at">Y =</span> <span class="st">"paper"</span>, <span class="at">Z =</span> <span class="st">"scissors"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">opponent =</span> entities[opponent]) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">me =</span> entities[me])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,500 × 2
+   opponent me      
+   &lt;chr&gt;    &lt;chr&gt;   
+ 1 paper    paper   
+ 2 rock     rock    
+ 3 paper    paper   
+ 4 rock     paper   
+ 5 rock     scissors
+ 6 paper    paper   
+ 7 paper    scissors
+ 8 scissors paper   
+ 9 rock     rock    
+10 scissors rock    
+# … with 2,490 more rows</code></pre>
+</div>
+</div>
+<p>I add a column for each turn result according to the game rules:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lost <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>draw <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>win <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>opponent,  <span class="sc">~</span>me,         <span class="sc">~</span>my_outcome,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rock"</span>,     <span class="st">"scissors"</span>,  lost,                  </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span>, <span class="st">"paper"</span>,     lost,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper"</span>,    <span class="st">"rock"</span>,      lost,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rock"</span>,     <span class="st">"rock"</span>,      draw,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span>, <span class="st">"scissors"</span>,  draw,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper"</span>,    <span class="st">"paper"</span>,     draw,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span>, <span class="st">"rock"</span>,      win,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper"</span>,    <span class="st">"scissors"</span>,  win,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rock"</span>,     <span class="st">"paper"</span>,     win,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">opponent =</span> entities[opponent]) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">me =</span> entities[me])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,500 × 2
+   opponent me      
+   &lt;chr&gt;    &lt;chr&gt;   
+ 1 paper    paper   
+ 2 rock     rock    
+ 3 paper    paper   
+ 4 rock     paper   
+ 5 rock     scissors
+ 6 paper    paper   
+ 7 paper    scissors
+ 8 scissors paper   
+ 9 rock     rock    
+10 scissors rock    
+# … with 2,490 more rows</code></pre>
+</div>
+</div>
+<p>I get the score for each turn:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lose <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>draw <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>win <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>picked_score <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"rock"</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"paper"</span> <span class="ot">=</span> <span class="dv">2</span>, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"scissors"</span> <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>opponent,  <span class="sc">~</span>me,         <span class="sc">~</span>my_outcome,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rock"</span>,     <span class="st">"scissors"</span>,  lose,                  </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span>, <span class="st">"paper"</span>,     lose,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper"</span>,    <span class="st">"rock"</span>,      lose,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rock"</span>,     <span class="st">"rock"</span>,      draw,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span>, <span class="st">"scissors"</span>,  draw,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper"</span>,    <span class="st">"paper"</span>,     draw,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span>, <span class="st">"rock"</span>,      win,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"paper"</span>,    <span class="st">"scissors"</span>,  win,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rock"</span>,     <span class="st">"paper"</span>,     win,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>turns <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">opponent =</span> entities[opponent]) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">me =</span> entities[me]) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">picked_score =</span> picked_score[me]) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(rules, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"opponent"</span>, <span class="st">"me"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">score =</span> picked_score <span class="sc">+</span> my_outcome) </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>turns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,500 × 5
+   opponent me       picked_score my_outcome score
+   &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+ 1 paper    paper               2          3     5
+ 2 rock     rock                1          3     4
+ 3 paper    paper               2          3     5
+ 4 rock     paper               2          6     8
+ 5 rock     scissors            3          0     3
+ 6 paper    paper               2          3     5
+ 7 paper    scissors            3          6     9
+ 8 scissors paper               2          0     2
+ 9 rock     rock                1          3     4
+10 scissors rock                1          6     7
+# … with 2,490 more rows</code></pre>
+</div>
+</div>
+<p>And the total score:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(turns<span class="sc">$</span>score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12740</code></pre>
+</div>
+</div>
+<p><strong>Part 2: What would your total score be if everything goes exactly according to your strategy guide?</strong></p>
+<p>I codify entites to get my turn score.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>entities <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> <span class="st">"rock"</span>, <span class="at">B =</span> <span class="st">"paper"</span>, <span class="at">C =</span> <span class="st">"scissors"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">X =</span>  lose, <span class="at">Y =</span> draw, <span class="at">Z =</span> win</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">opponent =</span> entities[opponent]) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">me =</span> entities[me])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,500 × 2
+   opponent me   
+   &lt;chr&gt;    &lt;chr&gt;
+ 1 paper    3    
+ 2 rock     0    
+ 3 paper    3    
+ 4 rock     3    
+ 5 rock     6    
+ 6 paper    3    
+ 7 paper    6    
+ 8 scissors 3    
+ 9 rock     0    
+10 scissors 0    
+# … with 2,490 more rows</code></pre>
+</div>
+</div>
+<p>I get my strategy table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>picked_score <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"rock"</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"paper"</span> <span class="ot">=</span> <span class="dv">2</span>, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"scissors"</span> <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>strategy <span class="ot">&lt;-</span> rules <span class="sc">%&gt;%</span> </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">picked_score =</span> picked_score[me]) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">score =</span> my_outcome <span class="sc">+</span> picked_score) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(opponent, <span class="at">me =</span> my_outcome, score)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>strategy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 3
+  opponent    me score
+  &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+1 rock         0     3
+2 scissors     0     2
+3 paper        0     1
+4 rock         3     4
+5 scissors     3     6
+6 paper        3     5
+7 scissors     6     7
+8 paper        6     9
+9 rock         6     8</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>turns <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">opponent =</span> entities[opponent]) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">me =</span> <span class="fu">as.integer</span>(entities[me])) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(strategy, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"opponent"</span>, <span class="st">"me"</span>))</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>turns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,500 × 3
+   opponent    me score
+   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+ 1 paper        3     5
+ 2 rock         0     3
+ 3 paper        3     5
+ 4 rock         3     4
+ 5 rock         6     8
+ 6 paper        3     5
+ 7 paper        6     9
+ 8 scissors     3     6
+ 9 rock         0     3
+10 scissors     0     2
+# … with 2,490 more rows</code></pre>
+</div>
+</div>
+<p>And the total score:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(turns<span class="sc">$</span>score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11980</code></pre>
 </div>
 </div>
 
