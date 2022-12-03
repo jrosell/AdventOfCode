@@ -112,9 +112,9 @@ Here the result:
 
 ```{r}
 data %>% 
-  mutate(rucksack = str_split(rucksack, "")) %>% 
-  group_by(elf_group = (row_number() + 2) %/% 3)  %>% 
-  summarise(problem = reduce(rucksack, intersect)) %>% 
+    mutate(rucksack = str_split(rucksack, "")) %>% 
+    group_by(elf_group = (row_number() + 2) %/% 3)  %>% 
+    summarise(problem = reduce(rucksack, intersect)) %>% 
     mutate(priority = match(problem, item_types)) %>% 
     summarise(result = sum(priority))
 ```
