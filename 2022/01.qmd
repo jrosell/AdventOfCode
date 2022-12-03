@@ -4,6 +4,8 @@ format: html
 editor: visual
 ---
 
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
 ## Part 1
 
 I manually downloaded my personal [day 1 input file](https://adventofcode.com/2022/day/1) as a logged user, and here I get the data with blank lines as NA and "calories" as column name:
