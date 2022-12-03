@@ -119,6 +119,9 @@ Here the full code:
 
 ```{r}
 library(tidyverse)
+
+item_types <- c(letters, LETTERS)
+
 read_csv(
         here::here("2022/03_input"),
         col_names = c("rucksack"),
