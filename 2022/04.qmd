@@ -1,0 +1,103 @@
+---
+title: "Day 4"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
+## Part 1: In how many assignment pairs does one range fully contain the other?
+
+I manually downloaded my personal [day 4 input file](https://adventofcode.com/2022/day/4) as a logged user, and here I get the data.
+
+```{r}
+library(tidyverse)
+# remotes::install_github("tidyverse/stringr", force = TRUE)
+packageVersion("stringr") # 1.4.1.9000
+
+data <- 
+    read_csv(
+        here::here("2022/04_input"),
+        col_names = c("first", "second"),
+        show_col_types = FALSE
+    )
+data %>% print(n = 30)
+```
+
+I separate both columns:
+
+```{r}
+data %>%
+    separate(first, c("first_start", "first_end"), sep = "-") %>% 
+    separate(second, c("second_start", "second_end"), sep = "-") 
+```
+
+separate(first, c("first_start", "first_end"), sep = "-") %\>%
+
+separate(second, c("second_start", "second_end"), sep = "-")
+
+I check if the first or second range in each row are fully contained one in another:
+
+```{r}
+data %>% 
+    separate(first, c("first_start", "first_end"), sep = "-") %>% 
+    separate(second, c("second_start", "second_end"), sep = "-") %>% 
+    mutate(across(everything(), as.numeric)) %>% 
+    rowwise() %>% 
+    mutate(fully_contain = 
+        (first_start >= second_start & first_end <= second_end) | 
+        (second_start >= first_start & second_end <= first_end)
+    )
+```
+
+Here the full code with the result:
+
+```{r}
+library(tidyverse)
+
+fully_contain <- function(df) {
+    df %>% 
+        mutate(across(everything(), as.numeric)) %>% 
+        rowwise() %>% 
+        mutate(fully_contain = 
+            (first_start >= second_start & first_end <= second_end) | 
+            (second_start >= first_start & second_end <= first_end)
+        ) %>%
+        ungroup()
+}
+
+read_csv(
+        here::here("2022/04_input"),
+        col_names = c("first", "second"),
+        show_col_types = FALSE
+    ) %>%
+    separate(first, c("first_start", "first_end"), sep = "-") %>% 
+    separate(second, c("second_start", "second_end"), sep = "-") %>% 
+    fully_contain() %>% 
+    summarise(reconsider = sum(fully_contain))
+    
+```
+
+## Part 2: In how many assignment pairs do the ranges overlap?
+
+```{r}
+overlap <- function(df) {
+   df %>% 
+        mutate(across(everything(), as.numeric)) %>% 
+        rowwise() %>% 
+        mutate(overlap = 
+            list(intersect(first_start:first_end, second_start:second_end))
+        ) %>% 
+        mutate(overlap = length(overlap) > 0) %>% 
+        ungroup()
+}
+read_csv(
+        here::here("2022/04_input"),
+        col_names = c("first", "second"),
+        show_col_types = FALSE
+    ) %>%
+    separate(first, c("first_start", "first_end"), sep = "-") %>% 
+    separate(second, c("second_start", "second_end"), sep = "-") %>% 
+    overlap() %>% 
+    summarise(overlap = sum(overlap))
+```
