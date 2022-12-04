@@ -241,12 +241,12 @@
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(first, <span class="fu">c</span>(<span class="st">"first_start"</span>, <span class="st">"first_end"</span>), <span class="at">sep =</span> <span class="st">"-"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(second, <span class="fu">c</span>(<span class="st">"second_start"</span>, <span class="st">"second_end"</span>), <span class="at">sep =</span> <span class="st">"-"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fully_contain</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">reconsider =</span> <span class="fu">sum</span>(fully_contain))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">fully_contain =</span> <span class="fu">sum</span>(fully_contain))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  reconsider
-       &lt;int&gt;
-1        503</code></pre>
+  fully_contain
+          &lt;int&gt;
+1           503</code></pre>
 </div>
 </div>
 </section>
