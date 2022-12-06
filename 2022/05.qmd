@@ -33,7 +33,9 @@ stacks <- data %>%
     separate(lines, into = paste0("c", 1:36), sep = "") %>% 
     pivot_longer(everything()) %>% 
     filter(str_detect(value, "[A-Z]")) %>% 
-    pivot_wider(names_from = name, values_from = value, values_fn = list) %>% 
+    pivot_wider(
+        names_from = name, values_from = value, values_fn = list
+    ) %>% 
     map(~ .x[[1]]) %>% 
     unname()
 
@@ -81,16 +83,16 @@ I create a helper function and I test the previous example:
 
 ```{r}
 stacks2 <- list(
-  c("Z","N", "D"),
-  c("M","C"),
-  c("P")
+    c("Z","N", "D"),
+    c("M","C"),
+    c("P")
 )
 
 make_move <- function(x, qty, from, to) {
-  to_move <- rev(tail(x[[from]], qty))
-  x[[from]] <- head(x[[from]], -qty)
-  x[[to]] <- c(x[[to]], to_move)
-  x
+    to_move <- rev(tail(x[[from]], qty))
+    x[[from]] <- head(x[[from]], -qty)
+    x[[to]] <- c(x[[to]], to_move)
+    x
 }
 stacks2
 stacks2 %>% make_move(3, 1, 3)
@@ -117,10 +119,10 @@ extract_next_number <- function(x, pattern) {
 }
 
 make_move <- function(x, qty, from, to) {
-  to_move <- rev(tail(x[[from]], qty))
-  x[[from]] <- head(x[[from]], -qty)
-  x[[to]] <- c(x[[to]], to_move)
-  x
+    to_move <- rev(tail(x[[from]], qty))
+    x[[from]] <- head(x[[from]], -qty)
+    x[[to]] <- c(x[[to]], to_move)
+    x
 }
 
 stacks <- data %>% 
@@ -129,7 +131,9 @@ stacks <- data %>%
     separate(lines, into = paste0("c", 1:36), sep = "") %>% 
     pivot_longer(everything()) %>% 
     filter(str_detect(value, "[A-Z]")) %>% 
-    pivot_wider(names_from = name, values_from = value, values_fn = list) %>% 
+    pivot_wider(
+        names_from = name, values_from = value, values_fn = list
+    ) %>% 
     map(~ .x[[1]]) %>% 
     unname()
 
@@ -173,16 +177,16 @@ I create a helper function and I test the previous example:
 
 ```{r}
 stacks2 <- list(
-  c("Z","N", "D"),
-  c("M","C"),
-  c("P")
+    c("Z","N", "D"),
+    c("M","C"),
+    c("P")
 )
 
 make_move_ordered <- function(x, qty, from, to) {
-  to_move <- tail(x[[from]], qty)
-  x[[from]] <- head(x[[from]], -qty)
-  x[[to]] <- c(x[[to]], to_move)
-  x
+    to_move <- tail(x[[from]], qty)
+    x[[from]] <- head(x[[from]], -qty)
+    x[[to]] <- c(x[[to]], to_move)
+    x
 }
 
 stacks2
@@ -210,10 +214,10 @@ extract_next_number <- function(x, pattern) {
 }
 
 make_move_ordered <- function(x, qty, from, to) {
-  to_move <- tail(x[[from]], qty)
-  x[[from]] <- head(x[[from]], -qty)
-  x[[to]] <- c(x[[to]], to_move)
-  x
+    to_move <- tail(x[[from]], qty)
+    x[[from]] <- head(x[[from]], -qty)
+    x[[to]] <- c(x[[to]], to_move)
+    x
 }
 
 stacks <- data %>% 
@@ -222,7 +226,9 @@ stacks <- data %>%
     separate(lines, into = paste0("c", 1:36), sep = "") %>% 
     pivot_longer(everything()) %>% 
     filter(str_detect(value, "[A-Z]")) %>% 
-    pivot_wider(names_from = name, values_from = value, values_fn = list) %>% 
+    pivot_wider(
+        names_from = name, values_from = value, values_fn = list
+    ) %>% 
     map(~ .x[[1]]) %>% 
     unname()
 
