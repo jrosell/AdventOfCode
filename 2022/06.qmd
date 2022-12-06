@@ -22,7 +22,7 @@ data <-
     pull() %>% 
     str_split_1("")
 
-data
+head(data)
 ```
 
 I build a function
