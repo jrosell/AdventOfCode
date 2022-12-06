@@ -16,22 +16,30 @@ library(tidyverse)
 data <- 
     read_csv(
         here::here("2022/06_input"),
-        col_names = c("datastream"),
+        col_names = c("data"),
         show_col_types = FALSE
     ) %>% 
-    pull() %>% 
-    str_split_1("")
+    pull()
 
 head(data)
 ```
 
-I build a function
+I build a helper function and check some examples:
+
+-   `bvwbjplbgvbhsrlpgdmjqwftvncz`: first marker after character *`5`*
+
+-   `nppdvjthqldpwncqszvftbrmjlhg`: first marker after character *`6`*
+
+-   `nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg`: first marker after character *`10`*
+
+-   `zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw`: first marker after character *`11`*
 
 ```{r}
 library(slider)
 
 start_distinct_marker <- function(data, n) {
     data %>% 
+        str_split_1("") %>%
         slide(~.x, .before = n - 1) %>% 
         map(function(x){
             n_distinct(x) == n
@@ -39,6 +47,22 @@ start_distinct_marker <- function(data, n) {
         which.max()
 }
 
+"bvwbjplbgvbhsrlpgdmjqwftvncz" %>%
+    start_distinct_marker(4)
+
+"nppdvjthqldpwncqszvftbrmjlhg" %>%
+    start_distinct_marker(4)
+
+"nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg" %>%
+    start_distinct_marker(4)
+
+"zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw" %>%
+    start_distinct_marker(4)
+```
+
+Here the result:
+
+```{r}
 data %>% start_distinct_marker(4)
 ```
 
@@ -53,14 +77,14 @@ library(slider)
 data <- 
     read_csv(
         here::here("2022/06_input"),
-        col_names = c("datastream"),
+        col_names = c("data"),
         show_col_types = FALSE
     ) %>% 
-    pull() %>% 
-    str_split_1("")
+    pull() 
 
 start_distinct_marker <- function(data, n) {
     data %>% 
+        str_split_1("") %>% 
         slide(~.x, .before = n - 1) %>% 
         map(function(x){
             n_distinct(x) == n
