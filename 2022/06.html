@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.243">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Day 6</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="06_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="06_files/libs/quarto-html/quarto.js"></script>
+  <script src="06_files/libs/quarto-html/popper.min.js"></script>
+  <script src="06_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="06_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="06_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="06_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="06_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="06_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="06_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  
+</div>
+
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+<div class="quarto-title"><h1 class="title display-7">Day 6</h1></div></header>
+<p><a href="https://jrosell.github.io/AdventOfCode/">AdventOfCode</a> &gt; 2022</p>
+<section id="part-1-how-many-characters-need-to-be-processed-before-the-first-start-of-packet-marker-is-detected" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-how-many-characters-need-to-be-processed-before-the-first-start-of-packet-marker-is-detected">Part 1: How many characters need to be processed before the first start-of-packet marker is detected?</h2>
+<p>I manually downloaded my personal <a href="https://adventofcode.com/2022/day/6">day 6 input file</a> as a logged user, and here I get the data in a more appropriate shape.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.0          ✔ purrr   0.3.5     
+✔ tibble  3.1.8          ✔ dplyr   1.0.10    
+✔ tidyr   1.2.1          ✔ stringr 1.4.1.9000
+✔ readr   2.1.3          ✔ forcats 0.5.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2022/06_input"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"datastream"</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split_1</span>(<span class="st">""</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   [1] "s" "g" "r" "r" "r" "r" "w" "c" "r" "r" "l" "q" "q" "g" "p" "p" "f" "g"
+  [19] "f" "n" "n" "g" "s" "g" "c" "g" "n" "g" "r" "r" "l" "l" "n" "q" "n" "n"
+  [37] "d" "z" "z" "j" "g" "z" "z" "z" "j" "d" "j" "q" "d" "j" "d" "h" "h" "j"
+  [55] "s" "h" "j" "h" "w" "w" "q" "n" "n" "w" "j" "n" "w" "n" "j" "w" "j" "t"
+  [73] "t" "v" "g" "v" "d" "d" "j" "r" "r" "t" "v" "t" "s" "v" "t" "v" "q" "t"
+  [91] "q" "h" "h" "b" "c" "h" "c" "d" "h" "h" "n" "w" "w" "v" "q" "v" "v" "s"
+ [109] "b" "s" "q" "s" "w" "q" "q" "d" "w" "d" "j" "w" "w" "j" "v" "v" "r" "d"
+ [127] "d" "g" "p" "d" "p" "d" "l" "p" "l" "j" "j" "w" "f" "f" "q" "n" "f" "f"
+ [145] "b" "l" "l" "p" "l" "m" "m" "w" "z" "w" "t" "z" "z" "v" "f" "z" "v" "v"
+ [163] "j" "b" "b" "m" "n" "m" "p" "p" "z" "g" "z" "s" "z" "l" "l" "s" "q" "q"
+ [181] "p" "v" "q" "v" "m" "m" "z" "z" "l" "c" "c" "j" "h" "c" "h" "d" "h" "l"
+ [199] "d" "d" "c" "h" "d" "c" "h" "c" "d" "d" "n" "w" "d" "w" "h" "h" "h" "c"
+ [217] "z" "z" "l" "d" "l" "s" "d" "l" "s" "s" "d" "m" "m" "s" "w" "s" "w" "z"
+ [235] "w" "t" "w" "z" "w" "j" "z" "w" "z" "f" "w" "w" "d" "h" "w" "d" "w" "j"
+ [253] "d" "j" "l" "d" "j" "l" "d" "l" "q" "d" "d" "h" "t" "t" "f" "b" "f" "n"
+ [271] "b" "f" "n" "f" "g" "n" "f" "n" "v" "n" "f" "f" "s" "s" "z" "j" "j" "s"
+ [289] "q" "q" "d" "z" "d" "s" "d" "r" "s" "s" "w" "d" "d" "g" "g" "s" "t" "g"
+ [307] "s" "g" "q" "g" "z" "q" "g" "q" "c" "q" "d" "c" "c" "q" "c" "v" "c" "p"
+ [325] "c" "s" "p" "c" "c" "d" "g" "c" "c" "f" "f" "l" "p" "p" "d" "d" "q" "f"
+ [343] "d" "f" "m" "d" "f" "f" "m" "l" "f" "l" "p" "l" "n" "p" "p" "f" "v" "v"
+ [361] "g" "s" "g" "b" "g" "t" "g" "c" "c" "m" "f" "c" "c" "f" "w" "w" "t" "h"
+ [379] "h" "c" "j" "c" "b" "b" "h" "b" "w" "b" "j" "b" "h" "j" "j" "t" "d" "d"
+ [397] "r" "l" "d" "l" "r" "d" "d" "z" "j" "d" "z" "d" "t" "t" "b" "f" "b" "m"
+ [415] "m" "t" "j" "m" "j" "t" "j" "z" "j" "v" "j" "v" "g" "v" "t" "t" "t" "h"
+ [433] "w" "h" "h" "g" "q" "h" "g" "g" "c" "b" "b" "t" "q" "b" "b" "q" "g" "b"
+ [451] "q" "q" "v" "c" "c" "d" "t" "t" "f" "g" "f" "w" "f" "n" "w" "f" "f" "b"
+ [469] "f" "q" "b" "f" "b" "b" "n" "l" "n" "z" "l" "z" "b" "b" "w" "n" "w" "n"
+ [487] "t" "w" "t" "j" "w" "j" "n" "j" "w" "w" "s" "d" "w" "w" "c" "b" "b" "w"
+ [505] "h" "w" "z" "w" "h" "w" "v" "h" "h" "p" "w" "w" "n" "v" "v" "t" "v" "n"
+ [523] "t" "t" "g" "t" "r" "r" "n" "j" "j" "z" "p" "p" "m" "b" "m" "f" "m" "j"
+ [541] "f" "f" "d" "d" "d" "v" "f" "v" "j" "j" "p" "f" "p" "g" "p" "z" "z" "w"
+ [559] "q" "w" "p" "w" "l" "l" "w" "j" "j" "z" "m" "j" "m" "d" "m" "d" "w" "w"
+ [577] "d" "r" "d" "t" "t" "p" "m" "m" "d" "h" "d" "n" "d" "v" "v" "p" "b" "p"
+ [595] "q" "b" "b" "z" "q" "z" "m" "m" "t" "d" "m" "m" "t" "d" "d" "l" "c" "c"
+ [613] "j" "v" "j" "s" "j" "r" "s" "s" "c" "q" "q" "z" "v" "v" "b" "s" "s" "t"
+ [631] "c" "c" "v" "f" "f" "c" "t" "t" "w" "r" "w" "j" "j" "s" "g" "s" "t" "t"
+ [649] "m" "g" "m" "v" "v" "z" "b" "b" "c" "j" "b" "j" "r" "b" "r" "d" "d" "v"
+ [667] "j" "j" "n" "h" "j" "h" "p" "h" "v" "h" "s" "s" "z" "q" "q" "f" "r" "f"
+ [685] "z" "f" "s" "s" "g" "f" "s" "s" "g" "d" "d" "c" "b" "b" "p" "l" "b" "b"
+ [703] "s" "f" "s" "m" "f" "m" "p" "p" "h" "s" "s" "m" "v" "v" "c" "v" "r" "r"
+ [721] "c" "g" "r" "c" "g" "c" "v" "g" "g" "r" "z" "g" "g" "z" "j" "j" "f" "h"
+ [739] "j" "j" "t" "p" "p" "h" "z" "p" "p" "q" "t" "p" "t" "l" "l" "s" "s" "b"
+ [757] "m" "b" "r" "r" "g" "r" "v" "v" "h" "j" "j" "n" "z" "n" "l" "n" "g" "g"
+ [775] "r" "n" "r" "s" "n" "r" "r" "p" "h" "h" "b" "q" "h" "h" "h" "s" "t" "h"
+ [793] "s" "t" "h" "h" "h" "n" "s" "s" "m" "s" "j" "j" "w" "j" "p" "p" "q" "f"
+ [811] "q" "l" "q" "q" "g" "n" "n" "h" "n" "m" "m" "f" "s" "f" "s" "l" "f" "l"
+ [829] "l" "v" "n" "n" "s" "d" "n" "s" "s" "g" "n" "g" "b" "b" "j" "m" "j" "c"
+ [847] "c" "s" "r" "r" "m" "j" "j" "n" "l" "j" "l" "w" "l" "t" "t" "p" "f" "f"
+ [865] "d" "d" "g" "b" "d" "g" "g" "m" "b" "g" "b" "t" "b" "z" "z" "w" "g" "w"
+ [883] "p" "p" "c" "z" "c" "f" "f" "v" "c" "c" "n" "s" "s" "b" "m" "m" "j" "r"
+ [901] "r" "f" "w" "w" "h" "c" "w" "h" "w" "q" "w" "n" "q" "q" "z" "s" "q" "q"
+ [919] "j" "s" "q" "q" "n" "n" "d" "q" "d" "g" "q" "d" "q" "g" "g" "g" "z" "j"
+ [937] "j" "c" "v" "v" "z" "d" "d" "d" "h" "n" "h" "j" "n" "n" "z" "l" "n" "l"
+ [955] "w" "l" "z" "l" "q" "q" "v" "j" "j" "p" "p" "r" "q" "r" "j" "r" "f" "j"
+ [973] "j" "r" "p" "j" "j" "n" "f" "n" "t" "f" "f" "q" "t" "t" "t" "n" "j" "j"
+ [991] "d" "b" "j" "b" "d" "j" "b" "b" "r" "s" "r" "b" "b" "m" "r" "m" "c" "c"
+[1009] "p" "l" "l" "m" "c" "c" "q" "r" "q" "w" "q" "n" "n" "s" "j" "j" "m" "j"
+[1027] "g" "j" "q" "j" "p" "q" "j" "q" "g" "j" "j" "t" "w" "w" "q" "d" "q" "m"
+[1045] "q" "t" "q" "q" "m" "s" "q" "m" "m" "v" "l" "l" "d" "t" "l" "l" "b" "c"
+[1063] "c" "t" "f" "c" "c" "c" "d" "c" "d" "d" "c" "g" "g" "m" "m" "m" "s" "g"
+[1081] "g" "j" "d" "d" "c" "q" "d" "d" "b" "q" "q" "d" "g" "q" "g" "f" "f" "s"
+[1099] "t" "s" "t" "g" "t" "f" "t" "b" "b" "d" "r" "b" "r" "l" "l" "l" "n" "v"
+[1117] "l" "l" "c" "f" "l" "f" "p" "f" "d" "f" "f" "j" "v" "v" "v" "m" "d" "m"
+[1135] "v" "v" "t" "f" "v" "f" "c" "v" "v" "f" "g" "g" "h" "z" "z" "l" "g" "z"
+[1153] "g" "s" "z" "z" "h" "m" "z" "z" "h" "f" "h" "l" "l" "g" "b" "l" "g" "g"
+[1171] "f" "p" "f" "z" "f" "v" "z" "v" "d" "z" "z" "h" "s" "s" "p" "m" "m" "j"
+[1189] "t" "j" "h" "j" "g" "g" "f" "h" "g" "g" "n" "g" "g" "b" "t" "g" "g" "q"
+[1207] "q" "t" "z" "t" "q" "t" "m" "q" "t" "q" "d" "d" "m" "z" "m" "r" "m" "d"
+[1225] "r" "m" "d" "m" "q" "q" "c" "b" "q" "c" "q" "z" "z" "v" "c" "z" "v" "z"
+[1243] "f" "v" "v" "s" "g" "g" "c" "g" "s" "s" "j" "n" "n" "j" "q" "n" "n" "t"
+[1261] "w" "t" "m" "w" "w" "h" "z" "z" "z" "h" "l" "l" "q" "v" "l" "l" "j" "s"
+[1279] "l" "j" "j" "f" "n" "n" "j" "w" "j" "n" "w" "n" "f" "f" "p" "g" "g" "q"
+[1297] "w" "w" "v" "b" "w" "w" "d" "b" "b" "m" "b" "v" "m" "v" "l" "v" "n" "n"
+[1315] "n" "p" "p" "q" "v" "q" "q" "g" "h" "q" "g" "q" "p" "p" "n" "l" "l" "h"
+[1333] "j" "l" "l" "v" "l" "f" "l" "f" "p" "f" "h" "f" "j" "j" "h" "g" "j" "g"
+[1351] "p" "j" "p" "b" "j" "j" "d" "p" "d" "q" "d" "p" "q" "d" "p" "d" "w" "p"
+[1369] "w" "f" "f" "q" "l" "f" "f" "r" "b" "r" "j" "r" "t" "r" "v" "t" "v" "r"
+[1387] "t" "v" "r" "t" "r" "v" "t" "v" "l" "t" "l" "r" "r" "v" "j" "j" "l" "t"
+[1405] "t" "m" "t" "f" "f" "h" "v" "f" "h" "f" "n" "h" "n" "l" "n" "f" "n" "v"
+[1423] "v" "l" "t" "v" "l" "v" "l" "b" "b" "f" "l" "l" "f" "n" "l" "l" "n" "d"
+[1441] "n" "d" "c" "d" "r" "r" "n" "z" "n" "s" "s" "v" "p" "v" "h" "h" "h" "m"
+[1459] "r" "m" "l" "m" "h" "h" "r" "n" "h" "h" "p" "g" "g" "t" "f" "t" "d" "d"
+[1477] "g" "h" "h" "q" "r" "q" "d" "d" "j" "t" "t" "b" "d" "b" "q" "d" "d" "p"
+[1495] "s" "d" "p" "p" "w" "r" "w" "h" "h" "h" "g" "w" "h" "h" "q" "r" "h" "q"
+[1513] "r" "q" "h" "h" "q" "d" "h" "q" "d" "d" "j" "p" "j" "q" "q" "s" "d" "s"
+[1531] "m" "d" "d" "n" "q" "n" "c" "q" "n" "q" "w" "q" "d" "w" "w" "h" "g" "h"
+[1549] "b" "h" "f" "f" "n" "s" "f" "f" "n" "s" "s" "z" "l" "s" "s" "n" "t" "n"
+[1567] "b" "b" "b" "f" "h" "b" "h" "w" "h" "z" "h" "d" "z" "h" "z" "b" "h" "b"
+[1585] "l" "b" "z" "z" "z" "b" "q" "z" "b" "b" "g" "t" "b" "b" "c" "j" "b" "j"
+[1603] "t" "j" "p" "t" "p" "w" "w" "h" "l" "w" "w" "h" "h" "m" "s" "h" "h" "m"
+[1621] "b" "b" "f" "j" "b" "f" "f" "l" "n" "n" "l" "m" "n" "n" "z" "v" "n" "n"
+[1639] "b" "t" "n" "b" "b" "v" "w" "v" "v" "g" "c" "g" "g" "r" "z" "r" "f" "f"
+[1657] "w" "m" "w" "h" "m" "w" "h" "w" "j" "w" "p" "w" "w" "z" "b" "b" "v" "t"
+[1675] "b" "t" "s" "s" "d" "h" "d" "l" "h" "h" "d" "p" "p" "m" "m" "c" "n" "m"
+[1693] "c" "m" "f" "f" "n" "p" "f" "f" "f" "v" "b" "f" "v" "f" "h" "v" "h" "j"
+[1711] "h" "f" "f" "z" "f" "b" "z" "z" "f" "d" "f" "p" "d" "p" "z" "z" "h" "b"
+[1729] "z" "b" "l" "b" "b" "m" "f" "f" "v" "v" "c" "m" "m" "t" "t" "d" "n" "t"
+[1747] "n" "m" "t" "m" "z" "t" "z" "b" "b" "n" "c" "b" "c" "t" "c" "q" "t" "c"
+[1765] "q" "q" "c" "v" "c" "f" "c" "w" "c" "d" "c" "c" "h" "p" "h" "f" "h" "j"
+[1783] "h" "h" "j" "b" "j" "n" "j" "t" "j" "n" "j" "w" "w" "z" "s" "s" "t" "p"
+[1801] "p" "r" "n" "n" "h" "t" "n" "t" "v" "t" "p" "t" "h" "p" "t" "t" "p" "d"
+[1819] "p" "z" "z" "w" "c" "c" "z" "s" "s" "c" "q" "s" "c" "s" "b" "b" "m" "p"
+[1837] "b" "b" "d" "s" "d" "l" "s" "s" "l" "z" "s" "z" "j" "s" "z" "s" "c" "z"
+[1855] "n" "t" "r" "q" "j" "m" "m" "m" "f" "q" "s" "d" "w" "t" "q" "q" "f" "l"
+[1873] "g" "s" "t" "t" "w" "f" "q" "q" "v" "v" "s" "p" "n" "l" "f" "v" "q" "l"
+[1891] "r" "v" "v" "b" "j" "m" "m" "p" "m" "t" "t" "c" "d" "n" "h" "n" "c" "m"
+[1909] "m" "d" "f" "h" "w" "w" "q" "d" "r" "q" "j" "q" "w" "g" "g" "r" "b" "t"
+[1927] "g" "b" "r" "d" "m" "m" "r" "h" "h" "v" "q" "f" "v" "v" "h" "s" "m" "t"
+[1945] "f" "b" "n" "t" "h" "r" "b" "l" "t" "g" "v" "d" "r" "s" "b" "q" "g" "l"
+[1963] "g" "j" "q" "t" "s" "s" "b" "v" "m" "b" "j" "j" "j" "b" "b" "c" "g" "f"
+[1981] "f" "t" "g" "b" "j" "m" "f" "q" "z" "g" "g" "d" "t" "c" "f" "z" "d" "d"
+[1999] "q" "l" "r" "v" "w" "q" "j" "j" "v" "n" "m" "j" "z" "j" "w" "q" "r" "w"
+[2017] "s" "q" "b" "j" "g" "n" "s" "w" "p" "n" "l" "b" "d" "z" "d" "l" "c" "v"
+[2035] "c" "b" "q" "p" "l" "z" "g" "q" "w" "m" "s" "n" "t" "z" "z" "j" "h" "q"
+[2053] "w" "f" "j" "d" "p" "r" "g" "l" "c" "c" "c" "n" "l" "d" "f" "q" "f" "t"
+[2071] "g" "t" "t" "q" "b" "r" "m" "c" "l" "s" "q" "t" "n" "c" "r" "j" "b" "t"
+[2089] "t" "c" "g" "l" "c" "v" "s" "p" "s" "g" "v" "d" "j" "q" "g" "r" "d" "z"
+[2107] "z" "l" "n" "h" "b" "f" "q" "b" "w" "n" "f" "q" "c" "j" "r" "r" "q" "p"
+[2125] "p" "r" "j" "b" "q" "p" "z" "h" "t" "h" "g" "s" "g" "c" "f" "l" "q" "l"
+[2143] "d" "s" "n" "w" "s" "v" "z" "g" "c" "m" "f" "r" "d" "v" "f" "m" "q" "h"
+[2161] "b" "c" "f" "c" "z" "h" "s" "c" "h" "p" "w" "n" "m" "d" "j" "n" "j" "l"
+[2179] "v" "r" "w" "q" "l" "l" "n" "n" "h" "j" "v" "j" "t" "z" "h" "c" "r" "q"
+[2197] "c" "w" "l" "m" "r" "q" "f" "d" "h" "v" "z" "c" "b" "n" "v" "w" "r" "g"
+[2215] "n" "g" "t" "t" "w" "l" "h" "c" "m" "m" "g" "t" "z" "w" "j" "z" "t" "s"
+[2233] "c" "j" "n" "m" "s" "l" "b" "v" "t" "d" "r" "v" "g" "d" "p" "r" "l" "f"
+[2251] "r" "h" "g" "g" "c" "w" "t" "w" "j" "h" "b" "l" "p" "p" "f" "b" "p" "l"
+[2269] "j" "b" "m" "w" "r" "l" "w" "q" "r" "f" "w" "j" "w" "f" "s" "f" "t" "m"
+[2287] "f" "l" "s" "d" "f" "r" "h" "l" "v" "g" "c" "b" "z" "c" "v" "h" "l" "h"
+[2305] "g" "c" "l" "v" "n" "m" "t" "f" "c" "q" "t" "t" "v" "c" "p" "h" "g" "v"
+[2323] "f" "l" "h" "d" "c" "l" "b" "m" "t" "g" "s" "r" "l" "d" "g" "f" "v" "t"
+[2341] "p" "j" "c" "p" "h" "t" "z" "d" "c" "t" "r" "c" "c" "h" "w" "d" "b" "d"
+[2359] "b" "t" "p" "p" "t" "d" "n" "b" "j" "n" "q" "w" "d" "r" "l" "l" "m" "n"
+[2377] "b" "c" "g" "f" "l" "t" "m" "g" "g" "p" "q" "f" "b" "f" "p" "m" "n" "h"
+[2395] "c" "m" "p" "g" "s" "g" "p" "t" "f" "l" "g" "l" "z" "s" "w" "t" "m" "r"
+[2413] "j" "f" "z" "m" "w" "m" "w" "p" "h" "f" "j" "n" "g" "n" "f" "m" "m" "t"
+[2431] "q" "l" "r" "s" "l" "t" "l" "v" "l" "f" "m" "w" "m" "j" "v" "v" "t" "g"
+[2449] "n" "g" "l" "l" "s" "z" "w" "z" "d" "j" "j" "m" "b" "n" "w" "w" "g" "z"
+[2467] "p" "q" "l" "t" "l" "r" "z" "f" "d" "w" "c" "h" "g" "t" "t" "v" "l" "h"
+[2485] "g" "j" "j" "h" "j" "q" "m" "l" "r" "r" "w" "s" "q" "l" "h" "s" "g" "z"
+[2503] "s" "g" "m" "m" "s" "g" "b" "g" "v" "r" "l" "m" "b" "p" "r" "r" "h" "l"
+[2521] "g" "s" "j" "n" "s" "d" "w" "c" "b" "r" "w" "v" "q" "j" "q" "m" "f" "c"
+[2539] "q" "c" "w" "l" "l" "s" "v" "g" "g" "c" "z" "n" "w" "p" "z" "v" "g" "p"
+[2557] "s" "z" "r" "q" "w" "n" "g" "c" "n" "c" "h" "v" "d" "l" "r" "d" "r" "g"
+[2575] "t" "b" "s" "j" "d" "q" "f" "p" "s" "f" "v" "w" "d" "t" "d" "l" "q" "w"
+[2593] "b" "f" "j" "l" "w" "r" "m" "q" "b" "r" "h" "w" "q" "m" "f" "g" "p" "p"
+[2611] "w" "v" "f" "b" "g" "t" "h" "n" "b" "q" "n" "m" "q" "q" "h" "m" "p" "f"
+[2629] "w" "b" "g" "l" "j" "c" "m" "q" "q" "b" "p" "n" "w" "v" "z" "t" "r" "c"
+[2647] "r" "l" "b" "v" "t" "c" "n" "n" "c" "w" "w" "j" "c" "b" "q" "s" "m" "b"
+[2665] "q" "n" "q" "t" "r" "m" "p" "w" "m" "h" "l" "v" "w" "t" "f" "m" "s" "m"
+[2683] "t" "p" "f" "n" "m" "p" "h" "q" "d" "v" "q" "f" "z" "v" "m" "j" "j" "h"
+[2701] "n" "w" "d" "f" "j" "n" "w" "v" "m" "b" "b" "w" "v" "t" "h" "h" "w" "z"
+[2719] "j" "t" "z" "z" "r" "s" "m" "q" "l" "q" "t" "n" "n" "r" "q" "j" "r" "n"
+[2737] "c" "h" "q" "t" "t" "g" "s" "p" "t" "f" "p" "d" "c" "p" "g" "f" "m" "z"
+[2755] "v" "q" "h" "w" "f" "f" "q" "m" "f" "h" "w" "q" "q" "b" "d" "h" "m" "g"
+[2773] "c" "r" "f" "q" "t" "w" "r" "c" "g" "t" "g" "m" "g" "l" "m" "m" "w" "h"
+[2791] "v" "q" "w" "v" "g" "l" "f" "s" "v" "w" "b" "p" "v" "h" "m" "n" "b" "q"
+[2809] "h" "g" "f" "g" "q" "w" "w" "n" "h" "d" "h" "v" "n" "w" "g" "g" "s" "m"
+[2827] "h" "j" "f" "s" "j" "m" "s" "r" "l" "c" "v" "l" "n" "h" "r" "h" "r" "l"
+[2845] "h" "b" "v" "h" "d" "r" "h" "b" "p" "l" "r" "z" "s" "p" "d" "m" "b" "c"
+[2863] "n" "z" "b" "w" "l" "v" "c" "m" "z" "t" "w" "v" "g" "h" "l" "s" "n" "z"
+[2881] "m" "b" "n" "r" "p" "s" "s" "r" "n" "g" "p" "d" "t" "m" "g" "z" "f" "c"
+[2899] "b" "q" "m" "f" "d" "g" "t" "h" "c" "s" "c" "j" "s" "p" "s" "p" "m" "c"
+[2917] "g" "d" "m" "w" "w" "w" "f" "s" "p" "g" "j" "w" "z" "c" "c" "r" "f" "z"
+[2935] "d" "p" "b" "w" "r" "f" "p" "g" "p" "g" "z" "r" "c" "h" "f" "f" "m" "h"
+[2953] "v" "w" "w" "p" "p" "b" "j" "w" "q" "m" "d" "z" "g" "t" "p" "f" "m" "c"
+[2971] "b" "l" "z" "q" "r" "g" "h" "z" "d" "b" "z" "q" "z" "v" "b" "n" "m" "q"
+[2989] "b" "d" "l" "z" "j" "r" "w" "b" "b" "h" "q" "g" "t" "d" "z" "n" "t" "g"
+[3007] "d" "b" "n" "d" "m" "n" "d" "h" "l" "n" "h" "c" "v" "q" "t" "l" "f" "c"
+[3025] "r" "f" "p" "r" "f" "r" "l" "f" "g" "l" "w" "v" "d" "n" "s" "z" "r" "w"
+[3043] "j" "d" "c" "m" "t" "s" "t" "c" "s" "n" "v" "n" "p" "c" "l" "d" "c" "t"
+[3061] "v" "q" "p" "c" "f" "h" "j" "n" "p" "v" "s" "c" "s" "c" "r" "t" "f" "q"
+[3079] "f" "j" "c" "r" "j" "l" "r" "m" "c" "q" "j" "f" "t" "h" "p" "t" "b" "q"
+[3097] "p" "r" "b" "v" "c" "h" "j" "l" "q" "z" "m" "f" "c" "m" "l" "h" "m" "f"
+[3115] "m" "d" "h" "h" "p" "c" "q" "b" "n" "c" "m" "c" "q" "j" "s" "d" "m" "z"
+[3133] "f" "l" "w" "t" "z" "f" "d" "c" "g" "m" "r" "b" "w" "b" "c" "d" "g" "j"
+[3151] "m" "f" "h" "l" "s" "h" "s" "b" "w" "m" "b" "d" "c" "b" "f" "b" "v" "m"
+[3169] "q" "c" "g" "w" "l" "q" "p" "p" "r" "j" "f" "r" "h" "z" "v" "s" "j" "m"
+[3187] "c" "j" "d" "f" "n" "w" "h" "c" "f" "f" "h" "t" "n" "q" "p" "z" "n" "f"
+[3205] "z" "p" "t" "t" "s" "q" "q" "w" "c" "s" "v" "p" "d" "h" "d" "f" "b" "g"
+[3223] "g" "z" "p" "n" "g" "v" "b" "v" "d" "l" "p" "m" "v" "f" "j" "j" "l" "c"
+[3241] "f" "m" "b" "v" "m" "f" "q" "s" "c" "z" "p" "r" "t" "l" "n" "w" "v" "q"
+[3259] "n" "n" "l" "c" "r" "d" "n" "v" "p" "m" "c" "b" "r" "z" "v" "l" "f" "g"
+[3277] "s" "c" "b" "c" "w" "t" "r" "b" "c" "p" "d" "n" "p" "s" "h" "h" "m" "r"
+[3295] "q" "m" "h" "n" "w" "c" "n" "d" "p" "t" "l" "j" "h" "w" "p" "v" "t" "c"
+[3313] "f" "l" "q" "g" "m" "z" "j" "s" "f" "m" "f" "d" "z" "w" "w" "w" "h" "n"
+[3331] "b" "p" "z" "j" "w" "z" "g" "q" "m" "d" "c" "d" "b" "t" "f" "h" "w" "t"
+[3349] "g" "v" "c" "s" "c" "b" "d" "q" "l" "c" "m" "p" "p" "w" "j" "g" "g" "h"
+[3367] "v" "r" "m" "q" "p" "w" "f" "b" "n" "j" "f" "h" "f" "c" "r" "c" "c" "f"
+[3385] "z" "j" "v" "t" "j" "s" "j" "c" "s" "m" "h" "n" "c" "d" "j" "l" "c" "l"
+[3403] "v" "h" "f" "s" "v" "l" "c" "j" "c" "n" "p" "b" "q" "q" "q" "d" "j" "m"
+[3421] "j" "d" "b" "g" "g" "m" "f" "w" "s" "w" "v" "d" "j" "s" "c" "v" "g" "r"
+[3439] "d" "b" "p" "c" "r" "c" "q" "t" "n" "d" "s" "w" "g" "d" "n" "z" "n" "z"
+[3457] "p" "w" "t" "c" "d" "g" "v" "c" "r" "r" "q" "p" "d" "c" "p" "b" "m" "b"
+[3475] "d" "j" "r" "s" "g" "n" "f" "v" "g" "w" "p" "g" "p" "z" "t" "t" "f" "m"
+[3493] "s" "c" "z" "c" "m" "j" "v" "h" "m" "d" "p" "b" "p" "m" "j" "j" "c" "j"
+[3511] "s" "v" "b" "v" "b" "w" "j" "p" "w" "t" "w" "p" "s" "d" "d" "d" "l" "s"
+[3529] "n" "v" "r" "s" "h" "q" "v" "m" "w" "s" "j" "w" "w" "v" "q" "n" "c" "z"
+[3547] "z" "l" "j" "j" "f" "p" "t" "c" "s" "z" "g" "p" "n" "d" "g" "c" "z" "p"
+[3565] "r" "b" "v" "j" "b" "n" "q" "p" "w" "g" "z" "m" "n" "l" "h" "v" "b" "s"
+[3583] "f" "b" "t" "j" "n" "w" "b" "t" "l" "z" "q" "g" "n" "m" "z" "b" "m" "q"
+[3601] "g" "q" "v" "w" "z" "l" "t" "v" "q" "c" "z" "f" "p" "d" "z" "f" "z" "s"
+[3619] "f" "h" "q" "l" "m" "t" "f" "c" "b" "f" "d" "q" "t" "n" "w" "z" "b" "v"
+[3637] "q" "b" "l" "q" "m" "z" "v" "m" "n" "s" "p" "n" "t" "q" "t" "q" "d" "g"
+[3655] "l" "r" "d" "m" "d" "n" "t" "r" "g" "h" "w" "v" "p" "f" "r" "b" "j" "g"
+[3673] "p" "z" "v" "r" "n" "p" "p" "v" "n" "v" "f" "g" "w" "d" "z" "l" "v" "h"
+[3691] "t" "c" "s" "c" "c" "l" "b" "t" "f" "t" "l" "v" "s" "p" "r" "w" "h" "j"
+[3709] "v" "j" "l" "h" "r" "h" "f" "d" "g" "z" "b" "f" "b" "f" "p" "h" "z" "b"
+[3727] "h" "t" "f" "d" "l" "p" "z" "c" "s" "h" "h" "f" "z" "h" "t" "d" "v" "g"
+[3745] "g" "n" "n" "b" "q" "v" "n" "r" "w" "v" "n" "h" "v" "g" "j" "g" "j" "p"
+[3763] "c" "r" "z" "t" "q" "j" "m" "t" "z" "l" "z" "l" "r" "l" "m" "n" "d" "f"
+[3781] "v" "c" "t" "z" "j" "d" "p" "n" "m" "l" "g" "m" "s" "p" "p" "q" "d" "r"
+[3799] "z" "m" "p" "t" "v" "r" "s" "p" "t" "v" "m" "m" "b" "v" "b" "w" "v" "h"
+[3817] "w" "p" "t" "r" "t" "l" "f" "d" "q" "d" "q" "w" "f" "g" "l" "d" "t" "b"
+[3835] "h" "q" "d" "h" "s" "z" "c" "m" "w" "q" "n" "h" "s" "w" "r" "d" "h" "g"
+[3853] "m" "g" "v" "b" "v" "b" "h" "w" "h" "l" "p" "c" "f" "l" "s" "r" "w" "l"
+[3871] "v" "s" "v" "h" "v" "c" "t" "m" "w" "w" "h" "t" "l" "g" "m" "s" "h" "d"
+[3889] "q" "f" "l" "w" "s" "d" "j" "b" "b" "z" "g" "b" "v" "b" "w" "p" "f" "n"
+[3907] "c" "g" "q" "j" "z" "f" "j" "v" "m" "z" "z" "h" "g" "d" "z" "j" "v" "g"
+[3925] "h" "t" "r" "t" "s" "m" "w" "g" "z" "p" "d" "r" "n" "g" "w" "d" "b" "t"
+[3943] "f" "z" "r" "q" "s" "g" "d" "m" "w" "t" "d" "h" "s" "f" "t" "f" "q" "c"
+[3961] "n" "m" "j" "t" "r" "q" "q" "w" "t" "h" "c" "b" "g" "t" "m" "q" "n" "j"
+[3979] "v" "j" "z" "z" "p" "l" "r" "z" "l" "l" "n" "j" "q" "d" "d" "v" "b" "w"
+[3997] "n" "g" "l" "h" "t" "z" "l" "j" "w" "j" "v" "s" "c" "d" "f" "d" "n" "s"
+[4015] "v" "m" "r" "g" "w" "h" "j" "r" "h" "l" "r" "q" "p" "q" "g" "m" "z" "s"
+[4033] "t" "n" "w" "w" "j" "p" "d" "d" "h" "d" "b" "s" "n" "n" "s" "q" "v" "t"
+[4051] "s" "d" "h" "t" "m" "f" "d" "m" "b" "c" "p" "z" "w" "q" "m" "b" "h" "h"
+[4069] "j" "h" "c" "f" "z" "b" "v" "v" "g" "l" "h" "f" "d" "l" "t" "r" "m" "b"
+[4087] "s" "t" "j" "h" "s" "q" "r" "b" "s"</code></pre>
+</div>
+</div>
+<p>I build a function</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slider)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>start_distinct_marker <span class="ot">&lt;-</span> <span class="cf">function</span>(data, n) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    data <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slide</span>(<span class="sc">~</span>.x, <span class="at">.before =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map</span>(<span class="cf">function</span>(x){</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">n_distinct</span>(x) <span class="sc">==</span> n</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        }) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">which.max</span>()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">start_distinct_marker</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1855</code></pre>
+</div>
+</div>
+</section>
+<section id="part-2-how-many-characters-need-to-be-processed-before-the-first-start-of-message-marker-is-detected" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-how-many-characters-need-to-be-processed-before-the-first-start-of-message-marker-is-detected">Part 2: How many characters need to be processed before the first start-of-message marker is detected?</h2>
+<p>Here the full code for both parts:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slider)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2022/06_input"</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"datastream"</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split_1</span>(<span class="st">""</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>start_distinct_marker <span class="ot">&lt;-</span> <span class="cf">function</span>(data, n) {</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    data <span class="sc">%&gt;%</span> </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slide</span>(<span class="sc">~</span>.x, <span class="at">.before =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map</span>(<span class="cf">function</span>(x){</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            <span class="fu">n_distinct</span>(x) <span class="sc">==</span> n</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        }) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">which.max</span>()</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">start_distinct_marker</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1855</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">start_distinct_marker</span>(<span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3256</code></pre>
+</div>
+</div>
+
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

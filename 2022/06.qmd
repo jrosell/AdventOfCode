@@ -1,0 +1,73 @@
+---
+title: "Day 6"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
+## Part 1: How many characters need to be processed before the first start-of-packet marker is detected?
+
+I manually downloaded my personal [day 6 input file](https://adventofcode.com/2022/day/6) as a logged user, and here I get the data in a more appropriate shape.
+
+```{r}
+library(tidyverse)
+
+data <- 
+    read_csv(
+        here::here("2022/06_input"),
+        col_names = c("datastream"),
+        show_col_types = FALSE
+    ) %>% 
+    pull() %>% 
+    str_split_1("")
+
+data
+```
+
+I build a function
+
+```{r}
+library(slider)
+
+start_distinct_marker <- function(data, n) {
+    data %>% 
+        slide(~.x, .before = n - 1) %>% 
+        map(function(x){
+            n_distinct(x) == n
+        }) %>% 
+        which.max()
+}
+
+data %>% start_distinct_marker(4)
+```
+
+## Part 2: How many characters need to be processed before the first start-of-message marker is detected?
+
+Here the full code for both parts:
+
+```{r}
+library(tidyverse)
+library(slider)
+
+data <- 
+    read_csv(
+        here::here("2022/06_input"),
+        col_names = c("datastream"),
+        show_col_types = FALSE
+    ) %>% 
+    pull() %>% 
+    str_split_1("")
+
+start_distinct_marker <- function(data, n) {
+    data %>% 
+        slide(~.x, .before = n - 1) %>% 
+        map(function(x){
+            n_distinct(x) == n
+        }) %>% 
+        which.max()
+}
+
+data %>% start_distinct_marker(4)
+data %>% start_distinct_marker(14)
+```
