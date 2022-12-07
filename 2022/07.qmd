@@ -1,0 +1,136 @@
+---
+title: "Day 7"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
+## Part 1: What is the sum of the total sizes of those directories?
+
+I manually downloaded my personal [day 7 input file](https://adventofcode.com/2022/day/7) as a logged user, and here I get the data in a more appropriate shape.
+
+```{r}
+library(tidyverse)
+
+data <- 
+    read_csv(
+        here::here("2022/07_input"),
+        col_names = c("line"),
+        show_col_types = FALSE
+    )
+
+data %>% print(n = 30)
+```
+
+I build a helper function to locate the path of each line.
+
+```{r}
+cd <- function(path, dir = NA) {
+    if(any(is.na(dir))) return(path)
+    if(dir == "..") return(head(path, -1))
+    return(c(path, paste0(tail(path, 1), dir, "/")))
+}
+
+cd("c", cd("users", cd("jordi", cd("docs"))))
+
+paths <- data %>% 
+    mutate(path = line %>% 
+          str_extract("cd (.*)") %>% 
+          str_remove("cd ")
+    ) %>% 
+    mutate(path = c(accumulate(path, cd))) %>% 
+    unnest(path)
+
+paths %>% 
+    print(n = 40)
+```
+
+I group and summarize the sizes and thenfilter to get the sum of sizes:
+
+```{r}
+sizes <- paths %>% 
+    filter(str_detect(line, "^[0-9]")) %>% 
+    group_by(path) %>% 
+    summarize(size = line %>%
+        str_extract("^[0-9]+") %>%
+        as.numeric() %>%
+        sum()
+    ) %>% 
+    arrange(-size)
+
+sizes
+
+sizes %>% 
+   filter(size < 100000) %>% 
+    pull(size) %>% 
+    sum()
+
+```
+
+## Part 2: Find the smallest directory that, if deleted, would free up enough space on the filesystem to run the update. What is the total size of that directory?
+
+Solution for part 2:
+
+```{r}
+total_space <- 70000000
+required_space <- 30000000
+used_space <- head(sizes, 1) %>% pull(size)
+
+sizes %>% 
+    filter(size >= (used_space + required_space - total_space)) %>% 
+    arrange(size) %>% 
+    head(1)
+```
+
+All the code for both parts:
+
+```{r}
+library(tidyverse)
+
+data <- 
+    read_csv(
+        here::here("2022/07_input"),
+        col_names = c("line"),
+        show_col_types = FALSE
+    )
+
+cd <- function(path, dir = NA) {
+    if(any(is.na(dir))) return(path)
+    if(dir == "..") return(head(path, -1))
+    return(c(path, paste0(tail(path, 1), dir, "/")))
+}
+
+sizes <- data %>% 
+    mutate(path = line %>% 
+          str_extract("cd (.*)") %>% 
+          str_remove("cd ")
+    ) %>% 
+    mutate(path = c(accumulate(path, cd))) %>% 
+    unnest(path) %>% 
+    filter(str_detect(line, "^[0-9]")) %>% 
+    group_by(path) %>% 
+    summarize(size = line %>%
+        str_extract("^[0-9]+") %>%
+        as.numeric() %>%
+        sum()
+    ) %>% 
+    arrange(-size)
+
+sizes
+
+sizes %>% 
+    filter(size < 100000) %>% 
+    pull(size) %>% 
+    sum()
+
+total_space <- 70000000
+required_space <- 30000000
+used_space <- head(sizes, 1) %>% pull(size)
+
+sizes %>% 
+  filter(size >= (used_space + required_space - total_space)) %>% 
+  arrange(size) %>% 
+  head(1)
+```
+
