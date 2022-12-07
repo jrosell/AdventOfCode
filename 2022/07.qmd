@@ -78,7 +78,7 @@ required <- 30000000
 used <- head(sizes, 1) %>% pull(size)
 
 sizes %>% 
-  filter(size >= (used + required - total)) %>% 
+  filter(size >= (required - (total - used))) %>% 
   arrange(size) %>% 
   head(1)
 ```
@@ -129,7 +129,7 @@ required <- 30000000
 used <- head(sizes, 1) %>% pull(size)
 
 sizes %>% 
-  filter(size >= (used + required - total)) %>% 
+  filter(size >= (required - (total - used))) %>% 
   arrange(size) %>% 
   head(1)
 ```
