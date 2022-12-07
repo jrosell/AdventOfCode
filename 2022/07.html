@@ -164,8 +164,8 @@
 <p>I build a helper function to locate the path of each line.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> <span class="cf">function</span>(path, <span class="at">dir =</span> <span class="cn">NA</span>) {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">is.na</span>(dir))) <span class="fu">return</span>(path)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(dir <span class="sc">==</span> <span class="st">".."</span>)) <span class="fu">return</span>(<span class="fu">head</span>(path, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(dir))) <span class="fu">return</span>(path)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">any</span>(dir <span class="sc">==</span> <span class="st">".."</span>)) <span class="fu">return</span>(<span class="fu">head</span>(path, <span class="sc">-</span><span class="dv">1</span>))</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(path, <span class="fu">paste0</span>(<span class="fu">tail</span>(path, <span class="dv">1</span>), <span class="st">"/"</span>, dir)))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
@@ -179,7 +179,7 @@
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_extract</span>(<span class="st">"cd (.*)"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_remove</span>(<span class="st">"cd "</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">c</span>(<span class="fu">accumulate</span>(path, cd))) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">accumulate</span>(path, cd)) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(path)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>paths <span class="sc">%&gt;%</span> </span>
@@ -302,8 +302,8 @@
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> <span class="cf">function</span>(path, <span class="at">dir =</span> <span class="cn">NA</span>) {</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">is.na</span>(dir))) <span class="fu">return</span>(path)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(dir <span class="sc">==</span> <span class="st">".."</span>)) <span class="fu">return</span>(<span class="fu">head</span>(path, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(dir))) <span class="fu">return</span>(path)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">any</span>(dir <span class="sc">==</span> <span class="st">".."</span>)) <span class="fu">return</span>(<span class="fu">head</span>(path, <span class="sc">-</span><span class="dv">1</span>))</span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(path, <span class="fu">paste0</span>(<span class="fu">tail</span>(path, <span class="dv">1</span>), <span class="st">"/"</span>, dir)))</span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
@@ -312,7 +312,7 @@
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_extract</span>(<span class="st">"cd (.*)"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_remove</span>(<span class="st">"cd "</span>)</span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">c</span>(<span class="fu">accumulate</span>(path, cd))) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">accumulate</span>(path, cd)) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(path) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(line, <span class="st">"^[0-9]"</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(path) <span class="sc">%&gt;%</span> </span>

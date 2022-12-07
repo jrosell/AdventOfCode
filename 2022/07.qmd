@@ -27,8 +27,8 @@ I build a helper function to locate the path of each line.
 
 ```{r}
 cd <- function(path, dir = NA) {
-    if(any(is.na(dir))) return(path)
-    if(any(dir == "..")) return(head(path, -1))
+    if (any(is.na(dir))) return(path)
+    if (any(dir == "..")) return(head(path, -1))
     return(c(path, paste0(tail(path, 1), "/", dir)))
 }
 
@@ -39,7 +39,7 @@ paths <- data %>%
           str_extract("cd (.*)") %>% 
           str_remove("cd ")
     ) %>% 
-    mutate(path = c(accumulate(path, cd))) %>% 
+    mutate(path = accumulate(path, cd)) %>% 
     unnest(path)
 
 paths %>% 
@@ -96,8 +96,8 @@ data <-
     )
 
 cd <- function(path, dir = NA) {
-    if(any(is.na(dir))) return(path)
-    if(any(dir == "..")) return(head(path, -1))
+    if (any(is.na(dir))) return(path)
+    if (any(dir == "..")) return(head(path, -1))
     return(c(path, paste0(tail(path, 1), "/", dir)))
 }
 
@@ -106,7 +106,7 @@ sizes <- data %>%
           str_extract("cd (.*)") %>% 
           str_remove("cd ")
     ) %>% 
-    mutate(path = c(accumulate(path, cd))) %>% 
+    mutate(path = accumulate(path, cd)) %>% 
     unnest(path) %>% 
     filter(str_detect(line, "^[0-9]")) %>% 
     group_by(path) %>% 
