@@ -161,7 +161,7 @@
 # … with 1,057 more rows</code></pre>
 </div>
 </div>
-<p>I build a helper function to locate the path of each line.</p>
+<p>I build a helper function to locate the path of each line using purrr::accumulate. <a href="https://twitter.com/drob/status/1600360338498764800"><span class="citation" data-cites="drob">@drob</span>, thanks for your tip</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> <span class="cf">function</span>(path, <span class="at">dir =</span> <span class="cn">NA</span>) {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(dir))) <span class="fu">return</span>(path)</span>

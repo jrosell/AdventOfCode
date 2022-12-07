@@ -23,7 +23,7 @@ data <-
 data %>% print(n = 30)
 ```
 
-I build a helper function to locate the path of each line.
+I build a helper function to locate the path of each line using purrr::accumulate. [@drob, thanks for your tip](https://twitter.com/drob/status/1600360338498764800)
 
 ```{r}
 cd <- function(path, dir = NA) {
