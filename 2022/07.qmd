@@ -73,19 +73,19 @@ sizes %>%
 Solution for part 2:
 
 ```{r}
-total_space <- 70000000
-required_space <- 30000000
-used_space <- head(sizes, 1) %>% pull(size)
+total <- 70000000
+required <- 30000000
+used <- head(sizes, 1) %>% pull(size)
 
 sizes %>% 
-    filter(size >= (used_space + required_space - total_space)) %>% 
-    arrange(size) %>% 
-    head(1)
+  filter(size >= (used + required - total)) %>% 
+  arrange(size) %>% 
+  head(1)
 ```
 
-All the code for both parts:
+## Solution
 
-```{r}
+```{r message=FALSE, echo=TRUE, results=FALSE}
 library(tidyverse)
 
 data <- 
@@ -124,12 +124,12 @@ sizes %>%
     pull(size) %>% 
     sum()
 
-total_space <- 70000000
-required_space <- 30000000
-used_space <- head(sizes, 1) %>% pull(size)
+total <- 70000000
+required <- 30000000
+used <- head(sizes, 1) %>% pull(size)
 
 sizes %>% 
-  filter(size >= (used_space + required_space - total_space)) %>% 
+  filter(size >= (used + required - total)) %>% 
   arrange(size) %>% 
   head(1)
 ```
