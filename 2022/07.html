@@ -165,32 +165,25 @@
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> <span class="cf">function</span>(path, <span class="at">dir =</span> <span class="cn">NA</span>) {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">is.na</span>(dir))) <span class="fu">return</span>(path)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(dir <span class="sc">==</span> <span class="st">".."</span>) <span class="fu">return</span>(<span class="fu">head</span>(path, <span class="sc">-</span><span class="dv">1</span>))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(path, <span class="fu">paste0</span>(<span class="fu">tail</span>(path, <span class="dv">1</span>), dir, <span class="st">"/"</span>)))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(dir <span class="sc">==</span> <span class="st">".."</span>)) <span class="fu">return</span>(<span class="fu">head</span>(path, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(path, <span class="fu">paste0</span>(<span class="fu">tail</span>(path, <span class="dv">1</span>), <span class="st">"/"</span>, dir)))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span>(<span class="st">"c"</span>, <span class="fu">cd</span>(<span class="st">"users"</span>, <span class="fu">cd</span>(<span class="st">"jordi"</span>, <span class="fu">cd</span>(<span class="st">"docs"</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in if (dir == "..") return(head(path, -1)): the condition has length &gt; 1
-and only the first element will be used
-
-Warning in if (dir == "..") return(head(path, -1)): the condition has length &gt; 1
-and only the first element will be used</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "c"                  "cusers/"            "cusersjordi//"     
-[4] "cusersjordidocs///"</code></pre>
+<pre><code>[1] "c"                  "c/users"            "c/users/jordi"     
+[4] "c/users/jordi/docs"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> line <span class="sc">%&gt;%</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_extract</span>(<span class="st">"cd (.*)"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_remove</span>(<span class="st">"cd "</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">c</span>(<span class="fu">accumulate</span>(path, cd))) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(path)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>paths <span class="sc">%&gt;%</span> </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> line <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_extract</span>(<span class="st">"cd (.*)"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_remove</span>(<span class="st">"cd "</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">c</span>(<span class="fu">accumulate</span>(path, cd))) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(path)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>paths <span class="sc">%&gt;%</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6,246 × 2
    line                path             
@@ -206,71 +199,71 @@ and only the first element will be used</code></pre>
  9 dir vpfdwq          /                
 10 dir zzp             /                
 11 $ cd bfbjzfd        /                
-12 $ cd bfbjzfd        /bfbjzfd/        
+12 $ cd bfbjzfd        //bfbjzfd        
 13 $ ls                /                
-14 $ ls                /bfbjzfd/        
+14 $ ls                //bfbjzfd        
 15 125000 bmzjjgzc.dcr /                
-16 125000 bmzjjgzc.dcr /bfbjzfd/        
+16 125000 bmzjjgzc.dcr //bfbjzfd        
 17 dir brmgzjp         /                
-18 dir brmgzjp         /bfbjzfd/        
+18 dir brmgzjp         //bfbjzfd        
 19 165351 hgm          /                
-20 165351 hgm          /bfbjzfd/        
+20 165351 hgm          //bfbjzfd        
 21 dir rhrqttg         /                
-22 dir rhrqttg         /bfbjzfd/        
+22 dir rhrqttg         //bfbjzfd        
 23 dir zfdc            /                
-24 dir zfdc            /bfbjzfd/        
+24 dir zfdc            //bfbjzfd        
 25 $ cd brmgzjp        /                
-26 $ cd brmgzjp        /bfbjzfd/        
-27 $ cd brmgzjp        /bfbjzfd/brmgzjp/
+26 $ cd brmgzjp        //bfbjzfd        
+27 $ cd brmgzjp        //bfbjzfd/brmgzjp
 28 $ ls                /                
-29 $ ls                /bfbjzfd/        
-30 $ ls                /bfbjzfd/brmgzjp/
+29 $ ls                //bfbjzfd        
+30 $ ls                //bfbjzfd/brmgzjp
 31 298676 zzp.wrm      /                
-32 298676 zzp.wrm      /bfbjzfd/        
-33 298676 zzp.wrm      /bfbjzfd/brmgzjp/
+32 298676 zzp.wrm      //bfbjzfd        
+33 298676 zzp.wrm      //bfbjzfd/brmgzjp
 34 $ cd ..             /                
-35 $ cd ..             /bfbjzfd/        
+35 $ cd ..             //bfbjzfd        
 36 $ cd rhrqttg        /                
-37 $ cd rhrqttg        /bfbjzfd/        
-38 $ cd rhrqttg        /bfbjzfd/rhrqttg/
+37 $ cd rhrqttg        //bfbjzfd        
+38 $ cd rhrqttg        //bfbjzfd/rhrqttg
 39 $ ls                /                
-40 $ ls                /bfbjzfd/        
+40 $ ls                //bfbjzfd        
 # … with 6,206 more rows</code></pre>
 </div>
 </div>
 <p>I group and summarize the sizes and thenfilter to get the sum of sizes:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> paths <span class="sc">%&gt;%</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(line, <span class="st">"^[0-9]"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(path) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">size =</span> line <span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">str_extract</span>(<span class="st">"^[0-9]+"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.numeric</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sum</span>()</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="sc">-</span>size)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>sizes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> paths <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(line, <span class="st">"^[0-9]"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(path) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">size =</span> line <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">str_extract</span>(<span class="st">"^[0-9]+"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.numeric</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sum</span>()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="sc">-</span>size)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>sizes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 199 × 2
    path                              size
    &lt;chr&gt;                            &lt;dbl&gt;
  1 /                             47052440
- 2 /psqmv/                       23595140
- 3 /psqmv/tbcz/                  21231784
- 4 /vpfdwq/                      17348139
- 5 /psqmv/tbcz/lwmjgnh/          15124476
- 6 /vpfdwq/zzp/                  11958790
- 7 /vpfdwq/zzp/zbdpt/            10519770
- 8 /psqmv/tbcz/lwmjgnh/pnhcpprn/  7278116
- 9 /vpfdwq/zzp/zbdpt/jjmfpmnn/    7268994
-10 /psqmv/tbcz/lwmjgnh/zbprw/     5616207
+ 2 //psqmv                       23595140
+ 3 //psqmv/tbcz                  21231784
+ 4 //vpfdwq                      17348139
+ 5 //psqmv/tbcz/lwmjgnh          15124476
+ 6 //vpfdwq/zzp                  11958790
+ 7 //vpfdwq/zzp/zbdpt            10519770
+ 8 //psqmv/tbcz/lwmjgnh/pnhcpprn  7278116
+ 9 //vpfdwq/zzp/zbdpt/jjmfpmnn    7268994
+10 //psqmv/tbcz/lwmjgnh/zbprw     5616207
 # … with 189 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(size <span class="sc">&lt;</span> <span class="dv">100000</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(size) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(size <span class="sc">&lt;</span> <span class="dv">100000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(size) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1232307</code></pre>
 </div>
@@ -280,91 +273,91 @@ and only the first element will be used</code></pre>
 <h2 class="anchored" data-anchor-id="part-2-find-the-smallest-directory-that-if-deleted-would-free-up-enough-space-on-the-filesystem-to-run-the-update.-what-is-the-total-size-of-that-directory">Part 2: Find the smallest directory that, if deleted, would free up enough space on the filesystem to run the update. What is the total size of that directory?</h2>
 <p>Solution for part 2:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>total_space <span class="ot">&lt;-</span> <span class="dv">70000000</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>required_space <span class="ot">&lt;-</span> <span class="dv">30000000</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>used_space <span class="ot">&lt;-</span> <span class="fu">head</span>(sizes, <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(size)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>sizes <span class="sc">%&gt;%</span> </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(size <span class="sc">&gt;=</span> (used_space <span class="sc">+</span> required_space <span class="sc">-</span> total_space)) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(size) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>total_space <span class="ot">&lt;-</span> <span class="dv">70000000</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>required_space <span class="ot">&lt;-</span> <span class="dv">30000000</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>used_space <span class="ot">&lt;-</span> <span class="fu">head</span>(sizes, <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(size)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>sizes <span class="sc">%&gt;%</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(size <span class="sc">&gt;=</span> (used_space <span class="sc">+</span> required_space <span class="sc">-</span> total_space)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(size) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   path                           size
   &lt;chr&gt;                         &lt;dbl&gt;
-1 /vpfdwq/zzp/zbdpt/jjmfpmnn/ 7268994</code></pre>
+1 //vpfdwq/zzp/zbdpt/jjmfpmnn 7268994</code></pre>
 </div>
 </div>
 <p>All the code for both parts:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2022/07_input"</span>),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"line"</span>),</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> <span class="cf">function</span>(path, <span class="at">dir =</span> <span class="cn">NA</span>) {</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">is.na</span>(dir))) <span class="fu">return</span>(path)</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(dir <span class="sc">==</span> <span class="st">".."</span>) <span class="fu">return</span>(<span class="fu">head</span>(path, <span class="sc">-</span><span class="dv">1</span>))</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(path, <span class="fu">paste0</span>(<span class="fu">tail</span>(path, <span class="dv">1</span>), dir, <span class="st">"/"</span>)))</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> line <span class="sc">%&gt;%</span> </span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_extract</span>(<span class="st">"cd (.*)"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_remove</span>(<span class="st">"cd "</span>)</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">c</span>(<span class="fu">accumulate</span>(path, cd))) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(path) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(line, <span class="st">"^[0-9]"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(path) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">size =</span> line <span class="sc">%&gt;%</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">str_extract</span>(<span class="st">"^[0-9]+"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.numeric</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sum</span>()</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="sc">-</span>size)</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>sizes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2022/07_input"</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"line"</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> <span class="cf">function</span>(path, <span class="at">dir =</span> <span class="cn">NA</span>) {</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">is.na</span>(dir))) <span class="fu">return</span>(path)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">any</span>(dir <span class="sc">==</span> <span class="st">".."</span>)) <span class="fu">return</span>(<span class="fu">head</span>(path, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(path, <span class="fu">paste0</span>(<span class="fu">tail</span>(path, <span class="dv">1</span>), <span class="st">"/"</span>, dir)))</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> line <span class="sc">%&gt;%</span> </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_extract</span>(<span class="st">"cd (.*)"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_remove</span>(<span class="st">"cd "</span>)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">c</span>(<span class="fu">accumulate</span>(path, cd))) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(path) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(line, <span class="st">"^[0-9]"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(path) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">size =</span> line <span class="sc">%&gt;%</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">str_extract</span>(<span class="st">"^[0-9]+"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.numeric</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sum</span>()</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="sc">-</span>size)</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>sizes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 199 × 2
    path                              size
    &lt;chr&gt;                            &lt;dbl&gt;
  1 /                             47052440
- 2 /psqmv/                       23595140
- 3 /psqmv/tbcz/                  21231784
- 4 /vpfdwq/                      17348139
- 5 /psqmv/tbcz/lwmjgnh/          15124476
- 6 /vpfdwq/zzp/                  11958790
- 7 /vpfdwq/zzp/zbdpt/            10519770
- 8 /psqmv/tbcz/lwmjgnh/pnhcpprn/  7278116
- 9 /vpfdwq/zzp/zbdpt/jjmfpmnn/    7268994
-10 /psqmv/tbcz/lwmjgnh/zbprw/     5616207
+ 2 //psqmv                       23595140
+ 3 //psqmv/tbcz                  21231784
+ 4 //vpfdwq                      17348139
+ 5 //psqmv/tbcz/lwmjgnh          15124476
+ 6 //vpfdwq/zzp                  11958790
+ 7 //vpfdwq/zzp/zbdpt            10519770
+ 8 //psqmv/tbcz/lwmjgnh/pnhcpprn  7278116
+ 9 //vpfdwq/zzp/zbdpt/jjmfpmnn    7268994
+10 //psqmv/tbcz/lwmjgnh/zbprw     5616207
 # … with 189 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(size <span class="sc">&lt;</span> <span class="dv">100000</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(size) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(size <span class="sc">&lt;</span> <span class="dv">100000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(size) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1232307</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>total_space <span class="ot">&lt;-</span> <span class="dv">70000000</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>required_space <span class="ot">&lt;-</span> <span class="dv">30000000</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>used_space <span class="ot">&lt;-</span> <span class="fu">head</span>(sizes, <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(size)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>sizes <span class="sc">%&gt;%</span> </span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(size <span class="sc">&gt;=</span> (used_space <span class="sc">+</span> required_space <span class="sc">-</span> total_space)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(size) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>total_space <span class="ot">&lt;-</span> <span class="dv">70000000</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>required_space <span class="ot">&lt;-</span> <span class="dv">30000000</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>used_space <span class="ot">&lt;-</span> <span class="fu">head</span>(sizes, <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(size)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>sizes <span class="sc">%&gt;%</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(size <span class="sc">&gt;=</span> (used_space <span class="sc">+</span> required_space <span class="sc">-</span> total_space)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(size) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   path                           size
   &lt;chr&gt;                         &lt;dbl&gt;
-1 /vpfdwq/zzp/zbdpt/jjmfpmnn/ 7268994</code></pre>
+1 //vpfdwq/zzp/zbdpt/jjmfpmnn 7268994</code></pre>
 </div>
 </div>
 

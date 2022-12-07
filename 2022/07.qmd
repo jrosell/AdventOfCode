@@ -28,8 +28,8 @@ I build a helper function to locate the path of each line.
 ```{r}
 cd <- function(path, dir = NA) {
     if(any(is.na(dir))) return(path)
-    if(dir == "..") return(head(path, -1))
-    return(c(path, paste0(tail(path, 1), dir, "/")))
+    if(any(dir == "..")) return(head(path, -1))
+    return(c(path, paste0(tail(path, 1), "/", dir)))
 }
 
 cd("c", cd("users", cd("jordi", cd("docs"))))
@@ -97,8 +97,8 @@ data <-
 
 cd <- function(path, dir = NA) {
     if(any(is.na(dir))) return(path)
-    if(dir == "..") return(head(path, -1))
-    return(c(path, paste0(tail(path, 1), dir, "/")))
+    if(any(dir == "..")) return(head(path, -1))
+    return(c(path, paste0(tail(path, 1), "/", dir)))
 }
 
 sizes <- data %>% 
