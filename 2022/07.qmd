@@ -62,7 +62,7 @@ sizes <- paths %>%
 sizes
 
 sizes %>% 
-   filter(size < 100000) %>% 
+    filter(size < 100000) %>% 
     pull(size) %>% 
     sum()
 
