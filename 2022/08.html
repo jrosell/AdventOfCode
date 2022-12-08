@@ -484,7 +484,7 @@ $distances[[1]]
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>scores: 80.869 sec elapsed</code></pre>
+<pre><code>scores: 76.494 sec elapsed</code></pre>
 </div>
 </div>
 </section>
@@ -527,66 +527,45 @@ $distances[[1]]
 <span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">right =</span> <span class="fu">rev</span>(<span class="fu">is_visible</span>(<span class="fu">rev</span>(value)))) <span class="sc">%&gt;%</span> </span>
 <span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">visible =</span> top <span class="sc">+</span> bottom <span class="sc">+</span> left <span class="sc">+</span> right) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">visible =</span> <span class="fu">sum</span>(visible <span class="sc">&gt;</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 1
-  visible
-    &lt;int&gt;
-1    1832</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>direcctions_up <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x, y) {</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(row <span class="sc">&lt;</span> x, col <span class="sc">==</span> y) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> <span class="fu">rev</span>() <span class="sc">%&gt;%</span> <span class="fu">list</span>()</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>direcctions_down <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x, y) {</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(row <span class="sc">&gt;</span> x, col <span class="sc">==</span> y) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> <span class="fu">list</span>()</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>direcctions_right <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x, y) {</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(row <span class="sc">==</span> x, col <span class="sc">&gt;</span> y) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> <span class="fu">list</span>()</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>direcctions_left <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x, y) {</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(row <span class="sc">==</span> x, col <span class="sc">&lt;</span> y) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> <span class="fu">rev</span>() <span class="sc">%&gt;%</span> <span class="fu">list</span>()</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>distances <span class="ot">&lt;-</span> <span class="cf">function</span>(value, row, col, up, left, down, right) {</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    d_up <span class="ot">&lt;-</span> d_down <span class="ot">&lt;-</span> d_right <span class="ot">&lt;-</span> d_left <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(up) <span class="sc">&gt;</span> <span class="dv">0</span>) d_up <span class="ot">&lt;-</span> value <span class="sc">&gt;</span> <span class="fu">visible_vec</span>(<span class="fu">unlist</span>(up))</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(left) <span class="sc">&gt;</span> <span class="dv">0</span>) d_left <span class="ot">&lt;-</span> value <span class="sc">&gt;</span> <span class="fu">visible_vec</span>(<span class="fu">unlist</span>(left))</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(down) <span class="sc">&gt;</span> <span class="dv">0</span>) d_down <span class="ot">&lt;-</span> value <span class="sc">&gt;</span> <span class="fu">visible_vec</span>(<span class="fu">unlist</span>(down))</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(right) <span class="sc">&gt;</span> <span class="dv">0</span>) d_right <span class="ot">&lt;-</span> value <span class="sc">&gt;</span> <span class="fu">visible_vec</span>(<span class="fu">unlist</span>(right))</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="fu">c</span>(<span class="fu">sum</span>(d_up), <span class="fu">sum</span>(d_left), <span class="fu">sum</span>(d_down), <span class="fu">sum</span>(d_right)))</span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic</span>(<span class="st">"scores"</span>)</span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">up =</span> <span class="fu">direcctions_up</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">down =</span> <span class="fu">direcctions_down</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">right =</span> <span class="fu">direcctions_right</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">left =</span> <span class="fu">direcctions_left</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">distances =</span> <span class="fu">distances</span>(</span>
-<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>    value, row, col, up, left, down, right</span>
-<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scenic_score =</span> <span class="fu">prod</span>(distances)) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>scenic_score)</span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 9
-# Rowwise: 
-  value   col   row up         down       right      left       distan…¹ sceni…²
-  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;list&gt;     &lt;list&gt;     &lt;list&gt;     &lt;list&gt;     &lt;list&gt;     &lt;dbl&gt;
-1     8    24    61 &lt;int [60]&gt; &lt;int [38]&gt; &lt;int [75]&gt; &lt;int [23]&gt; &lt;int&gt;     157320
-2     8    25    60 &lt;int [59]&gt; &lt;int [39]&gt; &lt;int [74]&gt; &lt;int [24]&gt; &lt;int&gt;     146016
-3     6    48    94 &lt;int [93]&gt; &lt;int [5]&gt;  &lt;int [51]&gt; &lt;int [47]&gt; &lt;int&gt;     119850
-4     8    78    41 &lt;int [40]&gt; &lt;int [58]&gt; &lt;int [21]&gt; &lt;int [77]&gt; &lt;int&gt;     114240
-5     7    15    52 &lt;int [51]&gt; &lt;int [47]&gt; &lt;int [84]&gt; &lt;int [14]&gt; &lt;int&gt;     100674
-6     8    46    29 &lt;int [28]&gt; &lt;int [70]&gt; &lt;int [53]&gt; &lt;int [45]&gt; &lt;int&gt;      95400
-# … with abbreviated variable names ¹​distances, ²​scenic_score</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>scores: 76.69 sec elapsed</code></pre>
-</div>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">visible =</span> <span class="fu">sum</span>(visible <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>direcctions_up <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x, y) {</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(row <span class="sc">&lt;</span> x, col <span class="sc">==</span> y) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> <span class="fu">rev</span>() <span class="sc">%&gt;%</span> <span class="fu">list</span>()</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>direcctions_down <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x, y) {</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(row <span class="sc">&gt;</span> x, col <span class="sc">==</span> y) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> <span class="fu">list</span>()</span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>direcctions_right <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x, y) {</span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(row <span class="sc">==</span> x, col <span class="sc">&gt;</span> y) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> <span class="fu">list</span>()</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>direcctions_left <span class="ot">&lt;-</span> <span class="cf">function</span>(df, x, y) {</span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(row <span class="sc">==</span> x, col <span class="sc">&lt;</span> y) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> <span class="fu">rev</span>() <span class="sc">%&gt;%</span> <span class="fu">list</span>()</span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>distances <span class="ot">&lt;-</span> <span class="cf">function</span>(value, row, col, up, left, down, right) {</span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>    d_up <span class="ot">&lt;-</span> d_down <span class="ot">&lt;-</span> d_right <span class="ot">&lt;-</span> d_left <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(up) <span class="sc">&gt;</span> <span class="dv">0</span>) d_up <span class="ot">&lt;-</span> value <span class="sc">&gt;</span> <span class="fu">visible_vec</span>(<span class="fu">unlist</span>(up))</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(left) <span class="sc">&gt;</span> <span class="dv">0</span>) d_left <span class="ot">&lt;-</span> value <span class="sc">&gt;</span> <span class="fu">visible_vec</span>(<span class="fu">unlist</span>(left))</span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(down) <span class="sc">&gt;</span> <span class="dv">0</span>) d_down <span class="ot">&lt;-</span> value <span class="sc">&gt;</span> <span class="fu">visible_vec</span>(<span class="fu">unlist</span>(down))</span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(right) <span class="sc">&gt;</span> <span class="dv">0</span>) d_right <span class="ot">&lt;-</span> value <span class="sc">&gt;</span> <span class="fu">visible_vec</span>(<span class="fu">unlist</span>(right))</span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="fu">c</span>(<span class="fu">sum</span>(d_up), <span class="fu">sum</span>(d_left), <span class="fu">sum</span>(d_down), <span class="fu">sum</span>(d_right)))</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic</span>(<span class="st">"scores"</span>)</span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">up =</span> <span class="fu">direcctions_up</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">down =</span> <span class="fu">direcctions_down</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">right =</span> <span class="fu">direcctions_right</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">left =</span> <span class="fu">direcctions_left</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">distances =</span> <span class="fu">distances</span>(</span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>    value, row, col, up, left, down, right</span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scenic_score =</span> <span class="fu">prod</span>(distances)) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>scenic_score)</span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(scores)</span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section>
