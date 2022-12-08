@@ -105,7 +105,7 @@ test %>%
 
 The result: 1832
 
-```{r}
+```{r part1}
 data %>% 
   group_by(col) %>% 
   mutate(top = is_visible(value)) %>% 
@@ -223,7 +223,7 @@ ret
 
 Here the results for most probable winner:
 
-```{r scores}
+```{r part2}
 tictoc::tic("scores")
 scores <- data %>% 
   filter(value > 5) %>% 
@@ -241,4 +241,82 @@ head(scores)
 tictoc::toc()
 ```
 
+## Solution
 
+```{r solution, message=FALSE, echo=TRUE, results=FALSE}
+library(tidyverse)
+library(slider)
+
+make_grid <- function(df, var = "line") {
+    var <- sym(var)
+    df %>% 
+        transmute(value = stringr::str_split(!!var, "")) %>% 
+        mutate(row = row_number()) %>% 
+        unnest_longer(value, indices_to = "col") %>% 
+        mutate(value = as.integer(value))
+}
+
+data <- here::here("2022/08_input") %>% 
+    read_csv(
+      col_names = c("line"),
+      show_col_types = FALSE
+    ) %>% 
+    make_grid()
+
+visible_vec <- function(line) {
+  line %>% accumulate(max) %>% lag(default = -1)
+}
+
+is_visible <- function(line) {
+  line > visible_vec(line)
+}
+
+data %>% 
+  group_by(col) %>% 
+  mutate(top = is_visible(value)) %>% 
+  mutate(bottom = rev(is_visible(rev(value)))) %>% 
+  group_by(row) %>% 
+  mutate(left = is_visible(value)) %>% 
+  mutate(right = rev(is_visible(rev(value)))) %>% 
+  ungroup() %>% 
+  mutate(visible = top + bottom + left + right) %>% 
+  summarise(visible = sum(visible > 0))
+
+direcctions_up <- function(df, x, y) {
+  df %>% filter(row < x, col == y) %>% pull(value) %>% rev() %>% list()
+}
+direcctions_down <- function(df, x, y) {
+  df %>% filter(row > x, col == y) %>% pull(value) %>% list()
+}
+direcctions_right <- function(df, x, y) {
+  df %>% filter(row == x, col > y) %>% pull(value) %>% list()
+}
+direcctions_left <- function(df, x, y) {
+  df %>% filter(row == x, col < y) %>% pull(value) %>% rev() %>% list()
+}
+
+distances <- function(value, row, col, up, left, down, right) {
+    d_up <- d_down <- d_right <- d_left <- 0
+    if (length(up) > 0) d_up <- value > visible_vec(unlist(up))
+    if (length(left) > 0) d_left <- value > visible_vec(unlist(left))
+    if (length(down) > 0) d_down <- value > visible_vec(unlist(down))
+    if (length(right) > 0) d_right <- value > visible_vec(unlist(right))
+    list(c(sum(d_up), sum(d_left), sum(d_down), sum(d_right)))
+  }
+
+tictoc::tic("scores")
+scores <- data %>% 
+  filter(value > 5) %>% 
+  rowwise() %>% 
+  mutate(up = direcctions_up(data, row, col)) %>% 
+  mutate(down = direcctions_down(data, row, col)) %>% 
+  mutate(right = direcctions_right(data, row, col)) %>% 
+  mutate(left = direcctions_left(data, row, col)) %>% 
+  mutate(distances = distances(
+    value, row, col, up, left, down, right
+  )) %>% 
+  mutate(scenic_score = prod(distances)) %>% 
+  arrange(-scenic_score)
+head(scores)
+tictoc::toc()
+```
