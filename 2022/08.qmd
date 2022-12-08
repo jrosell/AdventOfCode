@@ -168,7 +168,7 @@ I build a helper function to compute the distance for each direction:
 
 ```{r}
 distances <- function(value, row, col, up, left, down, right) {
-    print(paste("distances:", row, col))
+    # print(paste("distances:", row, col))
     d_up <- d_down <- d_right <- d_left <- 0
     if (length(up) > 0) d_up <- value > visible_vec(unlist(up))
     if (length(left) > 0) d_left <- value > visible_vec(unlist(left))
@@ -221,10 +221,10 @@ ret
 
 Here the results for most probable winner:
 
-```{r}
+```{r scores}
 tictoc::tic("scores")
 scores <- data %>% 
-  filter(value > 7) %>% 
+  filter(value > 6) %>% 
   rowwise() %>% 
   mutate(up = direcctions_up(data, row, col)) %>% 
   mutate(down = direcctions_down(data, row, col)) %>% 
