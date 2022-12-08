@@ -1,0 +1,240 @@
+---
+title: "Day 8"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
+## Part 1: Consider your map; how many trees are visible from outside the grid?
+
+I manually downloaded my personal [day 8 input file](https://adventofcode.com/2022/day/8) as a logged user, and here I get the data in a more appropriate shape.
+
+```{r}
+library(tidyverse)
+library(slider)
+
+make_grid <- function(df, var = "line") {
+    var <- sym(var)
+    df %>% 
+        transmute(value = stringr::str_split(!!var, "")) %>% 
+        mutate(row = row_number()) %>% 
+        unnest_longer(value, indices_to = "col") %>% 
+        mutate(value = as.integer(value))
+}
+
+data <- here::here("2022/08_input") %>% 
+    read_csv(
+      col_names = c("line"),
+      show_col_types = FALSE
+    ) %>% 
+    make_grid()
+
+data
+```
+
+When having this input:
+
+```{=html}
+<pre>
+30373
+25512
+65332
+33549
+35390
+</pre>
+```
+We expect this output: 21 trees visible (16 trees visible on the edge and 5 in the interior)
+
+-   All of the trees around the edge of the grid are visible
+-   The top-left 5 is visible from the left and top.
+-   The top-middle 5 is visible from the top and right.
+-   The top-right 1 is not visible from any direction.
+-   The left-middle 5 is visible, but only from the right.
+-   The center 3 is not visible from any direction; for it to be visible, there would need to be only trees of at most height 2 between it and an edge.
+-   The right-middle 3 is visible from the right.
+-   In the bottom row, the middle 5 is visible, but the 3 and 4 are not.
+
+```{r}
+
+visible_vec <- function(line) {
+  line %>% accumulate(max) %>% lag(default = -1)
+}
+
+is_visible <- function(line) {
+  line > visible_vec(line)
+}
+  
+test <-
+  tribble(
+      ~line,
+      "30373",
+      "255122",
+      "65332",
+      "33549",
+      "35390"
+    ) %>% 
+    make_grid()
+
+
+test %>% 
+  group_by(col) %>% 
+  mutate(top = is_visible(value)) %>% 
+  group_by(row) %>% 
+  mutate(left = is_visible(value)) %>% 
+  filter(row == 2, col == 2)
+
+test %>% 
+  group_by(col) %>% 
+  mutate(top = is_visible(value)) %>% 
+  group_by(row) %>% 
+  mutate(left = is_visible(value)) %>% 
+  mutate(right = rev(is_visible(rev(value)))) %>% 
+  filter(row == 2, col == 3)
+
+test %>% 
+  group_by(col) %>% 
+  mutate(top = is_visible(value)) %>% 
+  mutate(bottom = rev(is_visible(rev(value)))) %>% 
+  group_by(row) %>% 
+  mutate(left = is_visible(value)) %>% 
+  mutate(right = rev(is_visible(rev(value)))) %>% 
+  filter(row == 4, col == 3)
+
+```
+
+The result: 1832
+
+```{r}
+data %>% 
+  group_by(col) %>% 
+  mutate(top = is_visible(value)) %>% 
+  mutate(bottom = rev(is_visible(rev(value)))) %>% 
+  group_by(row) %>% 
+  mutate(left = is_visible(value)) %>% 
+  mutate(right = rev(is_visible(rev(value)))) %>% 
+  ungroup() %>% 
+  mutate(visible = top + bottom + left + right) %>% 
+  summarise(visible = sum(visible > 0))
+
+```
+
+## Part 2: Consider each tree on your map. What is the highest scenic score possible for any tree?
+
+In the example above, consider the middle 5 in the second row:
+
+```{=html}
+<pre>
+30373
+25512
+65332
+33549
+35390
+</pre>
+```
+-   Looking up, its view is not blocked; it can see 1 tree (of height 3).
+-   Looking left, its view is blocked immediately; it can see only 1 tree (of height 5, right next to it).
+-   Looking right, its view is not blocked; it can see 2 trees.
+-   Looking down, its view is blocked eventually; it can see 2 trees (one of height 3, then the tree of height 5 that blocks its view).
+
+A tree's scenic score is found by multiplying together its viewing distance in each of the four directions. For this tree, this is 4 (found by multiplying 1 \* 1 \* 2 \* 2).
+
+I build helper functions to get the cell for each direction:
+
+```{r}
+direcctions_up <- function(df, x, y) {
+  df %>% filter(row < x, col == y) %>% pull(value) %>% rev() %>% list()
+}
+direcctions_down <- function(df, x, y) {
+  df %>% filter(row > x, col == y) %>% pull(value) %>% list()
+}
+direcctions_right <- function(df, x, y) {
+  df %>% filter(row == x, col > y) %>% pull(value) %>% list()
+}
+direcctions_left <- function(df, x, y) {
+  df %>% filter(row == x, col < y) %>% pull(value) %>% rev() %>% list()
+}
+test %>% 
+  filter(row == 3, col == 3) %>% 
+  mutate(up = direcctions_up(test, row, col)) %>% 
+  mutate(down = direcctions_down(test, row, col)) %>% 
+  mutate(right = direcctions_right(test, row, col)) %>% 
+  mutate(left = direcctions_left(test, row, col)) %>% 
+  select(up, down, right, left) %>% 
+  as.list()
+```
+
+I build a helper function to compute the distance for each direction:
+
+```{r}
+distances <- function(value, row, col, up, left, down, right) {
+    print(paste("distances:", row, col))
+    d_up <- d_down <- d_right <- d_left <- 0
+    if (length(up) > 0) d_up <- value > visible_vec(unlist(up))
+    if (length(left) > 0) d_left <- value > visible_vec(unlist(left))
+    if (length(down) > 0) d_down <- value > visible_vec(unlist(down))
+    if (length(right) > 0) d_right <- value > visible_vec(unlist(right))
+    list(c(sum(d_up), sum(d_left), sum(d_down), sum(d_right)))
+  }
+
+
+test %>% 
+  rowwise() %>% 
+  filter(row == 4, col == 3) %>% 
+  mutate(up = direcctions_up(test, row, col)) %>% 
+  mutate(down = direcctions_down(test, row, col)) %>% 
+  mutate(right = direcctions_right(test, row, col)) %>% 
+  mutate(left = direcctions_left(test, row, col)) %>% 
+  mutate(distances = distances(value, row, col, up, left, down, right)) %>% 
+  ungroup() %>% 
+  as.list()
+```
+
+Here the test results:
+
+```{r}
+# options(max.print = 10000)
+test %>% 
+  rowwise() %>% 
+  mutate(up = direcctions_up(test, row, col)) %>% 
+  mutate(down = direcctions_down(test, row, col)) %>% 
+  mutate(right = direcctions_right(test, row, col)) %>% 
+  mutate(left = direcctions_left(test, row, col)) %>% 
+  mutate(distances = distances(value, row, col, up, left, down, right)) %>% 
+  mutate(scenic_score = prod(distances)) %>% 
+  arrange(-scenic_score)
+```
+
+Here one example from my data:
+
+```{r}
+ret <-  data %>% 
+  filter(row == 43, col == 48) %>% 
+  mutate(up = direcctions_up(data, row, col)) %>% 
+  mutate(down = direcctions_down(data, row, col)) %>% 
+  mutate(right = direcctions_right(data, row, col)) %>% 
+  mutate(left = direcctions_left(data, row, col)) %>% 
+  mutate(distances = distances(value, row, col, up, left, down, right)) %>% 
+  as.list()
+ret
+```
+
+Here the results for most probable winner:
+
+```{r}
+tictoc::tic("scores")
+scores <- data %>% 
+  filter(value > 7) %>% 
+  rowwise() %>% 
+  mutate(up = direcctions_up(data, row, col)) %>% 
+  mutate(down = direcctions_down(data, row, col)) %>% 
+  mutate(right = direcctions_right(data, row, col)) %>% 
+  mutate(left = direcctions_left(data, row, col)) %>% 
+  mutate(distances = distances(value, row, col, up, left, down, right)) %>% 
+  mutate(scenic_score = prod(distances)) %>% 
+  arrange(-scenic_score)
+head(scores)
+tictoc::toc()
+```
+
+
