@@ -409,9 +409,11 @@ $distances[[1]]
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">down =</span> <span class="fu">direcctions_down</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">right =</span> <span class="fu">direcctions_right</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">left =</span> <span class="fu">direcctions_left</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">distances =</span> <span class="fu">distances</span>(value, row, col, up, left, down, right)) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.list</span>()</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>ret</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">distances =</span> <span class="fu">distances</span>(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    value, row, col, up, left, down, right</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.list</span>()</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>ret</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$value
 [1] 9
@@ -455,16 +457,18 @@ $distances[[1]]
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic</span>(<span class="st">"scores"</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">up =</span> <span class="fu">direcctions_up</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">down =</span> <span class="fu">direcctions_down</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">right =</span> <span class="fu">direcctions_right</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">left =</span> <span class="fu">direcctions_left</span>(data, row, col)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">distances =</span> <span class="fu">distances</span>(value, row, col, up, left, down, right)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scenic_score =</span> <span class="fu">prod</span>(distances)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>scenic_score)</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">distances =</span> <span class="fu">distances</span>(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    value, row, col, up, left, down, right</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scenic_score =</span> <span class="fu">prod</span>(distances)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>scenic_score)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 9
 # Rowwise: 
@@ -472,15 +476,15 @@ $distances[[1]]
   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;list&gt;     &lt;list&gt;     &lt;list&gt;     &lt;list&gt;     &lt;list&gt;     &lt;dbl&gt;
 1     8    24    61 &lt;int [60]&gt; &lt;int [38]&gt; &lt;int [75]&gt; &lt;int [23]&gt; &lt;int&gt;     157320
 2     8    25    60 &lt;int [59]&gt; &lt;int [39]&gt; &lt;int [74]&gt; &lt;int [24]&gt; &lt;int&gt;     146016
-3     8    78    41 &lt;int [40]&gt; &lt;int [58]&gt; &lt;int [21]&gt; &lt;int [77]&gt; &lt;int&gt;     114240
-4     7    15    52 &lt;int [51]&gt; &lt;int [47]&gt; &lt;int [84]&gt; &lt;int [14]&gt; &lt;int&gt;     100674
-5     8    46    29 &lt;int [28]&gt; &lt;int [70]&gt; &lt;int [53]&gt; &lt;int [45]&gt; &lt;int&gt;      95400
-6     9    34    41 &lt;int [40]&gt; &lt;int [58]&gt; &lt;int [65]&gt; &lt;int [33]&gt; &lt;int&gt;      79200
+3     6    48    94 &lt;int [93]&gt; &lt;int [5]&gt;  &lt;int [51]&gt; &lt;int [47]&gt; &lt;int&gt;     119850
+4     8    78    41 &lt;int [40]&gt; &lt;int [58]&gt; &lt;int [21]&gt; &lt;int [77]&gt; &lt;int&gt;     114240
+5     7    15    52 &lt;int [51]&gt; &lt;int [47]&gt; &lt;int [84]&gt; &lt;int [14]&gt; &lt;int&gt;     100674
+6     8    46    29 &lt;int [28]&gt; &lt;int [70]&gt; &lt;int [53]&gt; &lt;int [45]&gt; &lt;int&gt;      95400
 # … with abbreviated variable names ¹​distances, ²​scenic_score</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>scores: 40.97 sec elapsed</code></pre>
+<pre><code>scores: 72.389 sec elapsed</code></pre>
 </div>
 </div>
 

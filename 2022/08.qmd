@@ -214,7 +214,9 @@ ret <-  data %>%
   mutate(down = direcctions_down(data, row, col)) %>% 
   mutate(right = direcctions_right(data, row, col)) %>% 
   mutate(left = direcctions_left(data, row, col)) %>% 
-  mutate(distances = distances(value, row, col, up, left, down, right)) %>% 
+  mutate(distances = distances(
+    value, row, col, up, left, down, right
+  )) %>% 
   as.list()
 ret
 ```
@@ -224,13 +226,15 @@ Here the results for most probable winner:
 ```{r scores}
 tictoc::tic("scores")
 scores <- data %>% 
-  filter(value > 6) %>% 
+  filter(value > 5) %>% 
   rowwise() %>% 
   mutate(up = direcctions_up(data, row, col)) %>% 
   mutate(down = direcctions_down(data, row, col)) %>% 
   mutate(right = direcctions_right(data, row, col)) %>% 
   mutate(left = direcctions_left(data, row, col)) %>% 
-  mutate(distances = distances(value, row, col, up, left, down, right)) %>% 
+  mutate(distances = distances(
+    value, row, col, up, left, down, right
+  )) %>% 
   mutate(scenic_score = prod(distances)) %>% 
   arrange(-scenic_score)
 head(scores)
