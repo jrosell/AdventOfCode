@@ -105,77 +105,133 @@ moved %>% map_chr(~paste(.x, collapse=",")) %>% unique() %>% length()
 tictoc::toc()
 ```
 
-
 ## Part 2: Simulate your complete series of motions on a larger rope with ten knots. How many positions does the tail of the rope visit at least once?
 
 ```{r}
 
-find_position <- function(status, knot) {
-    dx <- status[[knot - 1]][1] - status[[knot]][1];
-    dy <- status[[knot - 1]][2] - status[[knot]][2];
-    c(dx, dy)
-}
-
-update_status <- function(status, position, knot) {
-    dx <- position[1]
-    dy <- position[2]
-    if (abs(dx) > 1) {
-        if (dx > 0) status[[knot]][1] <- status[[knot]][1] + 1
-        if (dx < 0) status[[knot]][1] <- status[[knot]][1] - 1
-        if (dy > 0) status[[knot]][2] <- status[[knot]][2] + 1
-        if (dy < 0) status[[knot]][2] <- status[[knot]][2] - 1
-    } else if (abs(dy) > 1) {
-        if (dy > 0) status[[knot]][2] <- status[[knot]][2] + 1
-        if (dy < 0) status[[knot]][2] <- status[[knot]][2] - 1
-        if (dx > 0) status[[knot]][1] <- status[[knot]][1] + 1
-        if (dx < 0) status[[knot]][1] <- status[[knot]][1] - 1
+find_status <- function(status, rope_size) {
+    for (knot in 2:rope_size) {
+      dx <- status[[knot - 1]][1] - status[[knot]][1];
+      dy <- status[[knot - 1]][2] - status[[knot]][2];
+      if (abs(dx) > 1) {
+          if (dx > 0) status[[knot]][1] <- status[[knot]][1] + 1
+          if (dx < 0) status[[knot]][1] <- status[[knot]][1] - 1
+          if (dy > 0) status[[knot]][2] <- status[[knot]][2] + 1
+          if (dy < 0) status[[knot]][2] <- status[[knot]][2] - 1
+      } else if (abs(dy) > 1) {
+          if (dy > 0) status[[knot]][2] <- status[[knot]][2] + 1
+          if (dy < 0) status[[knot]][2] <- status[[knot]][2] - 1
+          if (dx > 0) status[[knot]][1] <- status[[knot]][1] + 1
+          if (dx < 0) status[[knot]][1] <- status[[knot]][1] - 1
+      }
     }
     status
 }
-  
+
 move_rope <- function(input, rope_size) {
     data <- pull(input) %>% str_split(" ")
     result <- list()
     status <- list()
-    for(zzz in 1:rope_size){
+    for (zzz in 1:rope_size) {
         status <- append(status, list(c(0, 0)))
     }
     for (motion in seq_along(data)) {
         direction <- data[[motion]][1]
         steps <- as.integer(data[[motion]][2])
         for (i in 1:steps) {
-            # print(paste0("motion ", motion," direction ", direction," steps ", i, "/", steps))
             status[[1]] <- c(
               status[[1]][1] + moves[[direction]][1],
               status[[1]][2] + moves[[direction]][2]
             )
-            for (knot in 2:rope_size) {
-                #print("knot")
-                # print(knot)
-                position <- find_position(status, knot)
-                status <- update_status(status, position, knot)
-            }
+            status <- find_status(status, rope_size)
             result <- append(result, status[rope_size])
-            # print(paste0("knot=",rope_size,",",status[rope_size]))
         }
     }
     result
 }
 
-moved <- move_rope(test, 2)
-moved %>% map_chr(~paste(.x, collapse=",")) %>% unique() %>% length()
+move_rope(test, 10) %>% 
+  map_chr(~paste(.x, collapse=",")) %>% 
+  unique() %>% 
+  length()
 
-moved <- move_rope(test, 10)
-moved %>% map_chr(~paste(.x, collapse=",")) %>% unique() %>% length()
+
+move_rope(data, 10) %>% 
+  map_chr(~paste(.x, collapse=",")) %>% 
+  unique() %>% 
+  length()
 ```
 
-
-Here's the result for my input:
+## Solution
 
 ```{r}
+library(tidyverse)
+
+data <- 
+    here::here("2022/09_input") %>% 
+    read_csv(
+      col_names = c("line"),
+      show_col_types = FALSE
+    )
+
+moves <- list(
+  "R" = c(1, 0),
+  "L" = c(-1, 0),
+  "U" = c(0, -1),
+  "D" = c(0, 1)
+)
+
+find_status <- function(status, rope_size) {
+    for (knot in 2:rope_size) {
+      dx <- status[[knot - 1]][1] - status[[knot]][1];
+      dy <- status[[knot - 1]][2] - status[[knot]][2];
+      if (abs(dx) > 1) {
+          if (dx > 0) status[[knot]][1] <- status[[knot]][1] + 1
+          if (dx < 0) status[[knot]][1] <- status[[knot]][1] - 1
+          if (dy > 0) status[[knot]][2] <- status[[knot]][2] + 1
+          if (dy < 0) status[[knot]][2] <- status[[knot]][2] - 1
+      } else if (abs(dy) > 1) {
+          if (dy > 0) status[[knot]][2] <- status[[knot]][2] + 1
+          if (dy < 0) status[[knot]][2] <- status[[knot]][2] - 1
+          if (dx > 0) status[[knot]][1] <- status[[knot]][1] + 1
+          if (dx < 0) status[[knot]][1] <- status[[knot]][1] - 1
+      }
+    }
+    status
+}
+move_rope <- function(input, rope_size) {
+    data <- pull(input) %>% str_split(" ")
+    result <- list()
+    status <- list()
+    for (zzz in 1:rope_size) {
+        status <- append(status, list(c(0, 0)))
+    }
+    for (motion in seq_along(data)) {
+        direction <- data[[motion]][1]
+        steps <- as.integer(data[[motion]][2])
+        for (i in 1:steps) {
+            status[[1]] <- c(
+              status[[1]][1] + moves[[direction]][1],
+              status[[1]][2] + moves[[direction]][2]
+            )
+            status <- find_status(status, rope_size)
+            result <- append(result, status[rope_size])
+        }
+    }
+    result
+}
+
+tictoc::tic("part1")
+move_rope(data, 2) %>% 
+  map_chr(~paste(.x, collapse=",")) %>% 
+  unique() %>% 
+  length()
+tictoc::toc()
+
 tictoc::tic("part2")
-moved <- move_rope(data, 10)
-moved %>% map_chr(~paste(.x, collapse=",")) %>% unique() %>% length()
+move_rope(data, 10) %>% 
+  map_chr(~paste(.x, collapse=",")) %>% 
+  unique() %>% 
+  length()
 tictoc::toc()
 ```
-

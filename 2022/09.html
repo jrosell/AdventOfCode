@@ -103,7 +103,7 @@
 <p><a href="https://jrosell.github.io/AdventOfCode/">AdventOfCode</a> &gt; 2022</p>
 <section id="part-1-how-many-positions-does-the-tail-of-the-rope-visit-at-least-once" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-how-many-positions-does-the-tail-of-the-rope-visit-at-least-once">Part 1: How many positions does the tail of the rope visit at least once?</h2>
-<p>I manually downloaded my personal <a href="https://adventofcode.com/2022/day/9">day 8 input file</a> as a logged user, and here I get the data in a more appropriate shape.</p>
+<p>I manually downloaded my personal <a href="https://adventofcode.com/2022/day/9">day 9 input file</a> as a logged user, and here I get the data in a more appropriate shape.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -120,50 +120,269 @@
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"line"</span>),</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(line, <span class="fu">c</span>(<span class="st">"directions"</span>, <span class="st">"steps"</span>), <span class="st">" "</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(steps, as.integer))</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,000 × 2
-   directions steps
-   &lt;chr&gt;      &lt;int&gt;
- 1 D              2
- 2 U              2
- 3 L              2
- 4 D              2
- 5 L              2
- 6 D              2
- 7 L              1
- 8 D              2
- 9 U              1
-10 L              1
+<pre><code># A tibble: 2,000 × 1
+   line 
+   &lt;chr&gt;
+ 1 D 2  
+ 2 U 2  
+ 3 L 2  
+ 4 D 2  
+ 5 L 2  
+ 6 D 2  
+ 7 L 1  
+ 8 D 2  
+ 9 U 1  
+10 L 1  
 # … with 1,990 more rows</code></pre>
 </div>
 </div>
 <p>We expect 13 as a response of this input:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tribble</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>directions, <span class="sc">~</span>steps,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"U"</span>, <span class="dv">4</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"L"</span>, <span class="dv">3</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D"</span>, <span class="dv">1</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"R"</span>, <span class="dv">4</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D"</span>, <span class="dv">1</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"L"</span>, <span class="dv">5</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"R"</span>, <span class="dv">2</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        <span class="sc">~</span>line,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"R 4"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"U 4"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"L 3"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"D 1"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"R 4"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"D 1"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"L 5"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"R 2"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 2
-  directions steps
-  &lt;chr&gt;      &lt;dbl&gt;
-1 U              4
-2 L              3
-3 D              1
-4 R              4
-5 D              1
-6 L              5
-7 R              2</code></pre>
+<pre><code># A tibble: 8 × 1
+  line 
+  &lt;chr&gt;
+1 R 4  
+2 U 4  
+3 L 3  
+4 D 1  
+5 R 4  
+6 D 1  
+7 L 5  
+8 R 2  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>moves <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"R"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"L"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"U"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>find_position <span class="ot">&lt;-</span> <span class="cf">function</span>(status) {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    dx <span class="ot">&lt;-</span> status[[<span class="dv">1</span>]][<span class="dv">1</span>] <span class="sc">-</span> status[[<span class="dv">2</span>]][<span class="dv">1</span>];</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    dy <span class="ot">&lt;-</span> status[[<span class="dv">1</span>]][<span class="dv">2</span>] <span class="sc">-</span> status[[<span class="dv">2</span>]][<span class="dv">2</span>];</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(dx, dy)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>             </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>update_status <span class="ot">&lt;-</span> <span class="cf">function</span>(status, position) {</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    dx <span class="ot">&lt;-</span> position[<span class="dv">1</span>]</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    dy <span class="ot">&lt;-</span> position[<span class="dv">2</span>]</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(dx) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (dx <span class="sc">&gt;</span> <span class="dv">0</span>) status[[<span class="dv">2</span>]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[<span class="dv">2</span>]][<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (dx <span class="sc">&lt;</span> <span class="dv">0</span>) status[[<span class="dv">2</span>]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[<span class="dv">2</span>]][<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (dy <span class="sc">&gt;</span> <span class="dv">0</span>) status[[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (dy <span class="sc">&lt;</span> <span class="dv">0</span>) status[[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">abs</span>(dy) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (dy <span class="sc">&gt;</span> <span class="dv">0</span>) status[[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (dy <span class="sc">&lt;</span> <span class="dv">0</span>) status[[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (dx <span class="sc">&gt;</span> <span class="dv">0</span>) status[[<span class="dv">2</span>]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[<span class="dv">2</span>]][<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (dx <span class="sc">&lt;</span> <span class="dv">0</span>) status[[<span class="dv">2</span>]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[<span class="dv">2</span>]][<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    status</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>move_rope <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">pull</span>(input) <span class="sc">%&gt;%</span> <span class="fu">str_split</span>(<span class="st">" "</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    status <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    status <span class="ot">&lt;-</span> <span class="fu">append</span>(status, <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)))</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    status <span class="ot">&lt;-</span> <span class="fu">append</span>(status, <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)))</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (motion <span class="cf">in</span> <span class="fu">seq_along</span>(data)) {</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        direction <span class="ot">&lt;-</span> data[[motion]][<span class="dv">1</span>]</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        steps <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(data[[motion]][<span class="dv">2</span>])</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>steps) {</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>            <span class="co"># print(paste0("motion ", motion," direction ", direction," steps ", i, "/", steps))</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>            status[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>              status[[<span class="dv">1</span>]][<span class="dv">1</span>] <span class="sc">+</span> moves[[direction]][<span class="dv">1</span>],</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>              status[[<span class="dv">1</span>]][<span class="dv">2</span>] <span class="sc">+</span> moves[[direction]][<span class="dv">2</span>]</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>            position <span class="ot">&lt;-</span> <span class="fu">find_position</span>(status)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>            status <span class="ot">&lt;-</span> <span class="fu">update_status</span>(status, position)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>            result <span class="ot">&lt;-</span> <span class="fu">append</span>(result, status[<span class="dv">2</span>])</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    result</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>moved <span class="ot">&lt;-</span> <span class="fu">move_rope</span>(test)</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>moved <span class="sc">%&gt;%</span> <span class="fu">map_chr</span>(<span class="sc">~</span><span class="fu">paste</span>(.x, <span class="at">collapse=</span><span class="st">","</span>)) <span class="sc">%&gt;%</span> <span class="fu">unique</span>() <span class="sc">%&gt;%</span> <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13</code></pre>
+</div>
+</div>
+<p>Here’s the result for my input:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic</span>(<span class="st">"part1"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>moved <span class="ot">&lt;-</span> <span class="fu">move_rope</span>(data)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>moved <span class="sc">%&gt;%</span> <span class="fu">map_chr</span>(<span class="sc">~</span><span class="fu">paste</span>(.x, <span class="at">collapse=</span><span class="st">","</span>)) <span class="sc">%&gt;%</span> <span class="fu">unique</span>() <span class="sc">%&gt;%</span> <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6311</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>part1: 0.908 sec elapsed</code></pre>
+</div>
+</div>
+</section>
+<section id="part-2-simulate-your-complete-series-of-motions-on-a-larger-rope-with-ten-knots.-how-many-positions-does-the-tail-of-the-rope-visit-at-least-once" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-simulate-your-complete-series-of-motions-on-a-larger-rope-with-ten-knots.-how-many-positions-does-the-tail-of-the-rope-visit-at-least-once">Part 2: Simulate your complete series of motions on a larger rope with ten knots. How many positions does the tail of the rope visit at least once?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>find_status <span class="ot">&lt;-</span> <span class="cf">function</span>(status, rope_size) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (knot <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>rope_size) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      dx <span class="ot">&lt;-</span> status[[knot <span class="sc">-</span> <span class="dv">1</span>]][<span class="dv">1</span>] <span class="sc">-</span> status[[knot]][<span class="dv">1</span>];</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      dy <span class="ot">&lt;-</span> status[[knot <span class="sc">-</span> <span class="dv">1</span>]][<span class="dv">2</span>] <span class="sc">-</span> status[[knot]][<span class="dv">2</span>];</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">abs</span>(dx) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dx <span class="sc">&gt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dx <span class="sc">&lt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dy <span class="sc">&gt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dy <span class="sc">&lt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">abs</span>(dy) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dy <span class="sc">&gt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dy <span class="sc">&lt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dx <span class="sc">&gt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dx <span class="sc">&lt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    status</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>move_rope <span class="ot">&lt;-</span> <span class="cf">function</span>(input, rope_size) {</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">pull</span>(input) <span class="sc">%&gt;%</span> <span class="fu">str_split</span>(<span class="st">" "</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    status <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (zzz <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>rope_size) {</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        status <span class="ot">&lt;-</span> <span class="fu">append</span>(status, <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)))</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (motion <span class="cf">in</span> <span class="fu">seq_along</span>(data)) {</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        direction <span class="ot">&lt;-</span> data[[motion]][<span class="dv">1</span>]</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        steps <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(data[[motion]][<span class="dv">2</span>])</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>steps) {</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>            status[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>              status[[<span class="dv">1</span>]][<span class="dv">1</span>] <span class="sc">+</span> moves[[direction]][<span class="dv">1</span>],</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>              status[[<span class="dv">1</span>]][<span class="dv">2</span>] <span class="sc">+</span> moves[[direction]][<span class="dv">2</span>]</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>            status <span class="ot">&lt;-</span> <span class="fu">find_status</span>(status, rope_size)</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>            result <span class="ot">&lt;-</span> <span class="fu">append</span>(result, status[rope_size])</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    result</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="fu">move_rope</span>(test, <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="sc">~</span><span class="fu">paste</span>(.x, <span class="at">collapse=</span><span class="st">","</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">move_rope</span>(data, <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="sc">~</span><span class="fu">paste</span>(.x, <span class="at">collapse=</span><span class="st">","</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2482</code></pre>
+</div>
+</div>
+</section>
+<section id="solution" class="level2">
+<h2 class="anchored" data-anchor-id="solution">Solution</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2022/09_input"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"line"</span>),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>moves <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"R"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"L"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"U"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"D"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>find_status <span class="ot">&lt;-</span> <span class="cf">function</span>(status, rope_size) {</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (knot <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>rope_size) {</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>      dx <span class="ot">&lt;-</span> status[[knot <span class="sc">-</span> <span class="dv">1</span>]][<span class="dv">1</span>] <span class="sc">-</span> status[[knot]][<span class="dv">1</span>];</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>      dy <span class="ot">&lt;-</span> status[[knot <span class="sc">-</span> <span class="dv">1</span>]][<span class="dv">2</span>] <span class="sc">-</span> status[[knot]][<span class="dv">2</span>];</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">abs</span>(dx) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dx <span class="sc">&gt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dx <span class="sc">&lt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dy <span class="sc">&gt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dy <span class="sc">&lt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">abs</span>(dy) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dy <span class="sc">&gt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dy <span class="sc">&lt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">2</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dx <span class="sc">&gt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (dx <span class="sc">&lt;</span> <span class="dv">0</span>) status[[knot]][<span class="dv">1</span>] <span class="ot">&lt;-</span> status[[knot]][<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    status</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>move_rope <span class="ot">&lt;-</span> <span class="cf">function</span>(input, rope_size) {</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">pull</span>(input) <span class="sc">%&gt;%</span> <span class="fu">str_split</span>(<span class="st">" "</span>)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    status <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (zzz <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>rope_size) {</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>        status <span class="ot">&lt;-</span> <span class="fu">append</span>(status, <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)))</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (motion <span class="cf">in</span> <span class="fu">seq_along</span>(data)) {</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>        direction <span class="ot">&lt;-</span> data[[motion]][<span class="dv">1</span>]</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>        steps <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(data[[motion]][<span class="dv">2</span>])</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>steps) {</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>            status[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>              status[[<span class="dv">1</span>]][<span class="dv">1</span>] <span class="sc">+</span> moves[[direction]][<span class="dv">1</span>],</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>              status[[<span class="dv">1</span>]][<span class="dv">2</span>] <span class="sc">+</span> moves[[direction]][<span class="dv">2</span>]</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>            status <span class="ot">&lt;-</span> <span class="fu">find_status</span>(status, rope_size)</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>            result <span class="ot">&lt;-</span> <span class="fu">append</span>(result, status[rope_size])</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>    result</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic</span>(<span class="st">"part1"</span>)</span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a><span class="fu">move_rope</span>(data, <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="sc">~</span><span class="fu">paste</span>(.x, <span class="at">collapse=</span><span class="st">","</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6311</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>part1: 0.926 sec elapsed</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic</span>(<span class="st">"part2"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">move_rope</span>(data, <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="sc">~</span><span class="fu">paste</span>(.x, <span class="at">collapse=</span><span class="st">","</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2482</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>part2: 0.915 sec elapsed</code></pre>
 </div>
 </div>
 
