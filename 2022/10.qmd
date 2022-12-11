@@ -1,0 +1,36 @@
+---
+title: "Day 10"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
+## Part 1: Find the signal strength during the 20th, 60th, 100th, 140th, 180th, and 220th cycles. What is the sum of these six signal strengths?
+
+I manually downloaded my personal [day 9 input file](https://adventofcode.com/2022/day/10) as a logged user, and here I get the data in a more appropriate shape.
+
+```{r}
+library(tidyverse)
+file <- here::here("2022/10_input")
+
+data <- file %>%
+  read_csv(col_names = "x", show_col_types = FALSE) %>% 
+  pull() %>%
+  str_split(" ") %>%
+  unlist() %>% 
+  as.integer() %>% 
+  replace_na(0) 
+data
+```
+
+Here the result:
+
+```{r}
+begin <- 1
+result <- cumsum(c(begin, data))
+sum(result[seq(20,220,40)]*seq(20,220,40))
+
+```
+
+
