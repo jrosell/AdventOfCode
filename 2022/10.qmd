@@ -12,6 +12,8 @@ I manually downloaded my personal [day 9 input file](https://adventofcode.com/20
 
 ```{r}
 library(tidyverse)
+library(plotly)
+
 file <- here::here("2022/10_input")
 
 data <- file %>%
@@ -28,9 +30,36 @@ Here the result:
 
 ```{r}
 begin <- 1
-result <- cumsum(c(begin, data))
-sum(result[seq(20,220,40)]*seq(20,220,40))
+register <- cumsum(c(begin, data))
+sum(register[seq(20,220,40)]*seq(20,220,40))
+```
 
+## Part 2: Render the image given by your program. What eight capital letters appear on your CRT?
+
+```{r fig.height=2.5}
+begin <- 1
+register <- cumsum(c(begin, data)) + 1
+result <- 1:(length(register) - 1) %>% map_chr(function(x) {
+    if ((x %% 40) %in% (register[x] - 1):(register[x] + 1)) "#" else "."
+})
+p <- tibble(pixel = result) %>%
+    mutate(num = row_number()) %>%
+    mutate(col = (num-1) %% 40 ) %>%
+    mutate(row = -((num-1) %/% 40)) %>%
+    ggplot(aes(col, row)) +
+    geom_point(aes(shape = result, color = result)) +
+    scale_shape_manual(values=c(1, 15)) +
+    scale_color_manual(values=c("white","darkgreen")) +
+    theme_minimal() +
+    theme(
+        legend.position = "none",
+        axis.title=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank(),
+    ) +
+    labs(x = NULL, y = NULL)
+
+ggplotly(p)
 ```
 
 
