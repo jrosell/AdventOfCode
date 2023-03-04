@@ -1,0 +1,101 @@
+---
+title: "Day 11"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2022
+
+## Part 1:
+
+I manually downloaded my personal [day 11 input file](https://adventofcode.com/2022/day/11) as a logged user, and here I get the data in a more appropriate shape.
+
+```{r}
+library(tidyverse)
+library(zeallot)
+
+file <- here::here("2022/11_input")
+
+data <- file %>%
+    read_delim(
+        delim = ":",
+        col_names = c("key","value"),
+        show_col_types = FALSE,
+        skip_empty_rows = FALSE
+    ) 
+
+data
+```
+
+I parse monkey data in tabular format.
+
+```{r}
+status <- data %>%
+    mutate(monkey = cumsum(is.na(key))) %>% 
+    filter(!is.na(value)) %>%
+    mutate(across(everything(), str_trim)) %>% 
+    pivot_wider(names_from = key, values_from = value) %>% 
+    janitor::clean_names() %>% 
+    mutate(starting_items = strsplit(starting_items, ", ") %>% map(~parse_integer(.x))) %>% 
+    mutate(operation = str_extract(operation, "new = (.*)", group = 1)) %>% 
+    mutate(across(test:if_false, parse_number)) %>% 
+    group_by(monkey) %>% 
+    group_split()
+
+status
+```
+
+```{r}
+process_monkey <- function(monkeys, monkey) {
+    c(monkey_num, items, operation,  test, if_true, if_false) %<-% monkeys[monkey][[1]]
+    items <- unlist(items)
+    print("items")
+    print(items)
+    while (length(items) > 0) {
+        old <- items[[length(items)]]
+        items <- items[1:length(items) - 1]
+        print("items pop")
+        print(items)
+        print("old")
+        print(old)
+        print("operation")
+        print(operation)
+        new <- eval(parse(text = operation))
+        print("new")
+        print(new)
+        new <- floor(new / 3)
+        change <- if (new %% test) if_false else if_true
+        print("change")
+        print(change)
+        print(monkeys[[change]]$starting_items[[1]])
+        monkeys[[change]]$starting_items[[1]] <- c(monkeys[[change]]$starting_items[[1]], new)
+    }
+    return(monkeys)
+}
+
+next_round <- function(monkeys) {
+    round_inspections <- integer(0)
+    for (monkey in seq_along(monkeys)) {
+        round_inspections <- c(round_inspections, length(monkeys[[monkey]]$starting_items[[1]]))
+        monkeys = process_monkey(monkeys, monkey)
+    }
+    print("round_inspections")
+    print(round_inspections)
+    return(list(monkeys = monkeys, round_inspections = round_inspections))
+}
+
+inspections <- rep(0, nrow(data))
+rounds <- 2
+divisor <- status %>% map_dbl(~.x[[4]]) %>% prod()
+for (round in 1:rounds) {
+    print(paste("round", round))
+    result <- next_round(status)
+    # print(result)
+    # status <- result$monkeys
+    # round_inspections <- result$round_inspections
+    # inspections = [a + b for a, b in zip(inspections, round_inspections)]
+}
+# prod(sorted(inspections)[-2:])
+```
+
+

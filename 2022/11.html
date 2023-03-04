@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Day 11</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="11_files/libs/clipboard/clipboard.min.js"></script>
+<script src="11_files/libs/quarto-html/quarto.js"></script>
+<script src="11_files/libs/quarto-html/popper.min.js"></script>
+<script src="11_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="11_files/libs/quarto-html/anchor.min.js"></script>
+<link href="11_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="11_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="11_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="11_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="11_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Day 11</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><a href="https://jrosell.github.io/AdventOfCode/">AdventOfCode</a> &gt; 2022</p>
+<section id="part-1" class="level2">
+<h2 class="anchored" data-anchor-id="part-1">Part 1:</h2>
+<p>I manually downloaded my personal <a href="https://adventofcode.com/2022/day/11">day 11 input file</a> as a logged user, and here I get the data in a more appropriate shape.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.0          ✔ purrr   1.0.1     
+✔ tibble  3.1.8          ✔ dplyr   1.1.0     
+✔ tidyr   1.2.1          ✔ stringr 1.5.0.9000
+✔ readr   2.1.3          ✔ forcats 0.5.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zeallot)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2022/11_input"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> file <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_delim</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">delim =</span> <span class="st">":"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"key"</span>,<span class="st">"value"</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_col_types =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">skip_empty_rows =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 55 × 2
+   key                value                    
+   &lt;chr&gt;              &lt;chr&gt;                    
+ 1 "Monkey 0"          &lt;NA&gt;                    
+ 2 "  Starting items" " 98, 89, 52"            
+ 3 "  Operation"      " new = old * 2"         
+ 4 "  Test"           " divisible by 5"        
+ 5 "    If true"      " throw to monkey 6"     
+ 6 "    If false"     " throw to monkey 1"     
+ 7  &lt;NA&gt;               &lt;NA&gt;                    
+ 8 "Monkey 1"          &lt;NA&gt;                    
+ 9 "  Starting items" " 57, 95, 80, 92, 57, 78"
+10 "  Operation"      " new = old * 13"        
+# … with 45 more rows</code></pre>
+</div>
+</div>
+<p>I parse monkey data in tabular format.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>status <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">monkey =</span> <span class="fu">cumsum</span>(<span class="fu">is.na</span>(key))) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(value)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), str_trim)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> key, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">starting_items =</span> <span class="fu">strsplit</span>(starting_items, <span class="st">", "</span>) <span class="sc">%&gt;%</span> <span class="fu">map</span>(<span class="sc">~</span><span class="fu">parse_integer</span>(.x))) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">operation =</span> <span class="fu">str_extract</span>(operation, <span class="st">"new = (.*)"</span>, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(test<span class="sc">:</span>if_false, parse_number)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(monkey) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_split</span>()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;list_of&lt;
+  tbl_df&lt;
+    monkey        : character
+    starting_items: list
+    operation     : character
+    test          : double
+    if_true       : double
+    if_false      : double
+  &gt;
+&gt;[8]&gt;
+[[1]]
+# A tibble: 1 × 6
+  monkey starting_items operation  test if_true if_false
+  &lt;chr&gt;  &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 0      &lt;int [3]&gt;      old * 2       5       6        1
+
+[[2]]
+# A tibble: 1 × 6
+  monkey starting_items operation  test if_true if_false
+  &lt;chr&gt;  &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 1      &lt;int [6]&gt;      old * 13      2       2        6
+
+[[3]]
+# A tibble: 1 × 6
+  monkey starting_items operation  test if_true if_false
+  &lt;chr&gt;  &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 2      &lt;int [7]&gt;      old + 5      19       7        5
+
+[[4]]
+# A tibble: 1 × 6
+  monkey starting_items operation  test if_true if_false
+  &lt;chr&gt;  &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 3      &lt;int [5]&gt;      old + 6       7       0        4
+
+[[5]]
+# A tibble: 1 × 6
+  monkey starting_items operation  test if_true if_false
+  &lt;chr&gt;  &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 4      &lt;int [1]&gt;      old + 1      17       0        1
+
+[[6]]
+# A tibble: 1 × 6
+  monkey starting_items operation  test if_true if_false
+  &lt;chr&gt;  &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 5      &lt;int [4]&gt;      old + 4      13       4        3
+
+[[7]]
+# A tibble: 1 × 6
+  monkey starting_items operation  test if_true if_false
+  &lt;chr&gt;  &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 6      &lt;int [8]&gt;      old + 2       3       2        7
+
+[[8]]
+# A tibble: 1 × 6
+  monkey starting_items operation  test if_true if_false
+  &lt;chr&gt;  &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 7      &lt;int [2]&gt;      old * old    11       3        5</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>process_monkey <span class="ot">&lt;-</span> <span class="cf">function</span>(monkeys, monkey) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(monkey_num, items, operation,  test, if_true, if_false) <span class="sc">%&lt;-%</span> monkeys[monkey][[<span class="dv">1</span>]]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    items <span class="ot">&lt;-</span> <span class="fu">unlist</span>(items)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"items"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(items)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (<span class="fu">length</span>(items) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        old <span class="ot">&lt;-</span> items[[<span class="fu">length</span>(items)]]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        items <span class="ot">&lt;-</span> items[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(items) <span class="sc">-</span> <span class="dv">1</span>]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">"items pop"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(items)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">"old"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(old)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">"operation"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(operation)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        new <span class="ot">&lt;-</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> operation))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">"new"</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(new)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        new <span class="ot">&lt;-</span> <span class="fu">floor</span>(new <span class="sc">/</span> <span class="dv">3</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        change <span class="ot">&lt;-</span> <span class="cf">if</span> (new <span class="sc">%%</span> test) if_false <span class="cf">else</span> if_true</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">"change"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(change)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(monkeys[[change]]<span class="sc">$</span>starting_items[[<span class="dv">1</span>]])</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        monkeys[[change]]<span class="sc">$</span>starting_items[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">c</span>(monkeys[[change]]<span class="sc">$</span>starting_items[[<span class="dv">1</span>]], new)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(monkeys)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>next_round <span class="ot">&lt;-</span> <span class="cf">function</span>(monkeys) {</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    round_inspections <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (monkey <span class="cf">in</span> <span class="fu">seq_along</span>(monkeys)) {</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>        round_inspections <span class="ot">&lt;-</span> <span class="fu">c</span>(round_inspections, <span class="fu">length</span>(monkeys[[monkey]]<span class="sc">$</span>starting_items[[<span class="dv">1</span>]]))</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>        monkeys <span class="ot">=</span> <span class="fu">process_monkey</span>(monkeys, monkey)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"round_inspections"</span>)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(round_inspections)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">monkeys =</span> monkeys, <span class="at">round_inspections =</span> round_inspections))</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>inspections <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(data))</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>rounds <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>divisor <span class="ot">&lt;-</span> status <span class="sc">%&gt;%</span> <span class="fu">map_dbl</span>(<span class="sc">~</span>.x[[<span class="dv">4</span>]]) <span class="sc">%&gt;%</span> <span class="fu">prod</span>()</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (round <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>rounds) {</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"round"</span>, round))</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">next_round</span>(status)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(result)</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># status &lt;- result$monkeys</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># round_inspections &lt;- result$round_inspections</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># inspections = [a + b for a, b in zip(inspections, round_inspections)]</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "round 1"
+[1] "items"
+[1] 98 89 52
+[1] "items pop"
+[1] 98 89
+[1] "old"
+[1] 52
+[1] "operation"
+[1] "old * 2"
+[1] "new"
+[1] 104
+[1] "change"
+[1] 1
+[1] 98 89 52
+[1] "items pop"
+[1] 98
+[1] "old"
+[1] 89
+[1] "operation"
+[1] "old * 2"
+[1] "new"
+[1] 178
+[1] "change"
+[1] 1
+[1] 98 89 52 34
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 98
+[1] "operation"
+[1] "old * 2"
+[1] "new"
+[1] 196
+[1] "change"
+[1] 6
+[1] 94 91 51 63
+[1] "items"
+[1] 57 95 80 92 57 78
+[1] "items pop"
+[1] 57 95 80 92 57
+[1] "old"
+[1] 78
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 1014
+[1] "change"
+[1] 2
+[1] 57 95 80 92 57 78
+[1] "items pop"
+[1] 57 95 80 92
+[1] "old"
+[1] 57
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 741
+[1] "change"
+[1] 6
+[1] 94 91 51 63 65
+[1] "items pop"
+[1] 57 95 80
+[1] "old"
+[1] 92
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 1196
+[1] "change"
+[1] 2
+[1]  57  95  80  92  57  78 338
+[1] "items pop"
+[1] 57 95
+[1] "old"
+[1] 80
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 1040
+[1] "change"
+[1] 2
+[1]  57  95  80  92  57  78 338 398
+[1] "items pop"
+[1] 57
+[1] "old"
+[1] 95
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 1235
+[1] "change"
+[1] 6
+[1]  94  91  51  63  65 247
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 57
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 741
+[1] "change"
+[1] 6
+[1]  94  91  51  63  65 247 411
+[1] "items"
+[1] 82 74 97 75 51 92 83
+[1] "items pop"
+[1] 82 74 97 75 51 92
+[1] "old"
+[1] 83
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 88
+[1] "change"
+[1] 5
+[1] 63
+[1] "items pop"
+[1] 82 74 97 75 51
+[1] "old"
+[1] 92
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 97
+[1] "change"
+[1] 5
+[1] 63 29
+[1] "items pop"
+[1] 82 74 97 75
+[1] "old"
+[1] 51
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 56
+[1] "change"
+[1] 5
+[1] 63 29 32
+[1] "items pop"
+[1] 82 74 97
+[1] "old"
+[1] 75
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 80
+[1] "change"
+[1] 5
+[1] 63 29 32 18
+[1] "items pop"
+[1] 82 74
+[1] "old"
+[1] 97
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 102
+[1] "change"
+[1] 5
+[1] 63 29 32 18 26
+[1] "items pop"
+[1] 82
+[1] "old"
+[1] 74
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 79
+[1] "change"
+[1] 5
+[1] 63 29 32 18 26 34
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 82
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 87
+[1] "change"
+[1] 5
+[1] 63 29 32 18 26 34 26
+[1] "items"
+[1] 97 88 51 68 76
+[1] "items pop"
+[1] 97 88 51 68
+[1] "old"
+[1] 76
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 82
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76
+[1] "items pop"
+[1] 97 88 51
+[1] "old"
+[1] 68
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 74
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76 27
+[1] "items pop"
+[1] 97 88
+[1] "old"
+[1] 51
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 57
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76 27 24
+[1] "items pop"
+[1] 97
+[1] "old"
+[1] 88
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 94
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76 27 24 19
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 97
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 103
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76 27 24 19 31
+[1] "items"
+[1] 63 29 32 18 26 34 26 29
+[1] "items pop"
+[1] 63 29 32 18 26 34 26
+[1] "old"
+[1] 29
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 30
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59
+[1] "items pop"
+[1] 63 29 32 18 26 34
+[1] "old"
+[1] 26
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 27
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59 10
+[1] "items pop"
+[1] 63 29 32 18 26
+[1] "old"
+[1] 34
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 35
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59 10  9
+[1] "items pop"
+[1] 63 29 32 18
+[1] "old"
+[1] 26
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 27
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59 10  9 11
+[1] "items pop"
+[1] 63 29 32
+[1] "old"
+[1] 18
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 19
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59 10  9 11  9
+[1] "items pop"
+[1] 63 29
+[1] "old"
+[1] 32
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 33
+[1] "change"
+[1] 1
+ [1] 98 89 52 34 59 10  9 11  9  6
+[1] "items pop"
+[1] 63
+[1] "old"
+[1] 29
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 30
+[1] "change"
+[1] 1
+ [1] 98 89 52 34 59 10  9 11  9  6 11
+[1] "items pop"
+numeric(0)
+[1] "old"
+[1] 63
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 64
+[1] "change"
+[1] 1
+ [1] 98 89 52 34 59 10  9 11  9  6 11 10
+[1] "items"
+[1]  94  91  51  63  65 247 411 247
+[1] "items pop"
+[1]  94  91  51  63  65 247 411
+[1] "old"
+[1] 247
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 251
+[1] "change"
+[1] 3
+[1] 82 74 97 75 51 92 83
+[1] "items pop"
+[1]  94  91  51  63  65 247
+[1] "old"
+[1] 411
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 415
+[1] "change"
+[1] 3
+[1] 82 74 97 75 51 92 83 83
+[1] "items pop"
+[1] 94 91 51 63 65
+[1] "old"
+[1] 247
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 251
+[1] "change"
+[1] 3
+[1]  82  74  97  75  51  92  83  83 138
+[1] "items pop"
+[1] 94 91 51 63
+[1] "old"
+[1] 65
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 69
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83
+[1] "items pop"
+[1] 94 91 51
+[1] "old"
+[1] 63
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 67
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23
+[1] "items pop"
+[1] 94 91
+[1] "old"
+[1] 51
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 55
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23  22
+[1] "items pop"
+[1] 94
+[1] "old"
+[1] 91
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 95
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23  22  18
+[1] "items pop"
+numeric(0)
+[1] "old"
+[1] 94
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 98
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23  22  18  31
+[1] "items"
+[1] 61 54 94 71 74 68 98 83
+[1] "items pop"
+[1] 61 54 94 71 74 68 98
+[1] "old"
+[1] 83
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 85
+[1] "change"
+[1] 7
+[1] 61 54 94 71 74 68 98 83
+[1] "items pop"
+[1] 61 54 94 71 74 68
+[1] "old"
+[1] 98
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 100
+[1] "change"
+[1] 2
+[1]  57  95  80  92  57  78 338 398 346
+[1] "items pop"
+[1] 61 54 94 71 74
+[1] "old"
+[1] 68
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 70
+[1] "change"
+[1] 7
+[1] 61 54 94 71 74 68 98 83 28
+[1] "items pop"
+[1] 61 54 94 71
+[1] "old"
+[1] 74
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 76
+[1] "change"
+[1] 7
+ [1] 61 54 94 71 74 68 98 83 28 23
+[1] "items pop"
+[1] 61 54 94
+[1] "old"
+[1] 71
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 73
+[1] "change"
+[1] 2
+ [1]  57  95  80  92  57  78 338 398 346  33
+[1] "items pop"
+[1] 61 54
+[1] "old"
+[1] 94
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 96
+[1] "change"
+[1] 7
+ [1] 61 54 94 71 74 68 98 83 28 23 25
+[1] "items pop"
+[1] 61
+[1] "old"
+[1] 54
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 56
+[1] "change"
+[1] 2
+ [1]  57  95  80  92  57  78 338 398 346  33  24
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 61
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 63
+[1] "change"
+[1] 2
+ [1]  57  95  80  92  57  78 338 398 346  33  24  18
+[1] "items"
+[1] 90 56
+[1] "items pop"
+[1] 90
+[1] "old"
+[1] 56
+[1] "operation"
+[1] "old * old"
+[1] "new"
+[1] 3136
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23  22  18  31  32
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 90
+[1] "operation"
+[1] "old * old"
+[1] "new"
+[1] 8100
+[1] "change"
+[1] 5
+[1] 63 29 32 18 26 34 26 29
+[1] "round_inspections"
+[1] 3 6 7 5 8 8 8 2
+[1] "round 2"
+[1] "items"
+[1] 98 89 52
+[1] "items pop"
+[1] 98 89
+[1] "old"
+[1] 52
+[1] "operation"
+[1] "old * 2"
+[1] "new"
+[1] 104
+[1] "change"
+[1] 1
+[1] 98 89 52
+[1] "items pop"
+[1] 98
+[1] "old"
+[1] 89
+[1] "operation"
+[1] "old * 2"
+[1] "new"
+[1] 178
+[1] "change"
+[1] 1
+[1] 98 89 52 34
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 98
+[1] "operation"
+[1] "old * 2"
+[1] "new"
+[1] 196
+[1] "change"
+[1] 6
+[1] 94 91 51 63
+[1] "items"
+[1] 57 95 80 92 57 78
+[1] "items pop"
+[1] 57 95 80 92 57
+[1] "old"
+[1] 78
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 1014
+[1] "change"
+[1] 2
+[1] 57 95 80 92 57 78
+[1] "items pop"
+[1] 57 95 80 92
+[1] "old"
+[1] 57
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 741
+[1] "change"
+[1] 6
+[1] 94 91 51 63 65
+[1] "items pop"
+[1] 57 95 80
+[1] "old"
+[1] 92
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 1196
+[1] "change"
+[1] 2
+[1]  57  95  80  92  57  78 338
+[1] "items pop"
+[1] 57 95
+[1] "old"
+[1] 80
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 1040
+[1] "change"
+[1] 2
+[1]  57  95  80  92  57  78 338 398
+[1] "items pop"
+[1] 57
+[1] "old"
+[1] 95
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 1235
+[1] "change"
+[1] 6
+[1]  94  91  51  63  65 247
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 57
+[1] "operation"
+[1] "old * 13"
+[1] "new"
+[1] 741
+[1] "change"
+[1] 6
+[1]  94  91  51  63  65 247 411
+[1] "items"
+[1] 82 74 97 75 51 92 83
+[1] "items pop"
+[1] 82 74 97 75 51 92
+[1] "old"
+[1] 83
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 88
+[1] "change"
+[1] 5
+[1] 63
+[1] "items pop"
+[1] 82 74 97 75 51
+[1] "old"
+[1] 92
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 97
+[1] "change"
+[1] 5
+[1] 63 29
+[1] "items pop"
+[1] 82 74 97 75
+[1] "old"
+[1] 51
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 56
+[1] "change"
+[1] 5
+[1] 63 29 32
+[1] "items pop"
+[1] 82 74 97
+[1] "old"
+[1] 75
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 80
+[1] "change"
+[1] 5
+[1] 63 29 32 18
+[1] "items pop"
+[1] 82 74
+[1] "old"
+[1] 97
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 102
+[1] "change"
+[1] 5
+[1] 63 29 32 18 26
+[1] "items pop"
+[1] 82
+[1] "old"
+[1] 74
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 79
+[1] "change"
+[1] 5
+[1] 63 29 32 18 26 34
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 82
+[1] "operation"
+[1] "old + 5"
+[1] "new"
+[1] 87
+[1] "change"
+[1] 5
+[1] 63 29 32 18 26 34 26
+[1] "items"
+[1] 97 88 51 68 76
+[1] "items pop"
+[1] 97 88 51 68
+[1] "old"
+[1] 76
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 82
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76
+[1] "items pop"
+[1] 97 88 51
+[1] "old"
+[1] 68
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 74
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76 27
+[1] "items pop"
+[1] 97 88
+[1] "old"
+[1] 51
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 57
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76 27 24
+[1] "items pop"
+[1] 97
+[1] "old"
+[1] 88
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 94
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76 27 24 19
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 97
+[1] "operation"
+[1] "old + 6"
+[1] "new"
+[1] 103
+[1] "change"
+[1] 4
+[1] 97 88 51 68 76 27 24 19 31
+[1] "items"
+[1] 63 29 32 18 26 34 26 29
+[1] "items pop"
+[1] 63 29 32 18 26 34 26
+[1] "old"
+[1] 29
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 30
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59
+[1] "items pop"
+[1] 63 29 32 18 26 34
+[1] "old"
+[1] 26
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 27
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59 10
+[1] "items pop"
+[1] 63 29 32 18 26
+[1] "old"
+[1] 34
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 35
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59 10  9
+[1] "items pop"
+[1] 63 29 32 18
+[1] "old"
+[1] 26
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 27
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59 10  9 11
+[1] "items pop"
+[1] 63 29 32
+[1] "old"
+[1] 18
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 19
+[1] "change"
+[1] 1
+[1] 98 89 52 34 59 10  9 11  9
+[1] "items pop"
+[1] 63 29
+[1] "old"
+[1] 32
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 33
+[1] "change"
+[1] 1
+ [1] 98 89 52 34 59 10  9 11  9  6
+[1] "items pop"
+[1] 63
+[1] "old"
+[1] 29
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 30
+[1] "change"
+[1] 1
+ [1] 98 89 52 34 59 10  9 11  9  6 11
+[1] "items pop"
+numeric(0)
+[1] "old"
+[1] 63
+[1] "operation"
+[1] "old + 1"
+[1] "new"
+[1] 64
+[1] "change"
+[1] 1
+ [1] 98 89 52 34 59 10  9 11  9  6 11 10
+[1] "items"
+[1]  94  91  51  63  65 247 411 247
+[1] "items pop"
+[1]  94  91  51  63  65 247 411
+[1] "old"
+[1] 247
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 251
+[1] "change"
+[1] 3
+[1] 82 74 97 75 51 92 83
+[1] "items pop"
+[1]  94  91  51  63  65 247
+[1] "old"
+[1] 411
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 415
+[1] "change"
+[1] 3
+[1] 82 74 97 75 51 92 83 83
+[1] "items pop"
+[1] 94 91 51 63 65
+[1] "old"
+[1] 247
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 251
+[1] "change"
+[1] 3
+[1]  82  74  97  75  51  92  83  83 138
+[1] "items pop"
+[1] 94 91 51 63
+[1] "old"
+[1] 65
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 69
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83
+[1] "items pop"
+[1] 94 91 51
+[1] "old"
+[1] 63
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 67
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23
+[1] "items pop"
+[1] 94 91
+[1] "old"
+[1] 51
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 55
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23  22
+[1] "items pop"
+[1] 94
+[1] "old"
+[1] 91
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 95
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23  22  18
+[1] "items pop"
+numeric(0)
+[1] "old"
+[1] 94
+[1] "operation"
+[1] "old + 4"
+[1] "new"
+[1] 98
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23  22  18  31
+[1] "items"
+[1] 61 54 94 71 74 68 98 83
+[1] "items pop"
+[1] 61 54 94 71 74 68 98
+[1] "old"
+[1] 83
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 85
+[1] "change"
+[1] 7
+[1] 61 54 94 71 74 68 98 83
+[1] "items pop"
+[1] 61 54 94 71 74 68
+[1] "old"
+[1] 98
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 100
+[1] "change"
+[1] 2
+[1]  57  95  80  92  57  78 338 398 346
+[1] "items pop"
+[1] 61 54 94 71 74
+[1] "old"
+[1] 68
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 70
+[1] "change"
+[1] 7
+[1] 61 54 94 71 74 68 98 83 28
+[1] "items pop"
+[1] 61 54 94 71
+[1] "old"
+[1] 74
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 76
+[1] "change"
+[1] 7
+ [1] 61 54 94 71 74 68 98 83 28 23
+[1] "items pop"
+[1] 61 54 94
+[1] "old"
+[1] 71
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 73
+[1] "change"
+[1] 2
+ [1]  57  95  80  92  57  78 338 398 346  33
+[1] "items pop"
+[1] 61 54
+[1] "old"
+[1] 94
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 96
+[1] "change"
+[1] 7
+ [1] 61 54 94 71 74 68 98 83 28 23 25
+[1] "items pop"
+[1] 61
+[1] "old"
+[1] 54
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 56
+[1] "change"
+[1] 2
+ [1]  57  95  80  92  57  78 338 398 346  33  24
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 61
+[1] "operation"
+[1] "old + 2"
+[1] "new"
+[1] 63
+[1] "change"
+[1] 2
+ [1]  57  95  80  92  57  78 338 398 346  33  24  18
+[1] "items"
+[1] 90 56
+[1] "items pop"
+[1] 90
+[1] "old"
+[1] 56
+[1] "operation"
+[1] "old * old"
+[1] "new"
+[1] 3136
+[1] "change"
+[1] 3
+ [1]  82  74  97  75  51  92  83  83 138  83  23  22  18  31  32
+[1] "items pop"
+integer(0)
+[1] "old"
+[1] 90
+[1] "operation"
+[1] "old * old"
+[1] "new"
+[1] 8100
+[1] "change"
+[1] 5
+[1] 63 29 32 18 26 34 26 29
+[1] "round_inspections"
+[1] 3 6 7 5 8 8 8 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># prod(sorted(inspections)[-2:])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
