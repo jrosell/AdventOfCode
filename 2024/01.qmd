@@ -1,0 +1,82 @@
+---
+title: "Day 1"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2024
+
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(httr2)
+})
+adventofcode_input <- \(year, day) {
+    session <- Sys.getenv("ADVENT_SESSION")
+    if (session == "") {
+    stop("Must set ADVENT_SESSION in .Renviron")
+    }
+    url <- paste0("https://adventofcode.com/", year, "/day/", day, "/input")
+    tryCatch({
+        res <- request(url) |> 
+            req_cookies_set(session = session) |> 
+            req_perform() |> 
+            resp_body_string(encoding = "UTF-8")
+        },
+        error = \(e) stop("Error getting the input file")
+    )
+    data.frame(x = res |> strsplit("\n") |>  unlist())
+}
+```
+
+## Part 1
+
+```{r}
+test <- tribble(
+    ~x,
+    "3   4",
+    "4   3",
+    "2   5",
+    "1   3",
+    "3   9",
+    "3   3"
+)
+vars <- test |>
+    separate_wider_regex(x, c(var1 = "\\d+", "\\s+", var2 = ".*")) |> 
+    mutate(across(everything(), as.integer))
+
+sum(abs(sort(vars$var1) - sort(vars$var2)))
+```
+
+
+```{r}
+input <- adventofcode_input(2024, 1)
+vars <- input |>
+    separate_wider_regex(x, c(var1 = "\\d+", "\\s+", var2 = ".*")) |> 
+    mutate(across(everything(), as.integer))
+
+sum(abs(sort(vars$var1) - sort(vars$var2)))
+```
+
+## Part 2
+
+
+```{r}
+vars <- test |>
+    separate_wider_regex(x, c(var1 = "\\d+", "\\s+", var2 = ".*")) |> 
+    mutate(across(everything(), as.integer))
+
+sum(map_dbl(vars$var1, \(x) sum(x == vars$var2) * x))
+```
+
+
+
+```{r}
+input <- adventofcode_input(2024, 1)
+
+vars <- input |>
+    separate_wider_regex(x, c(var1 = "\\d+", "\\s+", var2 = ".*")) |> 
+    mutate(across(everything(), as.integer))
+
+sum(map_dbl(vars$var1, \(x) sum(x == vars$var2) * x))
+```
