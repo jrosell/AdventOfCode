@@ -11,7 +11,7 @@ suppressPackageStartupMessages({
   library(tidyverse)
   library(httr2)
 })
-adventofcode_input <- \(year, day) {
+adventofcode_input <- \(year, day, what = c("data.frame", "character")) {
     session <- Sys.getenv("ADVENT_SESSION")
     if (session == "") {
     stop("Must set ADVENT_SESSION in .Renviron")
@@ -25,7 +25,12 @@ adventofcode_input <- \(year, day) {
         },
         error = \(e) stop("Error getting the input file")
     )
-    data.frame(x = res |> strsplit("\n") |>  unlist())
+    if(what[1] == "data.frame") {
+        return(data.frame(x = res |> strsplit("\n") |>  unlist()))
+    }
+    if(what[1] == "character") {
+        return(res)
+    }
 }
 ```
 
@@ -63,6 +68,21 @@ input |>
     sum() |> 
     print()
 ```
+
+
+
+```{r}
+adventofcode_input(2024, 2, what = "character") |> 
+    strsplit("\n") |>
+    unlist() |> 
+    strsplit(" ") |> 
+    lapply(as.numeric) |> 
+    vapply(is_safe, logical(1)) |>
+    sum() |> 
+    print()
+```
+
+
 
 ## Part 2
 
@@ -110,6 +130,19 @@ input |>
     str_split(" ") |> 
     map(as.numeric) |> 
     map_lgl(is_safe_safe) |> 
+    sum() |> 
+    print()
+```
+
+
+
+```{r}
+adventofcode_input(2024, 2, what = "character") |> 
+    strsplit("\n") |>
+    unlist() |> 
+    strsplit(" ") |> 
+    lapply(as.numeric) |> 
+    vapply(is_safe_safe, logical(1)) |>
     sum() |> 
     print()
 ```

@@ -96,13 +96,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><a href="https://jrosell.github.io/AdventOfCode/">AdventOfCode</a> &gt; 2022</p>
+<p><a href="https://jrosell.github.io/AdventOfCode/">AdventOfCode</a> &gt; 2024</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(httr2)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>adventofcode_input <span class="ot">&lt;-</span> \(year, day) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>adventofcode_input <span class="ot">&lt;-</span> \(year, day, <span class="at">what =</span> <span class="fu">c</span>(<span class="st">"data.frame"</span>, <span class="st">"character"</span>)) {</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    session <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"ADVENT_SESSION"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (session <span class="sc">==</span> <span class="st">""</span>) {</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Must set ADVENT_SESSION in .Renviron"</span>)</span>
@@ -116,8 +116,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        },</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">error =</span> \(e) <span class="fu">stop</span>(<span class="st">"Error getting the input file"</span>)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">x =</span> res <span class="sc">|&gt;</span> <span class="fu">strsplit</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>) <span class="sc">|&gt;</span>  <span class="fu">unlist</span>())</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(what[<span class="dv">1</span>] <span class="sc">==</span> <span class="st">"data.frame"</span>) {</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> res <span class="sc">|&gt;</span> <span class="fu">strsplit</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>) <span class="sc">|&gt;</span>  <span class="fu">unlist</span>()))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(what[<span class="dv">1</span>] <span class="sc">==</span> <span class="st">"character"</span>) {</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(res)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="part-1" class="level2">
 <h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
@@ -151,27 +156,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 1603498</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">adventofcode_input</span>(<span class="dv">2024</span>, <span class="dv">1</span>, <span class="at">what =</span> <span class="st">"character"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textConnection</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read.table</span>()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">abs</span>(<span class="fu">sort</span>(vars<span class="sc">$</span>V1) <span class="sc">-</span> <span class="fu">sort</span>(vars<span class="sc">$</span>V2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1603498</code></pre>
+</div>
+</div>
 </section>
 <section id="part-2" class="level2">
 <h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> test <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_wider_regex</span>(x, <span class="fu">c</span>(<span class="at">var1 =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">var2 =</span> <span class="st">".*"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), as.integer))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">map_dbl</span>(vars<span class="sc">$</span>var1, \(x) <span class="fu">sum</span>(x <span class="sc">==</span> vars<span class="sc">$</span>var2) <span class="sc">*</span> x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> test <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_wider_regex</span>(x, <span class="fu">c</span>(<span class="at">var1 =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">var2 =</span> <span class="st">".*"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), as.integer))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">map_dbl</span>(vars<span class="sc">$</span>var1, \(x) <span class="fu">sum</span>(x <span class="sc">==</span> vars<span class="sc">$</span>var2) <span class="sc">*</span> x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 31</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">adventofcode_input</span>(<span class="dv">2024</span>, <span class="dv">1</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> input <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_wider_regex</span>(x, <span class="fu">c</span>(<span class="at">var1 =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">var2 =</span> <span class="st">".*"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), as.integer))</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">map_dbl</span>(vars<span class="sc">$</span>var1, \(x) <span class="fu">sum</span>(x <span class="sc">==</span> vars<span class="sc">$</span>var2) <span class="sc">*</span> x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">adventofcode_input</span>(<span class="dv">2024</span>, <span class="dv">1</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> input <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_wider_regex</span>(x, <span class="fu">c</span>(<span class="at">var1 =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">var2 =</span> <span class="st">".*"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), as.integer))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">map_dbl</span>(vars<span class="sc">$</span>var1, \(x) <span class="fu">sum</span>(x <span class="sc">==</span> vars<span class="sc">$</span>var2) <span class="sc">*</span> x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25574739</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">adventofcode_input</span>(<span class="dv">2024</span>, <span class="dv">1</span>, <span class="at">what =</span> <span class="st">"character"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textConnection</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read.table</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">map_dbl</span>(vars<span class="sc">$</span>V1, \(x) <span class="fu">sum</span>(x <span class="sc">==</span> vars<span class="sc">$</span>V2) <span class="sc">*</span> x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 25574739</code></pre>
 </div>

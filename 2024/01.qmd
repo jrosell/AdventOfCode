@@ -11,7 +11,7 @@ suppressPackageStartupMessages({
   library(tidyverse)
   library(httr2)
 })
-adventofcode_input <- \(year, day) {
+adventofcode_input <- \(year, day, what = c("data.frame", "character")) {
     session <- Sys.getenv("ADVENT_SESSION")
     if (session == "") {
     stop("Must set ADVENT_SESSION in .Renviron")
@@ -25,7 +25,12 @@ adventofcode_input <- \(year, day) {
         },
         error = \(e) stop("Error getting the input file")
     )
-    data.frame(x = res |> strsplit("\n") |>  unlist())
+    if(what[1] == "data.frame") {
+        return(data.frame(x = res |> strsplit("\n") |>  unlist()))
+    }
+    if(what[1] == "character") {
+        return(res)
+    }
 }
 ```
 
@@ -58,6 +63,14 @@ vars <- input |>
 sum(abs(sort(vars$var1) - sort(vars$var2)))
 ```
 
+```{r}
+vars <- adventofcode_input(2024, 1, what = "character") |> 
+    textConnection() |> 
+    read.table()
+
+sum(abs(sort(vars$V1) - sort(vars$V2)))
+```
+
 ## Part 2
 
 
@@ -79,4 +92,12 @@ vars <- input |>
     mutate(across(everything(), as.integer))
 
 sum(map_dbl(vars$var1, \(x) sum(x == vars$var2) * x))
+```
+
+```{r}
+vars <- adventofcode_input(2024, 1, what = "character") |> 
+    textConnection() |> 
+    read.table()
+
+sum(map_dbl(vars$V1, \(x) sum(x == vars$V2) * x))
 ```
