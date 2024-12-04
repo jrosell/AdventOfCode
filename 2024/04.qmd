@@ -1,0 +1,134 @@
+---
+title: "Day 4"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2024
+
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(httr2)
+})
+adventofcode_input <- \(
+  year, day, what = c("data.frame", "character", "matrix"), input = NULL
+) {
+  if (is.null(input)) {
+    session <- Sys.getenv("ADVENT_SESSION")
+    if (session == "") {
+      stop("Must set ADVENT_SESSION in .Renviron")
+    }
+    url <- paste0("https://adventofcode.com/", year, "/day/", day, "/input")
+    tryCatch({
+        res <- request(url) |> 
+            req_cookies_set(session = session) |> 
+            req_perform() |> 
+            resp_body_string(encoding = "UTF-8")
+        },
+        error = \(e) stop("Error getting the input file")
+    )
+  } else {
+    res <- input
+  }
+  if(what[1] == "character") {
+    return(res)
+  }
+  df <- data.frame(x = res |> strsplit("\n") |>  unlist())
+  if(what[1] == "data.frame") {
+    return(df)
+  }    
+  if(what[1] == "matrix") {
+    ret <- df$x |> 
+      stringr::str_split("")
+    m <- do.call(rbind, ret)
+    return(m)
+  }   
+}
+
+grid_matrix <- function(d, var, sep = "") {
+  ret <- d %>%
+    pull({{ var }}) %>%
+    stringr::str_split(sep)
+  do.call(rbind, ret)
+}
+```
+
+## Part 1
+
+```{r}
+test <- "MMMSXXMASM
+MSAMXMSMSA
+AMXSXMAAMM
+MSAMASMSMX
+XMASAMXAMM
+XXAMMXXAMA
+SMSMSASXSS
+SAXAMASAAA
+MAMMMXMMMM
+MXMXAXMASX"
+
+find_xmax_samx <- \(m) {
+  row_xmas <- sum(map_int(seq_len(nrow(m)), \(i) {
+    sum(str_count(paste0(m[i,], collapse = ""), c("XMAS", "SAMX")))
+  }))
+  cols_xmas <- sum(map_int(seq_len(ncol(m)), \(i) {
+    sum(str_count(paste0(m[,i], collapse = ""), c("XMAS", "SAMX")))
+  }))
+
+  diag1 <- row(m) - col(m) + dim(m)
+  diag1_xmax <- sum(map_int(seq_len(sum(dim(m))), \(i) {
+    sum(str_count(paste0(m[diag1 == i], collapse = ""), c("XMAS", "SAMX")))
+  }))
+
+  diag2 <- row(m) + col(m) - 1
+  diag2_xmax <- sum(map_int(seq_len(sum(dim(m))), \(i) {
+    sum(str_count(paste0(m[diag2 == i], collapse = ""), c("XMAS", "SAMX")))
+  }))
+  row_xmas + cols_xmas + diag1_xmax + diag2_xmax
+}
+
+adventofcode_input(what = "matrix", input = test) |>
+    find_xmax_samx()
+```
+
+```{r}
+adventofcode_input(2024, 4, "matrix") |> 
+    find_xmax_samx()
+```
+
+## Part 2
+
+
+```{r}
+test <- ".M.S......
+..A..MSMS.
+.M.S.MAA..
+..A.ASMSM.
+.M.S.M....
+..........
+S.S.S.S.S.
+.A.A.A.A..
+M.M.M.M.M.
+.........."
+
+find_max_sam <- \(m) {
+  a_index <- setdiff(
+    which(m == "A"),
+    c(which(row(m) %in% c(1, nrow(m))), which(col(m) %in% c(1, ncol(m))))
+  )
+  diag1 <- map_chr(a_index, \(i) paste0(m[i - ncol(m) - 1], m[i], m[i + ncol(m) + 1]))
+  diag2 <- map_chr(a_index, \(i) paste0(m[i - ncol(m) + 1], m[i], m[i + ncol(m) - 1]))
+  sum(
+    diag1 %in% c("SAM", "MAS") & diag2 %in% c("SAM", "MAS")
+  )
+}
+
+adventofcode_input(what = "matrix", input = test) |> 
+  find_max_sam()
+```
+
+```{r}
+adventofcode_input(2024, 4, "matrix") |> 
+    find_max_sam()
+```
