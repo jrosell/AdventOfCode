@@ -45,13 +45,6 @@ adventofcode_input <- \(
     return(m)
   }   
 }
-
-grid_matrix <- function(d, var, sep = "") {
-  ret <- d %>%
-    pull({{ var }}) %>%
-    stringr::str_split(sep)
-  do.call(rbind, ret)
-}
 ```
 
 ## Part 1
