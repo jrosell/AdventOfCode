@@ -1,0 +1,299 @@
+---
+title: "Day 5"
+format: html
+editor: visual
+---
+
+[AdventOfCode](https://jrosell.github.io/AdventOfCode/) \> 2024
+
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(httr2)
+})
+adventofcode_input <- \(
+  year, day, what = c("data.frame", "character", "matrix"), input = NULL
+) {
+  if (is.null(input)) {
+    session <- Sys.getenv("ADVENT_SESSION")
+    if (session == "") {
+      stop("Must set ADVENT_SESSION in .Renviron")
+    }
+    url <- paste0("https://adventofcode.com/", year, "/day/", day, "/input")
+    tryCatch({
+        res <- request(url) |> 
+            req_cookies_set(session = session) |> 
+            req_perform() |> 
+            resp_body_string(encoding = "UTF-8")
+        },
+        error = \(e) stop("Error getting the input file")
+    )
+  } else {
+    res <- input
+  }
+  if(what[1] == "character") {
+    return(res)
+  }
+  df <- data.frame(x = res |> strsplit("\n") |>  unlist())
+  if(what[1] == "data.frame") {
+    return(df)
+  }    
+  if(what[1] == "matrix") {
+    ret <- df$x |> 
+      stringr::str_split("")
+    m <- do.call(rbind, ret)
+    return(m)
+  }   
+}
+```
+
+## Part 1
+
+```{r}
+test <- "47|53
+97|13
+97|61
+97|47
+75|29
+61|13
+75|53
+29|13
+97|29
+53|29
+61|53
+97|53
+61|29
+47|13
+75|47
+97|75
+47|61
+75|61
+47|29
+75|13
+53|13
+
+75,47,61,53,29
+97,61,53,29,13
+75,29,13
+75,97,47,61,53
+61,13,29
+97,13,75,29,47"
+
+input <- adventofcode_input(what = "data.frame", input = test)
+rules <- 
+  input |> 
+  filter(row_number() < which(x == "")) |> 
+  separate_wider_delim(x, "|", names_sep = "") |>
+  print()
+
+updates <- input |> 
+  filter(row_number() > which(x == "")) |> 
+  mutate(
+    x = map(x, \(x) x |> 
+      str_split_1(",") |>
+      as.numeric()
+    )
+  ) |> 
+  pull(x)
+
+n_incorrect_rules <- \(u, rules) {
+  rules |> 
+    filter((x1 %in% u) & (x2 %in% u)) |> 
+    rowwise() |> 
+    mutate(posx1 = which(u == x1), posx2 = which(u == x2)) |> 
+    ungroup() |>
+    filter(posx1 > posx2) |> 
+    nrow()
+}
+
+sum(map_dbl(updates, \(i) {
+  if(n_incorrect_rules(i, rules) == 0) {
+      i[(1+length(i))/2]
+  } else {
+    0
+  }
+}))
+```
+
+```{r}
+input <- adventofcode_input(2024, 5, what = "data.frame")
+
+rules <- 
+  input |> 
+  filter(row_number() < which(x == "")) |> 
+  separate_wider_delim(x, "|", names_sep = "")
+
+updates <- input |> 
+  filter(row_number() > which(x == "")) |> 
+  mutate(
+    x = map(x, \(x) x |> 
+      str_split_1(",") |>
+      as.numeric()
+    )
+  ) |> 
+  pull(x)
+
+n_incorrect_rules <- \(u, rules) {
+  rules |> 
+    filter((x1 %in% u) & (x2 %in% u)) |> 
+    rowwise() |> 
+    mutate(posx1 = which(u == x1), posx2 = which(u == x2)) |> 
+    ungroup() |>
+    filter(posx1 > posx2) |> 
+    nrow()
+}
+
+sum(map_dbl(updates, \(i) {
+  if(n_incorrect_rules(i, rules) == 0) {
+      i[(1+length(i))/2]
+  } else {
+    0
+  }
+}))
+```
+
+
+## Part 2
+
+
+```{r}
+test <- "47|53
+97|13
+97|61
+97|47
+75|29
+61|13
+75|53
+29|13
+97|29
+53|29
+61|53
+97|53
+61|29
+47|13
+75|47
+97|75
+47|61
+75|61
+47|29
+75|13
+53|13
+
+75,47,61,53,29
+97,61,53,29,13
+75,29,13
+75,97,47,61,53
+61,13,29
+97,13,75,29,47"
+
+input <- adventofcode_input(what = "data.frame", input = test)
+
+rules <- 
+  input |> 
+  filter(row_number() < which(x == "")) |> 
+  separate_wider_delim(x, "|", names_sep = "")
+
+updates <- input |> 
+  filter(row_number() > which(x == "")) |> 
+  mutate(
+    x = map(x, \(x) x |> 
+      str_split_1(",") |>
+      as.numeric()
+    )
+  ) |> 
+  pull(x)
+
+incorrect_rules <- \(u, rules) {
+  rules |> 
+    filter((x1 %in% u) & (x2 %in% u)) |> 
+    rowwise() |> 
+    mutate(posx1 = which(u == x1), posx2 = which(u == x2)) |> 
+    ungroup() |>
+    filter(posx1 > posx2)
+}
+
+n_incorrect_rules <- \(u, rules) {
+  incorrect_rules(u, rules) |>    
+    nrow()
+}
+
+
+generate_permutations <- function(vec) {
+  n <- length(vec)
+  grid <- expand.grid(rep(list(vec), n))
+  valid_perms <- grid[apply(grid, 1, function(row) length(unique(row)) == n), ] 
+  valid_perms |> 
+    rowwise() |> 
+    group_split() |> 
+    map(as.numeric)  
+}
+
+correct_update <- \(u, rules) {
+  candidates <- generate_permutations(u)
+  for(i in seq_along(candidates)) {
+      candidate <- candidates[[i]]      
+      if(n_incorrect_rules(candidate, rules) == 0){
+        return(candidate)
+      }
+  }
+  stop("We didn't find a solution.")
+}
+# correct_update(c(61, 13, 29), rules)
+# correct_update(c(97, 13, 75, 29, 47), rules)
+
+sum(map_dbl(updates, \(i) {
+  incorrect <- incorrect_rules(i, rules)
+  if(nrow(incorrect) > 0) {    
+      fixed <- correct_update(i, rules)
+      return(fixed[(1+length(fixed))/2])
+  }
+  0  
+}))
+
+```
+
+
+```{r}
+input <- adventofcode_input(2024, 5, what = "data.frame")
+
+rules <- input |> 
+  filter(row_number() < which(x == "")) |> 
+  separate_wider_delim(x, "|", names_sep = "")
+
+updates <- input |> 
+  filter(row_number() > which(x == "")) |> 
+  mutate(x = map(x, \(x) x |> str_split_1(",") |> as.numeric())) |> 
+  pull(x)
+
+incorrect_rules <- \(u, rules) {
+  rules |> 
+    filter((x1 %in% u) & (x2 %in% u)) |> 
+    rowwise() |> 
+    mutate(posx1 = which(u == x1), posx2 = which(u == x2)) |> 
+    ungroup() |> 
+    filter(posx1 > posx2)
+}
+
+correct_update <- \(u, rules) {  
+  # print(u)
+  i <- 1
+  repeat {
+    to_fix <- incorrect_rules(u, rules)
+    if(nrow(to_fix) == 0) return(u)
+    current <- to_fix[1, ]    
+    u[c(current$posx2, current$posx1)] <- u[c(current$posx1, current$posx2)]        
+    i <- i + 1
+    # print(i)
+  }
+}
+# correct_update(c(97, 13, 75, 29, 47), rules)
+
+sum(map_dbl(updates, \(i) {
+  incorrect <- incorrect_rules(i, rules)
+  if(nrow(incorrect) > 0) {    
+      fixed <- correct_update(i, rules)
+      return(fixed[(1+length(fixed))/2])
+  }
+  0  
+}))
+```
